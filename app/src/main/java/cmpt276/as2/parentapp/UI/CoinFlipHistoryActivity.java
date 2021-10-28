@@ -6,10 +6,12 @@ import android.os.Bundle;
 
 import cmpt276.as2.parentapp.R;
 
-public class CoinFlipHistoryActivity extends AppCompatActivity {
+public class CoinFlipHistoryActivity extends AppCompatActivity
+{
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip_history);
     }

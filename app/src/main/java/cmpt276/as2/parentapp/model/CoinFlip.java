@@ -8,11 +8,13 @@ import java.util.Random;
 
 public class CoinFlip
 {
+    private final String TS_FORMAT = "@yyyy-MM-dd HH:mm:ss";
     private final int HEAD = 0;
     private final int TAIL = 1;
 
     private String currentPicker;
     private String lastPicker;
+
     private ArrayList<String> savedPickers;
     private ArrayList<String> unSavedPickers;
     private ArrayList<String> childrenList;
@@ -21,20 +23,17 @@ public class CoinFlip
     private int userPick;
     private int result;
 
-    public CoinFlip(String[] childrenList, String[] savedPickers, String[] history)
+    public CoinFlip(String[] childrenList, String[] savedPickers, String[] history, String lastPicker)
     {
         this.childrenList = new ArrayList<>(Arrays.asList(childrenList));
         this.savedPickers = new ArrayList<>(Arrays.asList(savedPickers));
         this.history = new ArrayList<>(Arrays.asList(history));
+        this.lastPicker = lastPicker;
     }
 
     public void chosePicker()
     {
-        if(savedPickers.isEmpty() && childrenList.isEmpty())
-        {
-
-        }
-        else
+        if(!savedPickers.isEmpty() && !childrenList.isEmpty())
         {
             if (checkListChange())
             {
@@ -113,7 +112,7 @@ public class CoinFlip
         this.savedPickers = tmpList;
     }
 
-    private void tossTheCoin()
+    public void tossTheCoin()
     {
         Random random = new Random();
         if(random.nextInt()% 2 == 0)
@@ -130,13 +129,48 @@ public class CoinFlip
     private void formTimeStamp()
     {
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("@yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern(TS_FORMAT);
         timeStamp = now.format(format);
     }
 
-    private void saveResult()
+    public String getTimeStamp()
     {
-
+        return timeStamp;
     }
 
+    private void saveResult(String str)
+    {
+        history.add(str);
+    }
+
+    public ArrayList<String> getHistory()
+    {
+        return history;
+    }
+
+    public boolean checkPickerWin()
+    {
+        return result == userPick;
+    }
+
+    public String getCurrentPicker()
+    {
+        return currentPicker;
+    }
+
+    public void setCurrentPicker(String currentPicker) {
+        this.currentPicker = currentPicker;
+    }
+
+    public void setSavedPickers(ArrayList<String> savedPickers) {
+        this.savedPickers = savedPickers;
+    }
+
+    public void setChildrenList(ArrayList<String> childrenList) {
+        this.childrenList = childrenList;
+    }
+
+    public void setHistory(ArrayList<String> history) {
+        this.history = history;
+    }
 }
