@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
         <activity
+            android:name=".UI.TimeoutOptionActivity"
+            android:exported="true" />
+        <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true" />
         <activity
