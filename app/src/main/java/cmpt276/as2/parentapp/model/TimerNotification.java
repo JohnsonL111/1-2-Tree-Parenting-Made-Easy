@@ -1,7 +1,6 @@
 package cmpt276.as2.parentapp.model;
 
 import android.app.Application;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
@@ -11,6 +10,7 @@ public class TimerNotification extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        createChannels();
     }
 
     public void createChannels() {

@@ -1,5 +1,9 @@
 package cmpt276.as2.parentapp.UI;
 
+import static cmpt276.as2.parentapp.model.TimerNotification.TIMER_CHANNEL_ID;
+
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 import cmpt276.as2.parentapp.R;
@@ -33,6 +38,7 @@ public class TimeoutActivity extends AppCompatActivity {
     int initialTime;
     int timeLeft;
     CountDownTimer timer;
+    private NotificationManagerCompat timerNotificationManager;
 
     public static Intent makeIntent(Context context, int initialTime){
         Intent intent = new Intent(context, TimeoutActivity.class);
@@ -48,6 +54,7 @@ public class TimeoutActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.ResetButton);
         optionButton=findViewById(R.id.OptionButton);
         timerButton.setText("START");
+        timerNotificationManager = NotificationManagerCompat.from(this);
         getDuration();
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -107,6 +114,7 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 //notification()
+                sendTimerNotification();
             }
         }.start();
     }
@@ -120,6 +128,17 @@ public class TimeoutActivity extends AppCompatActivity {
     public void getDuration(){
         initialTime = TimeoutOptionActivity.getDuration(this)*60;
 
+    }
+
+    public void sendTimerNotification() {
+        String title = "Timer";
+        String message = "Time is up!";
+        Notification notification = new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_timer_24)
+                .setContentTitle(title)
+                .setContentText(message)
+                .build();
+        timerNotificationManager.notify(1, notification);
     }
 
 }
