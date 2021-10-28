@@ -1,5 +1,6 @@
 package cmpt276.as2.parentapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -8,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import cmpt276.as2.parentapp.UI.TimeoutActivity;
+import cmpt276.as2.parentapp.UI.TimeoutOptionActivity;
 import cmpt276.as2.parentapp.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,13 +28,21 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setSupportActionBar(binding.toolbar);
-
+        Button timeoutButton = findViewById(R.id.TimeoutButton);
 
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                        .setAction("Action", null).show();
+            }
+        });
+
+        timeoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = TimeoutActivity.makeIntent(MainActivity.this);
+                startActivity(i);
             }
         });
     }
