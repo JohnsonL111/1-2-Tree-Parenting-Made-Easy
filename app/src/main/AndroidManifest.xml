@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
+        <service android:name=".model.RingtonePlayService"/>
         <activity
             android:name=".UI.TimeoutOptionActivity"
             android:exported="true" />
@@ -36,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".model.NotificationReceiver"/>
     </application>
 
 </manifest>
