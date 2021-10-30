@@ -97,4 +97,15 @@ public class CoinFlip
     {
         this.savedPickers = savedPickers;
     }
+
+    public String getResult()
+    {
+        String[] name = context.getResources().getStringArray(R.array.coin_two_side_name);
+        return name[result];
+    }
+
+    public boolean pickerWin()
+    {
+        return result == userPick;
+    }
 }

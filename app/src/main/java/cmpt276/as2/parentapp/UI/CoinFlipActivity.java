@@ -1,14 +1,23 @@
 package cmpt276.as2.parentapp.UI;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -47,7 +56,8 @@ public class CoinFlipActivity extends AppCompatActivity
         viewPager2 = findViewById(R.id.coin_viewpager2);
 
         adapter = new CoinFlipMenuAdapter(this,
-                getString(R.string.coin_toss_picker,coinFlip.getPickerList().get(0)),
+                getString(R.string.coin_toss_picker,
+                coinFlip.getPickerList().get(0)),
                 getResources().getStringArray(R.array.coin_two_side_name));
 
         viewPager2.setAdapter(adapter);
@@ -59,7 +69,7 @@ public class CoinFlipActivity extends AppCompatActivity
     protected void onPostResume()
     {
         super.onPostResume();
-        checkUpdate();
+        reset();
     }
 
     private void setBoardCallBack()
@@ -75,19 +85,15 @@ public class CoinFlipActivity extends AppCompatActivity
         
         Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_lfps);
         videoView.setVideoURI(videoUri);
-
+        videoView.setVisibility(View.VISIBLE);
         viewPager2.setVisibility(View.INVISIBLE);
         videoView.setZOrderOnTop(true);
         videoView.requestFocus();
         videoView.start();
 
         saveResult();
-        showResult();
-    }
 
-    private String[] getChildList()
-    {
-        return new String[]{""};
+        videoView.setOnCompletionListener(mediaPlayer -> showResult());
     }
 
     private ArrayList getData(String tag)
@@ -106,14 +112,42 @@ public class CoinFlipActivity extends AppCompatActivity
 
     private void showResult()
     {
-        if(coinFlip.getPickerList().isEmpty())
-        {
+        View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_result, null);
+        TextView textView = v.findViewById(R.id.coin_flip_result_text);
+        ImageView imageView = v.findViewById(R.id.coin_flip_result_image);
 
+        textView.setText(coinFlip.getResult());
+        if(coinFlip.pickerWin())
+        {
+            imageView.setImageResource(R.drawable.win);
         }
         else
         {
-
+            imageView.setImageResource(R.drawable.loss);
         }
+
+        AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
+                .setTitle("Result")
+                .setPositiveButton("One more Toss", (dialogInterface, i) -> reset())
+                .setNegativeButton("Leave", (dialogInterface, i) -> this.finish());
+
+        Dialog dialog = build.create();
+        dialog.show();
+    }
+
+    private void reset()
+    {
+        viewPager2.setVisibility(View.VISIBLE);
+        videoView.setVisibility(View.INVISIBLE);
+
+        coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
+        adapter = new CoinFlipMenuAdapter(this,
+                getString(R.string.coin_toss_picker,
+                        coinFlip.getPickerList().get(0)),
+                getResources().getStringArray(R.array.coin_two_side_name));
+
+        viewPager2.setAdapter(adapter);
+        setBoardCallBack();
     }
 
     @Override

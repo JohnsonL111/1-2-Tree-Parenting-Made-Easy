@@ -9,12 +9,15 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Set;
 
 import cmpt276.as2.parentapp.R;
@@ -57,7 +60,10 @@ public class CoinFlipHistoryActivity extends AppCompatActivity
     {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         historyList.setLayoutManager(mLayoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(historyList.getContext(), mLayoutManager.getOrientation());
+        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
         historyList.setAdapter(adapter);
+        historyList.addItemDecoration(decoration);
     }
 
     public static Intent makeIntent(Context context)

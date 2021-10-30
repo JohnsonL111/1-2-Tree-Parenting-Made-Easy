@@ -36,6 +36,17 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
     {
         String str = historyList.get(position);
         holder.detail.setText(str);
+
+        if(str.contains("WIN"))
+        {
+            holder.icon1.setImageResource(R.drawable.win);
+            holder.icon2.setImageResource(R.drawable.win);
+        }
+        else
+        {
+            holder.icon1.setImageResource(R.drawable.loss);
+            holder.icon2.setImageResource(R.drawable.loss);
+        }
     }
 
     @Override

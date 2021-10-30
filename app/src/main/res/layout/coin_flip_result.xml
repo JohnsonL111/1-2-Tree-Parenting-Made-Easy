@@ -3,30 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:theme="@android:style/Theme.Dialog">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/coin_flip_result_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_weight="0.7"
+        android:gravity="center|center_horizontal"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/coin_flip_result_image"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.62"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="@+id/coin_flip_result_image"
+        app:layout_constraintVertical_bias="0.535" />
 
-        <ImageView
-            android:id="@+id/coin_flip_result_image"
-            android:layout_width="81dp"
-            android:layout_height="78dp"
-            android:layout_weight="0.3"
-            tools:srcCompat="@tools:sample/avatars" />
+    <ImageView
+        android:id="@+id/coin_flip_result_image"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:layout_weight="0.3"
+        app:layout_constraintEnd_toStartOf="@+id/coin_flip_result_text"
+        app:layout_constraintHorizontal_bias="0.564"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/coin_flip_result_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.7"
-            android:gravity="center|center_horizontal"
-            android:textSize="16sp" />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
