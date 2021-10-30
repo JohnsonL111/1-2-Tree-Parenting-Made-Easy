@@ -76,7 +76,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 timer.cancel();
                 timeLeft=initialTime;
                 updateTimer(timeLeft);
-                startTimer();
+                timerIsRunning=false;
+                timerButton.setText("START");
             }
         });
 
@@ -92,21 +93,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getDuration();
-    }
-
-    private void stopTimer() {
-        timer.cancel();
-    }
-
-    private void startTimer() {
         timer=new CountDownTimer(timeLeft*1000, 1000) {
 
             public void onTick(long secondsLeft) {
@@ -116,7 +102,23 @@ public class TimeoutActivity extends AppCompatActivity {
             public void onFinish() {
                 timeoutText.setText("done!");
             }
-        }.start();
+        };
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getDuration();
+        updateTimer(timeLeft);
+    }
+
+    private void stopTimer() {
+        timer.cancel();
+    }
+
+    private void startTimer() {
+        timer.start();
     }
     private void updateTimer(int l) {
         int minute=l/60;
