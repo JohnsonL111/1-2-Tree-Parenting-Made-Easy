@@ -1,10 +1,13 @@
 package cmpt276.as2.parentapp.model;
 
+import android.content.Context;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
+
+import cmpt276.as2.parentapp.R;
 
 public class CoinFlip
 {
@@ -12,104 +15,24 @@ public class CoinFlip
     private final int HEAD = 0;
     private final int TAIL = 1;
 
-    private String currentPicker;
-    private String lastPicker;
-
+    private String currentPicker = "";
+    private Context context;
     private ArrayList<String> savedPickers;
-    private ArrayList<String> unSavedPickers;
-    private ArrayList<String> childrenList;
     private String timeStamp;
     private ArrayList<String> history;
     private int userPick;
     private int result;
 
-    public CoinFlip(String[] childrenList, String[] savedPickers, String[] history, String lastPicker)
+    public CoinFlip(ArrayList<String> savedPickers, ArrayList<String> history, Context context)
     {
-        this.childrenList = new ArrayList<>(Arrays.asList(childrenList));
-        this.savedPickers = new ArrayList<>(Arrays.asList(savedPickers));
-        this.history = new ArrayList<>(Arrays.asList(history));
-        this.lastPicker = lastPicker;
-    }
+        this.savedPickers = savedPickers;
+        this.history = history;
+        this.context = context;
 
-    public void chosePicker()
-    {
-        if(!savedPickers.isEmpty() && !childrenList.isEmpty())
+        if(!this.savedPickers.isEmpty())
         {
-            if (checkListChange())
-            {
-                updatePickerList();
-
-                if(unSavedPickers.size() > 1)
-                {
-                    notifyToShowPickMenu();
-                }
-                else
-                {
-                    currentPicker = unSavedPickers.get(0);
-                    lastPicker = currentPicker;
-                }
-            }
-            else
-            {
-                for(int i = 0; i < savedPickers.size(); i++)
-                {
-                    if(savedPickers.get(i).equals(lastPicker))
-                    {
-                        if(i == savedPickers.size()-1)
-                        {
-                            currentPicker = savedPickers.get(0);
-                        }
-                        else
-                        {
-                            currentPicker = savedPickers.get(i+1);
-                        }
-                    }
-                }
-            }
+            currentPicker = this.savedPickers.get(0);
         }
-    }
-
-    private void notifyToShowPickMenu()
-    {
-
-    }
-
-    private boolean checkListChange()
-    {
-        if(savedPickers.size() != childrenList.size())
-        {
-            return true;
-        }
-
-        for(int i = 0; i< savedPickers.size();i++)
-        {
-            if(!childrenList.contains(savedPickers.get(i)))
-                return true;
-        }
-
-        return false;
-    }
-
-    private void updatePickerList()
-    {
-        ArrayList<String> tmpList = new ArrayList<>();
-
-        for(int i = 0; i< savedPickers.size(); i++)
-        {
-            if(childrenList.contains(savedPickers.get(i)))
-            {
-                tmpList.add(savedPickers.get(i));
-            }
-        }
-
-        for(int i = 0; i < childrenList.size(); i++)
-        {
-            if(!savedPickers.contains(childrenList.get(i)))
-            {
-                unSavedPickers.add(childrenList.get(i));
-            }
-        }
-        this.savedPickers = tmpList;
     }
 
     public void tossTheCoin()
@@ -133,14 +56,31 @@ public class CoinFlip
         timeStamp = now.format(format);
     }
 
-    public String getTimeStamp()
+    public void setResult(int result)
     {
-        return timeStamp;
+        this.userPick = result;
     }
 
-    private void saveResult(String str)
+    public void saveResult()
     {
-        history.add(str);
+        if(!currentPicker.isEmpty())
+        {
+            String tmp = savedPickers.get(0);
+            savedPickers.remove(0);
+            savedPickers.add(savedPickers.size(), tmp);
+
+            String[] name = context.getResources().getStringArray(R.array.coin_two_side_name);
+            String record;
+            if(userPick == result)
+            {
+                record = context.getString(R.string.coin_toss_save_history_win, currentPicker, name[userPick], name[result], timeStamp);
+            }
+            else
+            {
+                record = context.getString(R.string.coin_toss_save_history_lost, currentPicker, name[userPick], name[result], timeStamp);
+            }
+            history.add(record);
+        }
     }
 
     public ArrayList<String> getHistory()
@@ -148,29 +88,13 @@ public class CoinFlip
         return history;
     }
 
-    public boolean checkPickerWin()
+    public ArrayList<String> getPickerList()
     {
-        return result == userPick;
+        return savedPickers;
     }
 
-    public String getCurrentPicker()
+    public void setSavedPickers(ArrayList<String> savedPickers)
     {
-        return currentPicker;
-    }
-
-    public void setCurrentPicker(String currentPicker) {
-        this.currentPicker = currentPicker;
-    }
-
-    public void setSavedPickers(ArrayList<String> savedPickers) {
         this.savedPickers = savedPickers;
-    }
-
-    public void setChildrenList(ArrayList<String> childrenList) {
-        this.childrenList = childrenList;
-    }
-
-    public void setHistory(ArrayList<String> history) {
-        this.history = history;
     }
 }

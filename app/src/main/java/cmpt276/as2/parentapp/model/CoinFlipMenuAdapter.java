@@ -20,20 +20,24 @@ import cmpt276.as2.parentapp.R;
 public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapter.HorizontalViewHolder>
 {
     private final ArrayList<clickObserver> observer = new ArrayList<>();
-    private List<Integer> backgrounds;
+    private int result;
     private Context context;
+    private String picker;
+    private String[] option;
 
     private TypedArray image;
 
-    public CoinFlipMenuAdapter(Context context)
+    public CoinFlipMenuAdapter(Context context, String picker, String[] option)
     {
         this.context = context;
-        if (backgrounds == null) {
-            backgrounds = new ArrayList<>();
-            backgrounds.add(android.R.color.holo_blue_bright);
-            backgrounds.add(android.R.color.holo_red_dark);
-            image = context.getResources().obtainTypedArray(R.array.coin_two_side);
-        }
+        this.picker = picker;
+        this.image = context.getResources().obtainTypedArray(R.array.coin_two_side);
+        this.option = option;
+    }
+
+    public int getResult()
+    {
+        return result;
     }
 
     @NonNull
@@ -46,32 +50,31 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position)
     {
-        holder.title.setText(new StringBuilder().append("").append(position + 1).toString());
+        holder.title.setText(picker);
         holder.coinPicture.setImageResource(image.getResourceId(position,0));
-        holder.layOut.setBackgroundResource(backgrounds.get(position));
+        result = holder.getAdapterPosition();
+        holder.text.setText(option[position]);
     }
 
     @Override
     public int getItemCount()
     {
-        if (backgrounds == null)
-        {
-            return 0;
-        }
-        return backgrounds.size();
+        return image.length();
     }
 
     protected class HorizontalViewHolder extends RecyclerView.ViewHolder
     {
         public LinearLayout layOut;
         public TextView title;
+        public TextView text;
         public ImageView coinPicture;
 
-        HorizontalViewHolder(@NonNull View itemView)
+        public HorizontalViewHolder(@NonNull View itemView)
         {
             super(itemView);
             layOut = itemView.findViewById(R.id.lay_coin);
-            title = itemView.findViewById(R.id.coin_text);
+            title = itemView.findViewById(R.id.coin_btn_title);
+            text = itemView.findViewById(R.id.coin_text);
             coinPicture = itemView.findViewById(R.id.coin_view);
             coinPicture.setOnClickListener(view ->
             {

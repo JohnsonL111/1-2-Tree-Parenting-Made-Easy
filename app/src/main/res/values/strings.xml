@@ -14,8 +14,13 @@
         <item>@drawable/head</item>
         <item>@drawable/tail</item>
     </integer-array>
+
     <string-array name="coin_two_side_name">
         <item>Head</item>
         <item>Tail</item>
     </string-array>
+
+    <string name="coin_toss_save_history_win">Picker: %s, \nChoice: %s, Result: %s, \nPICKER WIN \ntime: %s</string>
+    <string name="coin_toss_save_history_lost">Picker: %s, \nChoice: %s, Result: %s, \nPICKER LOST \ntime: %s</string>
+    <string name="coin_toss_picker">Picker: %s</string>
 </resources>
