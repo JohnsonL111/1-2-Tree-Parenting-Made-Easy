@@ -48,7 +48,7 @@ public class TimeoutActivity extends AppCompatActivity {
         resetButton = findViewById(R.id.ResetButton);
         optionButton=findViewById(R.id.OptionButton);
         timeoutText=findViewById(R.id.timeoutText);
-
+        timeoutText.setTextSize(40);
         timerButton.setText("START");
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -58,13 +58,15 @@ public class TimeoutActivity extends AppCompatActivity {
                     startTimer();
                     timerIsRunning=true;
                     timerButton.setText("STOP");
-
+                    optionButton.setAlpha(0);
 
                 }
                 else{
                     stopTimer();
                     timerIsRunning=false;
                     timerButton.setText("START");
+                    optionButton.setAlpha(255);
+
 
                 }
             }
@@ -93,16 +95,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 }
             }
         });
-        timer=new CountDownTimer(timeLeft*1000, 1000) {
 
-            public void onTick(long secondsLeft) {
-                timeLeft=((int)secondsLeft)/1000;
-                updateTimer((int)secondsLeft / 1000);
-            }
-            public void onFinish() {
-                timeoutText.setText("done!");
-            }
-        };
 
     }
 
@@ -118,6 +111,18 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+        timer=new CountDownTimer(timeLeft*1000, 1000) {
+            public void onTick(long secondsLeft) {
+                timeLeft=((int)secondsLeft)/1000;
+                updateTimer((int)secondsLeft / 1000);
+            }
+            public void onFinish() {
+                timeoutText.setText("done!");
+                timerIsRunning=false;
+                timerButton.setText("START");
+                timeLeft=initialTime;
+            }
+        };
         timer.start();
     }
     private void updateTimer(int l) {
