@@ -60,27 +60,27 @@ public class TimeoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeout);
         timerButton = findViewById(R.id.StartStopButton);
         resetButton = findViewById(R.id.ResetButton);
-        optionButton = findViewById(R.id.OptionButton);
-        timeoutText = findViewById(R.id.timeoutText);
-
+        optionButton=findViewById(R.id.OptionButton);
+        timeoutText=findViewById(R.id.timeoutText);
+        timeoutText.setTextSize(40);
         timerButton.setText("START");
-        timerNotificationManager = NotificationManagerCompat.from(this);
-        getDuration();
         timerButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                if (!timerIsRunning) {
+                if(!timerIsRunning) {
                     startTimer();
-                    sendTimerNotification();
-                    timerIsRunning = true;
+                    timerIsRunning=true;
                     timerButton.setText("STOP");
+                    optionButton.setAlpha(0);
 
-
-                } else {
+                }
+                else{
                     stopTimer();
-                    timerIsRunning = false;
+                    timerIsRunning=false;
                     timerButton.setText("START");
+                    optionButton.setAlpha(255);
+
 
                 }
             }
@@ -90,20 +90,22 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timer.cancel();
-                timeLeft = initialTime;
+                timeLeft=initialTime;
                 updateTimer(timeLeft);
-                startTimer();
+                timerIsRunning=false;
+                timerButton.setText("START");
             }
         });
 
         optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!timerIsRunning) {
+                if(!timerIsRunning){
                     Intent i = TimeoutOptionActivity.makeIntent(TimeoutActivity.this);
                     startActivity(i);
-                } else {
-                    Toast.makeText(TimeoutActivity.this, "A timer is running", Toast.LENGTH_SHORT);
+                }
+                else{
+                    Toast.makeText(TimeoutActivity.this, "A timer is running",Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -115,6 +117,7 @@ public class TimeoutActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         getDuration();
+        updateTimer(timeLeft);
     }
 
     private void stopTimer() {
@@ -122,30 +125,29 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        timer = new CountDownTimer(timeLeft * 1000, 1000) {
-
+        timer=new CountDownTimer(timeLeft*1000, 1000) {
             public void onTick(long secondsLeft) {
-                timeLeft = ((int) secondsLeft) / 1000;
-                updateTimer((int) secondsLeft / 1000);
+                timeLeft=((int)secondsLeft)/1000;
+                updateTimer((int)secondsLeft / 1000);
             }
-
             public void onFinish() {
-                //notification()
                 timeoutText.setText("done!");
+                timerIsRunning=false;
+                timerButton.setText("START");
+                timeLeft=initialTime;
             }
-        }.start();
+        };
+        timer.start();
     }
-
     private void updateTimer(int l) {
-        int minute = l / 60;
-        int second = l % 60;
-        timeoutText.setText(getString(R.string.timerTextFormat, minute, second));
+        int minute=l/60;
+        int second=l%60;
+        timeoutText.setText(getString(R.string.timerTextFormat,minute,second));
     }
-
-    public void getDuration() {
-        initialTime = TimeoutOptionActivity.getDuration(this) * 60;
-        Log.e("duration", initialTime + "");
-        timeLeft = initialTime;
+    public void getDuration(){
+        initialTime = TimeoutOptionActivity.getDuration(this)*60;
+        Log.e("duration",initialTime+"");
+        timeLeft=initialTime;
     }
 
     public void sendTimerNotification() {
@@ -178,5 +180,3 @@ public class TimeoutActivity extends AppCompatActivity {
         TimeoutActivity.this.startService(startAlarmIntent);
     }
 }
-
-

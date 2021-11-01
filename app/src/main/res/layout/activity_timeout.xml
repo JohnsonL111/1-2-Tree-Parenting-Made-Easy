@@ -40,7 +40,6 @@
         android:layout_marginTop="272dp"
         android:layout_marginEnd="177dp"
         android:layout_marginBottom="440dp"
-        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
