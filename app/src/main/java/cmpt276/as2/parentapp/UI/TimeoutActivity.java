@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -161,12 +162,18 @@ public class TimeoutActivity extends AppCompatActivity {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_baseline_timer_24)
                 .setContentTitle(title)
+                .setColor(Color.GREEN)
                 .setContentText(message)
-                .addAction(R.drawable.ic_baseline_timer_24, actionButtonText, actionButtonIntent)
-                .setPriority(NotificationCompat.PRIORITY_HIGH);
+                .addAction(R.drawable.ic_sharp_clear_24, actionButtonText, actionButtonIntent)
+                .setFullScreenIntent(actionButtonIntent, true)
+                .setDeleteIntent(actionButtonIntent)
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationID, builder.build());
 
+        Intent stopAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
+        TimeoutActivity.this.stopService(stopAlarmIntent);
         Intent startAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
         TimeoutActivity.this.startService(startAlarmIntent);
     }
