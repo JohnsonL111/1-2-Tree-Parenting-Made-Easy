@@ -2,24 +2,16 @@ package cmpt276.as2.parentapp.UI;
 
 import static cmpt276.as2.parentapp.model.TimerNotification.TIMER_CHANNEL_ID;
 
-import android.app.Notification;
-import android.app.NotificationManager;
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.media.AudioManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +58,7 @@ public class TimeoutActivity extends AppCompatActivity {
         timerButton.setText("START");
         timerButton.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
                 if(!timerIsRunning) {
@@ -80,8 +73,6 @@ public class TimeoutActivity extends AppCompatActivity {
                     timerIsRunning=false;
                     timerButton.setText("START");
                     optionButton.setAlpha(255);
-
-
                 }
             }
         });
@@ -135,6 +126,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerIsRunning=false;
                 timerButton.setText("START");
                 timeLeft=initialTime;
+                sendTimerNotification();
             }
         };
         timer.start();
