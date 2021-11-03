@@ -24,10 +24,8 @@ public class ChildManager {
     }
 
     public void addChild(String name) {
-        if (!checkIfNameExist(name)) {
-            Child childToAdd = new Child(name);
-            childList.add(childToAdd);
-        }
+        Child childToAdd = new Child(name);
+        childList.add(childToAdd);
     }
 
     public void removeChild(String name) {
@@ -49,7 +47,7 @@ public class ChildManager {
         return childList;
     }
 
-    private boolean checkIfNameExist(String name) {
+    public boolean checkIfNameExist(String name) {
         int numOfChildren = childList.size();
         boolean nameExist = false;
         for (int i = 0; i < numOfChildren; ++i) {

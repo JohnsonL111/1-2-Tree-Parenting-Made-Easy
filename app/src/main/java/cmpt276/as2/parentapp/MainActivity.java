@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         Button timeoutButton = findViewById(R.id.TimeoutButton);
 
+        /** place holder
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                        .setAction("Action", null).show();
             }
         });
+         **/
 
         timeoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this, "Adding new child", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Viewing current children", Toast.LENGTH_SHORT).show();
 
                 // launches adding new child
                 Intent childIntent = EditChildActivity.makeIntent(MainActivity.this);
