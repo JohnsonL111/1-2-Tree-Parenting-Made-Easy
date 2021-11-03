@@ -15,4 +15,7 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="timeout">Timeout</string>
     <string name="editChildActivityTitle">Edit Child</string>
+    <string name="timerNotificationTitle">Timer</string>
+    <string name="timerNotificationDescription">Time is up!</string>
+    <string name="notificationActionButtonText">Dismiss</string>
 </resources>
