@@ -33,9 +33,9 @@ public class ChildManager {
         if (!checkIfNameExist(name)) {
             return;
         }
-
-        int numOfChildren = childList.size();
-        for (int i = 0; i < numOfChildren; ++i) {
+        // Get the index of the child to remove
+        int numChildren = childList.size();
+        for (int i = 0; i < numChildren; ++i) {
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
                 childList.remove(i);
@@ -59,4 +59,5 @@ public class ChildManager {
 
         return nameExist;
     }
+
 }

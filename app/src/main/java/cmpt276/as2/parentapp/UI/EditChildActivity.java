@@ -34,10 +34,11 @@ public class EditChildActivity extends AppCompatActivity {
 
         childManager = childManager.getInstance();
         startChildList();
-        addChildButton();
+        addChild();
+        removeChild();
     }
 
-    private void addChildButton() {
+    private void addChild() {
         Button addChildButton = findViewById(R.id.addChildButton);
 
         addChildButton.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +57,28 @@ public class EditChildActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+    }
+
+    private void removeChild() {
+        Button removeChildButton = findViewById(R.id.removeChildButton);
+        removeChildButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get Child's name.
+                EditText childNameSlot = findViewById(R.id.removeChildBox);
+                String childName = childNameSlot.getText().toString();
+
+                // Pop toast and add child if name doesn't exist.
+                if (childManager.checkIfNameExist(childName)) {
+                    Toast.makeText(EditChildActivity.this, "Removed " + childName, Toast.LENGTH_SHORT).show();
+                    childManager.removeChild(childName);
+                    startChildList();
+                } else {
+                    Toast.makeText(EditChildActivity.this, "Child does not exist!", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
