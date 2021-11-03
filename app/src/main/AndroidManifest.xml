@@ -2,13 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cmpt276.as2.parentapp">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
     <application
+        android:name=".model.TimerNotification"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
+        <service android:name=".model.RingtonePlayService"/>
+        <activity
+            android:name=".UI.TimeoutOptionActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UI.TimeoutActivity"
+            android:exported="true" />
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true" />
@@ -29,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".model.NotificationReceiver"/>
     </application>
 
 </manifest>
