@@ -5,6 +5,7 @@ import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,14 +13,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
-import java.util.List;
 
 import cmpt276.as2.parentapp.R;
 
 public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapter.HorizontalViewHolder>
 {
-    private final ArrayList<clickObserver> observer = new ArrayList<>();
+    private final ArrayList<clickObserverAnimation> observerAnimations = new ArrayList<>();
+    private final ArrayList<clickObserverEditChild> observerEditChild = new ArrayList<>();
     private int result;
     private Context context;
     private String picker;
@@ -68,6 +71,7 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
         public TextView title;
         public TextView text;
         public ImageView coinPicture;
+        public FloatingActionButton editChild;
 
         public HorizontalViewHolder(@NonNull View itemView)
         {
@@ -75,24 +79,44 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
             layOut = itemView.findViewById(R.id.lay_coin);
             title = itemView.findViewById(R.id.coin_btn_title);
             text = itemView.findViewById(R.id.coin_text);
+            editChild = itemView.findViewById(R.id.edit_child_btn);
+
             coinPicture = itemView.findViewById(R.id.coin_view);
             coinPicture.setOnClickListener(view ->
             {
-                for(clickObserver obs: observer)
+                for(clickObserverAnimation obs: observerAnimations)
                 {
-                    obs.notifyClicker();
+                    obs.notifyClickerPlayAnimation();
+                }
+            });
+
+            editChild.setOnClickListener(view ->
+            {
+                for(clickObserverEditChild obs: observerEditChild)
+                {
+                    obs.notifyClickerEditChild();
                 }
             });
         }
     }
 
-    public interface clickObserver
+    public interface clickObserverAnimation
     {
-        void notifyClicker();
+        void notifyClickerPlayAnimation();
     }
 
-    public void registerChangeCallBack(clickObserver obs)
+    public interface clickObserverEditChild
     {
-        observer.add(obs);
+        void notifyClickerEditChild();
+    }
+
+    public void registerChangeCallBack(clickObserverAnimation obs)
+    {
+        observerAnimations.add(obs);
+    }
+
+    public void registerChangeCallBack(clickObserverEditChild obs)
+    {
+        observerEditChild.add(obs);
     }
 }

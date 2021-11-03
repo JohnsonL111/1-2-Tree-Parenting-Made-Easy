@@ -3,19 +3,14 @@ package cmpt276.as2.parentapp.UI;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -74,16 +69,31 @@ public class CoinFlipActivity extends AppCompatActivity
 
     private void setBoardCallBack()
     {
-        CoinFlipMenuAdapter.clickObserver obs = () -> tossCoin();
+        CoinFlipMenuAdapter.clickObserverAnimation obs = () -> tossCoin();
+        CoinFlipMenuAdapter.clickObserverEditChild obsEdit = () ->
+        {
+
+        };
+
         adapter.registerChangeCallBack(obs);
+        adapter.registerChangeCallBack(obsEdit);
     }
 
     private void tossCoin()
     {
         coinFlip.setResult(adapter.getResult());
         coinFlip.tossTheCoin();
-        
-        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_lfps);
+
+        Uri videoUri;
+        if(coinFlip.getResultInt() == 0)
+        {
+            videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_h1);
+        }
+        else
+        {
+            videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_t1);
+        }
+
         videoView.setVideoURI(videoUri);
         videoView.setVisibility(View.VISIBLE);
         viewPager2.setVisibility(View.INVISIBLE);
@@ -193,6 +203,4 @@ public class CoinFlipActivity extends AppCompatActivity
     {
         return new Intent(context, CoinFlipActivity.class);
     }
-
-
 }

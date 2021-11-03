@@ -104,6 +104,11 @@ public class CoinFlip
         return name[result];
     }
 
+    public int getResultInt()
+    {
+        return result;
+    }
+
     public boolean pickerWin()
     {
         return result == userPick;

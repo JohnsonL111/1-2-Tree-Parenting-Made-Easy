@@ -4,11 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/drawable/recyclerview_divider.xml" value="0.14537037037037037" />
-        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.2859375" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.3015625" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_btn.xml" value="0.3015625" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_flip_result.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_toss_history_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/menu/menu_coin_acitivity.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/menu/menu_coin_history.xml" value="0.36614583333333334" />
       </map>
     </option>

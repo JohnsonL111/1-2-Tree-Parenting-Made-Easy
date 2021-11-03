@@ -39,11 +39,21 @@
             style="?android:textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.2"
+            android:layout_weight="0.15"
             android:gravity="center|center_horizontal|center_vertical"
             android:lineSpacingMultiplier="1.2"
             android:padding="16dp"
             android:textSize="20sp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/edit_child_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05"
+            android:clickable="true"
+            android:layout_gravity="right|center_vertical"
+            app:backgroundTint="@android:color/holo_blue_light"
+            app:srcCompat="@android:drawable/ic_menu_share" />
 
     </LinearLayout>
 
