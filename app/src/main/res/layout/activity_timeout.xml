@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".UI.TimeoutActivity">
 
+
+    <ImageSwitcher
+        android:id="@+id/background"
+        android:layout_width="409dp"
+        android:layout_height="731dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/StartStopButton"
         android:layout_width="wrap_content"
