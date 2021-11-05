@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.CoinHistoryMenuAdapter;
@@ -39,7 +37,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity
         updateHistory();
         adapter = new CoinHistoryMenuAdapter(this,coinTossHistory);
         populateList();
-        this.setTitle("History");
+        this.setTitle(getString(R.string.toss_history));
     }
 
     private void updateHistory()

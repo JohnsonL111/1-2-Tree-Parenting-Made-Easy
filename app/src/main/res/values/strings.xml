@@ -31,4 +31,8 @@
     <string name="timerNotificationTitle">Timer</string>
     <string name="timerNotificationDescription">Time is up!</string>
     <string name="notificationActionButtonText">Dismiss</string>
+    <string name="toss_history">Toss History</string>
+    <string name="Result">Result</string>
+    <string name="result_repeat_option">One more Toss</string>
+    <string name="result_leave_option">Leave</string>
 </resources>

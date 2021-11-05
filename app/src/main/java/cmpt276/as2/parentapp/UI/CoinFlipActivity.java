@@ -45,16 +45,12 @@ public class CoinFlipActivity extends AppCompatActivity
         setContentView(R.layout.activity_coin_flip);
 
         coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
-
         videoView = findViewById(R.id.flip);
-
         viewPager2 = findViewById(R.id.coin_viewpager2);
-
         adapter = new CoinFlipMenuAdapter(this,
                 getString(R.string.coin_toss_picker,
                 coinFlip.getPickerList().get(0)),
                 getResources().getStringArray(R.array.coin_two_side_name));
-
         viewPager2.setAdapter(adapter);
 
         setBoardCallBack();
@@ -137,9 +133,9 @@ public class CoinFlipActivity extends AppCompatActivity
         }
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
-                .setTitle("Result")
-                .setPositiveButton("One more Toss", (dialogInterface, i) -> reset())
-                .setNegativeButton("Leave", (dialogInterface, i) -> this.finish());
+                .setTitle(R.string.Result)
+                .setPositiveButton(R.string.result_repeat_option, (dialogInterface, i) -> reset())
+                .setNegativeButton(R.string.result_leave_option, (dialogInterface, i) -> this.finish());
 
         Dialog dialog = build.create();
         dialog.show();
