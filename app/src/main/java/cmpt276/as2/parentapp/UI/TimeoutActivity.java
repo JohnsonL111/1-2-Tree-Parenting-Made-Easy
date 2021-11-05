@@ -1,5 +1,9 @@
 package cmpt276.as2.parentapp.UI;
 
+import static cmpt276.as2.parentapp.model.TimerNotification.TIMER_CHANNEL_ID;
+
+import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.animation.Animator;
 import android.animation.AnimatorInflater;
 import android.content.Context;
@@ -7,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Matrix;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,10 +31,13 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.model.NotificationReceiver;
+import cmpt276.as2.parentapp.model.RingtonePlayService;
 
 //timer button= start and stop button
 public class TimeoutActivity extends AppCompatActivity {
@@ -48,12 +56,13 @@ public class TimeoutActivity extends AppCompatActivity {
     int initialTime;
     int timeLeft;
     CountDownTimer timer;
+    private NotificationManagerCompat timerNotificationManager;
     CountDownTimer BackgroundTimer;
 
     int backgroundList[];
     int counter=0;
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, TimeoutActivity.class);
         return intent;
     }
@@ -96,6 +105,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
         timerButton.setOnClickListener(new View.OnClickListener() {
+
+            @SuppressLint("Range")
             @Override
             public void onClick(View view) {
                 if(!timerIsRunning) {
@@ -193,6 +204,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 optionButton.setAlpha(1);
                 timeLeft=initialTime;
                 counter=0;
+                sendTimerNotification();
+
             }
         };
         timer.start();
@@ -227,4 +240,33 @@ public class TimeoutActivity extends AppCompatActivity {
         return newTime;
     }
 
+    public void sendTimerNotification() {
+        String title = getString(R.string.timerNotificationTitle);
+        String message = getString(R.string.timerNotificationDescription);
+        String actionButtonText = getString(R.string.notificationActionButtonText);
+        int notificationID = 1;
+
+        Intent notificationReceiverBroadcast = new Intent(this, NotificationReceiver.class);
+        notificationReceiverBroadcast.putExtra("notification_id", notificationID);
+        PendingIntent actionButtonIntent = PendingIntent.getBroadcast(this, 0,
+                notificationReceiverBroadcast, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, TIMER_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_baseline_timer_24)
+                .setContentTitle(title)
+                .setColor(Color.GREEN)
+                .setContentText(message)
+                .addAction(R.drawable.ic_sharp_clear_24, actionButtonText, actionButtonIntent)
+                .setFullScreenIntent(actionButtonIntent, true)
+                .setDeleteIntent(actionButtonIntent)
+                .setPriority(NotificationCompat.PRIORITY_MAX);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationID, builder.build());
+
+        Intent stopAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
+        TimeoutActivity.this.stopService(stopAlarmIntent);
+        Intent startAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
+        TimeoutActivity.this.startService(startAlarmIntent);
+    }
 }

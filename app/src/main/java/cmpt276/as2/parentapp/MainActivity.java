@@ -3,20 +3,24 @@ package cmpt276.as2.parentapp;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
 
+import cmpt276.as2.parentapp.UI.EditChildActivity;
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
-import cmpt276.as2.parentapp.UI.TimeoutOptionActivity;
 import cmpt276.as2.parentapp.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
+/**
+ * Entry to application with the menu UI.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         Button timeoutButton = findViewById(R.id.TimeoutButton);
 
+        /** place holder
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
                        .setAction("Action", null).show();
             }
         });
+         **/
 
         timeoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +51,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // Gives FAB functionality to swap activities.
+        setUpNewChild();
+    }
+
+    private void setUpNewChild() {
+        FloatingActionButton btn = findViewById(R.id.fab);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(MainActivity.this, "Viewing current children", Toast.LENGTH_SHORT).show();
+
+                // launches adding new child
+                Intent childIntent = EditChildActivity.makeIntent(MainActivity.this);
+                startActivity(childIntent);
+            }
+        });
+
     }
 
     @Override
