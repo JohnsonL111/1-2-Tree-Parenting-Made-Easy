@@ -111,7 +111,6 @@ public class EditChildActivity extends AppCompatActivity {
         // Create list of children.
         List<Child> childItems = childManager.getChildList();
 
-
         // build adapter
         listAdapter = new ArrayAdapter<>(
                 this, // context
@@ -125,7 +124,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     // Configure child object to be clickable.
-    private void startListViewClickable(){
+    private void startListViewClickable() {
         // Citation: https://easysavecode.com/FezSDcUC
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -133,27 +132,14 @@ public class EditChildActivity extends AppCompatActivity {
                 Child childToEdit = childManager.getChildList().get(position);
 
                 // Functionality so user can change child name in listview.
-                editChildName(childToEdit);
-
-                // Check if new name is available and execute apt case.
-                if (!childManager.checkIfNameExist(newChildName)) {
-                    // Get the List, find the child's index, and change its name.
-                    List<Child> childList = childManager.getChildList();
-                    int childToEditIdx = childList.indexOf(childToEdit);
-                    childList.get(childToEditIdx).setName(newChildName);
-
-                    Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
-                    //startChildList();
-                } else {
-                    Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
-                }
-
+                editChildNamePopUp(childToEdit);
+                startChildList();
             }
         });
     }
 
-    // Takes in user input for new child name and decides if valid or not.
-    private void editChildName(Child childToEdit) {
+    // Takes in user input for new child name.
+    private void editChildNamePopUp(Child childToEdit) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Child Name");
         final EditText input = new EditText(this);
@@ -165,8 +151,9 @@ public class EditChildActivity extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
                 newChildName = input.getText().toString();
+                editChildName(childToEdit);
+                dialog.dismiss();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -177,6 +164,23 @@ public class EditChildActivity extends AppCompatActivity {
         });
 
         builder.show();
+    }
+
+    // Actually decides the validity of the new name and changes the name if possible.
+    private void editChildName(Child childToEdit) {
+        // Check if new name is available and execute apt case.
+        if (!childManager.checkIfNameExist(newChildName)) {
+            // Get the List, find the child's index, and change its name.
+            List<Child> childList = childManager.getChildList();
+            int childToEditIdx = childList.indexOf(childToEdit);
+            if (!newChildName.equals("")) {
+                childList.get(childToEditIdx).setName(newChildName);
+                Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
+        }
+        startChildList();
     }
 
     public static Intent makeIntent(Context context) {
