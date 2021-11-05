@@ -92,9 +92,11 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public View makeView() {
                 ImageView myView = new ImageView(getApplicationContext());
+                myView.setScaleType(ImageView.ScaleType.FIT_XY);
                 return myView;
             }
         });
+        changeBackground(0);
 
         animationLayout= findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
@@ -135,6 +137,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerButton.setText("START");
                 updateTimer(timeLeft);
                 rotate(0);
+                changeBackground(0);
 
             }
         });
@@ -185,6 +188,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+
         changeBackground((int)timeLeft*8/initialTime);
         timer=new CountDownTimer(timeLeft*1000, 1000) {
             public void onTick(long secondsLeft) {
