@@ -114,7 +114,7 @@ public class EditChildActivity extends AppCompatActivity {
         // build adapter
         listAdapter = new ArrayAdapter<>(
                 this, // context
-                R.layout.children_list, // layout to use (Create many)
+                android.R.layout.simple_list_item_1,
                 childItems); // items to be displayed
 
         // configure the list view
@@ -125,21 +125,20 @@ public class EditChildActivity extends AppCompatActivity {
 
     // Configure child object to be clickable.
     private void startListViewClickable() {
-        // Citation: https://easysavecode.com/FezSDcUC
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
                 Child childToEdit = childManager.getChildList().get(position);
 
-                // Functionality so user can change child name in listview.
+                // User can change the child's name by clicking on the child in the listview.
                 editChildNamePopUp(childToEdit);
-                startChildList();
             }
         });
     }
 
-    // Takes in user input for new child name.
+    // Takes in user input for new child name via dialog popup.
     private void editChildNamePopUp(Child childToEdit) {
+        // Citation: https://stackoverflow.com/questions/10903754/input-text-dialog-android
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Edit Child Name");
         final EditText input = new EditText(this);

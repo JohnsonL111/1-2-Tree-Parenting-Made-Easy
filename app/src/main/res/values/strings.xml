@@ -24,5 +24,5 @@
     <string name="child_to_add">child to add</string>
     <string name="child_to_remove">child to remove</string>
     <string name="remove_child">REMOVE CHILD</string>
-    <string name="list_of_current_children">List of Current Children</string>
+    <string name="list_of_current_children">List of Current Children (click on child to change their name!)</string>
 </resources>
