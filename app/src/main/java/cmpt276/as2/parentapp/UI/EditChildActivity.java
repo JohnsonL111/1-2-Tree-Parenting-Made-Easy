@@ -38,6 +38,7 @@ public class EditChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_child);
 
         getSupportActionBar().setTitle(R.string.editChildActivityTitle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         childManager = childManager.getInstance();
         startChildList();

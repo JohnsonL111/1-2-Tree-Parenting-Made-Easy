@@ -18,32 +18,37 @@ public class TimeoutOptionActivity extends AppCompatActivity {
     private static final String DURATION_SETTING = "Duration Settings";
     private static final String DURATION_CHOICE = "Duration Choice";
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutOptionActivity.class);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout_option);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setUpRadioButton();
     }
-    private void setUpRadioButton(){
+
+    private void setUpRadioButton() {
         int[] durationList = getResources().getIntArray(R.array.duration);
 
 
-        RadioGroup durationRadioGroup= findViewById(R.id.timerOptionRadioGroup);
+        RadioGroup durationRadioGroup = findViewById(R.id.timerOptionRadioGroup);
         RadioButton customButton = new RadioButton(this);
 
-        for(int i = 0; i< durationList.length; i++){
-            final int duration=durationList[i];
+        for (int i = 0; i < durationList.length; i++) {
+            final int duration = durationList[i];
             RadioButton button = new RadioButton(this);
 
             //Set up radio buttons
-            button.setText(getString(R.string.durationOption,duration));
-            button.setOnClickListener(view -> { saveDurationSetting(duration*60); });
+            button.setText(getString(R.string.durationOption, duration));
+            button.setOnClickListener(view -> {
+                saveDurationSetting(duration * 60);
+            });
             durationRadioGroup.addView(button);
 
-            if (duration == getDuration(this) ){
+            if (duration == getDuration(this)) {
                 button.setChecked(true);
             }
 
@@ -51,46 +56,44 @@ public class TimeoutOptionActivity extends AppCompatActivity {
 
         //Set up radio buttons
         customButton.setText("custom duration");
-        customButton.setOnClickListener(view -> { SaveCustomDuration(); });
+        customButton.setOnClickListener(view -> {
+            SaveCustomDuration();
+        });
         durationRadioGroup.addView(customButton);
 
 
-
     }
-
 
 
     private void SaveCustomDuration() {
         SharedPreferences prefs = this.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
         EditText customMinute = findViewById(R.id.CustomMinute);
         EditText customSecond = findViewById(R.id.CustomSecond);
-        String  minuteString=customMinute.getText().toString();
-        String  secondString=customSecond.getText().toString();
-        int minute=0;
-        int second=0;
-        if (!minuteString.equals("")){
+        String minuteString = customMinute.getText().toString();
+        String secondString = customSecond.getText().toString();
+        int minute = 0;
+        int second = 0;
+        if (!minuteString.equals("")) {
             minute = Integer.parseInt(minuteString);
         }
         if (!secondString.equals("")) {
-            second  = Integer.parseInt(secondString);
+            second = Integer.parseInt(secondString);
         }
-        int duration=minute*60+second;
+        int duration = minute * 60 + second;
         SharedPreferences.Editor editor = prefs.edit();
-        if(duration==0){
+        if (duration == 0) {
 
-        }
-        else{
+        } else {
             editor.putInt(DURATION_CHOICE, duration);
             editor.apply();
         }
 
 
-
     }
 
-    static public int getDuration(Context context){
+    static public int getDuration(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
-        return prefs.getInt(DURATION_CHOICE,4);
+        return prefs.getInt(DURATION_CHOICE, 4);
     }
 
     private void saveDurationSetting(int duration) {
