@@ -10,6 +10,52 @@
         android:id="@+id/timerOptionRadioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:layout_editor_absoluteX="50dp"
-        tools:layout_editor_absoluteY="106dp" />
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/CustomMinute"
+        android:layout_width="97dp"
+        android:layout_height="67dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="151dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+
+    <EditText
+        android:id="@+id/CustomSecond"
+        android:layout_width="87dp"
+        android:layout_height="64dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/minutesText"
+        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+
+    <TextView
+        android:id="@+id/minutesText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="48dp"
+        android:text="minutes"
+        app:layout_constraintStart_toEndOf="@+id/CustomMinute"
+        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+
+    <TextView
+        android:id="@+id/secondsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="Second"
+        app:layout_constraintStart_toEndOf="@+id/CustomSecond"
+        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
