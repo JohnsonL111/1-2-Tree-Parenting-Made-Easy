@@ -34,16 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.toolbar);
         Button timeoutButton = findViewById(R.id.TimeoutButton);
 
-        /** place holder
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                       .setAction("Action", null).show();
-            }
-        });
-         **/
-
         timeoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,4 +82,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
