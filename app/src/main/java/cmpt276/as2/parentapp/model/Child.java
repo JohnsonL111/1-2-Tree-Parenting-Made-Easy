@@ -14,6 +14,10 @@ public class Child {
         return name;
     }
 
+    public void setName(String newName) {
+        name = newName;
+    }
+
     @Override
     public String toString() {
         return "Child name: " + name;

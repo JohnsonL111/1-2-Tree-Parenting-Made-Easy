@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class TimeoutOptionActivity extends AppCompatActivity {
 
 
         RadioGroup durationRadioGroup= findViewById(R.id.timerOptionRadioGroup);
+        RadioButton customButton = new RadioButton(this);
 
         for(int i = 0; i< durationList.length; i++){
             final int duration=durationList[i];
@@ -38,17 +40,54 @@ public class TimeoutOptionActivity extends AppCompatActivity {
 
             //Set up radio buttons
             button.setText(getString(R.string.durationOption,duration));
-            button.setOnClickListener(view -> { saveDurationSetting(duration); });
+            button.setOnClickListener(view -> { saveDurationSetting(duration*60); });
             durationRadioGroup.addView(button);
 
             if (duration == getDuration(this) ){
                 button.setChecked(true);
             }
+
+        }
+
+        //Set up radio buttons
+        customButton.setText("custom duration");
+        customButton.setOnClickListener(view -> { SaveCustomDuration(); });
+        durationRadioGroup.addView(customButton);
+
+
+
+    }
+
+
+
+    private void SaveCustomDuration() {
+        SharedPreferences prefs = this.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
+        EditText customMinute = findViewById(R.id.CustomMinute);
+        EditText customSecond = findViewById(R.id.CustomSecond);
+        String  minuteString=customMinute.getText().toString();
+        String  secondString=customSecond.getText().toString();
+        int minute=0;
+        int second=0;
+        if (!minuteString.equals("")){
+            minute = Integer.parseInt(minuteString);
+        }
+        if (!secondString.equals("")) {
+            second  = Integer.parseInt(secondString);
+        }
+        int duration=minute*60+second;
+        SharedPreferences.Editor editor = prefs.edit();
+        if(duration==0){
+
+        }
+        else{
+            editor.putInt(DURATION_CHOICE, duration);
+            editor.apply();
         }
 
 
 
     }
+
     static public int getDuration(Context context){
         SharedPreferences prefs = context.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
         return prefs.getInt(DURATION_CHOICE,4);
