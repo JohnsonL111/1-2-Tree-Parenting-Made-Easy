@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import cmpt276.as2.parentapp.MainActivity;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.CoinFlip;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
@@ -47,13 +48,26 @@ public class CoinFlipActivity extends AppCompatActivity
         coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
         videoView = findViewById(R.id.flip);
         viewPager2 = findViewById(R.id.coin_viewpager2);
-        adapter = new CoinFlipMenuAdapter(this,
-                getString(R.string.coin_toss_picker,
-                coinFlip.getPickerList().get(0)),
-                getResources().getStringArray(R.array.coin_two_side_name));
+
+        setAdapter();
         viewPager2.setAdapter(adapter);
 
         setBoardCallBack();
+    }
+
+    private void setAdapter() {
+        if(coinFlip.getPickerList().size() != 0) {
+            adapter = new CoinFlipMenuAdapter(this,
+                    getString(R.string.coin_toss_picker,
+                            coinFlip.getPickerList().get(0)),
+                    getResources().getStringArray(R.array.coin_two_side_name));
+        }
+        else
+        {
+            adapter = new CoinFlipMenuAdapter(this,
+                    "",
+                    getResources().getStringArray(R.array.coin_two_side_name));
+        }
     }
 
     @Override
@@ -68,7 +82,8 @@ public class CoinFlipActivity extends AppCompatActivity
         CoinFlipMenuAdapter.clickObserverAnimation obs = () -> tossCoin();
         CoinFlipMenuAdapter.clickObserverEditChild obsEdit = () ->
         {
-
+            Intent childIntent = EditChildActivity.makeIntent(CoinFlipActivity.this);
+            startActivity(childIntent);
         };
 
         adapter.registerChangeCallBack(obs);
@@ -107,13 +122,10 @@ public class CoinFlipActivity extends AppCompatActivity
         SharedPreferences prefs = this.getSharedPreferences(COIN_TAG, MODE_PRIVATE);
         if(!prefs.contains(tag))
         {
-            return new ArrayList<>();
+            return new ArrayList<String>();
         }
-        else
-        {
-            Gson gson = new Gson();
+        Gson gson = new Gson();
             return gson.fromJson(prefs.getString(tag, ""), ArrayList.class);
-        }
     }
 
     private void showResult()
@@ -147,10 +159,8 @@ public class CoinFlipActivity extends AppCompatActivity
         videoView.setVisibility(View.INVISIBLE);
 
         coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
-        adapter = new CoinFlipMenuAdapter(this,
-                getString(R.string.coin_toss_picker,
-                        coinFlip.getPickerList().get(0)),
-                getResources().getStringArray(R.array.coin_two_side_name));
+
+        setAdapter();
 
         viewPager2.setAdapter(adapter);
         setBoardCallBack();

@@ -29,9 +29,13 @@ public class CoinFlip
         this.history = history;
         this.context = context;
 
-        if(!this.savedPickers.isEmpty())
+        if(this.savedPickers.size() != 0)
         {
             currentPicker = this.savedPickers.get(0);
+        }
+        else
+        {
+            currentPicker = "";
         }
     }
 
