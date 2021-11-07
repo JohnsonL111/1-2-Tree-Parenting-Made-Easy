@@ -13,6 +13,9 @@ import android.os.Vibrator;
 
 import androidx.annotation.Nullable;
 
+/**
+ * The Service will start the alarm and vibration
+ */
 public class RingtonePlayService extends Service {
     private MediaPlayer alarm;
     private Vibrator vibrator;
