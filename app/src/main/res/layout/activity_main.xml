@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:alpha="0.95"
     android:background="@drawable/tree"
     tools:context=".MainActivity">
 
@@ -63,5 +64,22 @@
         app:layout_constraintEnd_toEndOf="@+id/flipCoin"
         app:layout_constraintStart_toStartOf="@+id/flipCoin"
         app:layout_constraintTop_toBottomOf="@+id/flipCoin" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="301dp"
+        android:layout_height="68dp"
+        android:fontFamily="@font/leaf_font"
+        android:shadowColor="@color/white"
+        android:shadowRadius="3"
+        android:text="1,2,TREE"
+        android:textColor="@color/lime"
+        android:textColorHighlight="@color/green"
+        android:textSize="48sp"
+        app:layout_constraintBottom_toTopOf="@+id/TimeoutButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintVertical_bias="0.552" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
