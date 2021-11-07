@@ -2,15 +2,13 @@ package cmpt276.as2.parentapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import cmpt276.as2.parentapp.UI.CoinFlipActivity;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
-import cmpt276.as2.parentapp.databinding.ActivityMainBinding;
-
-import android.widget.Button;
 
 /**
  * Entry to application with the menu UI.
@@ -18,8 +16,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 

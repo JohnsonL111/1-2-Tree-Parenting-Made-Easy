@@ -1,7 +1,5 @@
 package cmpt276.as2.parentapp.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +15,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -27,13 +27,14 @@ import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 
 /**
- * Encapsulates functionality for editing the current children list.
+ * Encapsulates functionality for editing the current children list and displaying
+ * in the list view.
  */
 public class EditChildActivity extends AppCompatActivity {
 
     private ChildManager childManager;
     private ArrayAdapter<String> listAdapter;
-    private List<String> childNames;
+    private List<String> childNames; // For display on the listview
     private ListView list;
     private String newChildName = ""; // Store new child name on edit here.
     private static final String CHILD_LIST = "childListNames";
@@ -118,16 +119,8 @@ public class EditChildActivity extends AppCompatActivity {
 
     // Resets the list view.
     private void startChildList() {
-        // Create list of children.
-        List<Child> childItems = childManager.getChildList();
-
-        childNames = new ArrayList<>();
-        int numOfChild = childItems.size();
-        for (int i = 0; i < numOfChild; i++) {
-            Child currentChild = childItems.get(i);
-            childNames.add(currentChild.getName());
-        }
-        java.util.Collections.sort(childNames);
+        // Forms list of names to display.
+        convertChildListToNames();
 
         // build adapter
         listAdapter = new ArrayAdapter<>(
@@ -139,7 +132,20 @@ public class EditChildActivity extends AppCompatActivity {
         list = findViewById(R.id.childListView);
         list.setAdapter(listAdapter);
         saveChildData();
+    }
 
+    // For displaying child names onto listview.
+    private void convertChildListToNames() {
+        // Create list of children.
+        List<Child> childItems = childManager.getChildList();
+
+        childNames = new ArrayList<>();
+        int numOfChild = childItems.size();
+        for (int i = 0; i < numOfChild; i++) {
+            Child currentChild = childItems.get(i);
+            childNames.add(currentChild.getName());
+        }
+        java.util.Collections.sort(childNames);
     }
 
     // Configure child object to be clickable.
@@ -225,7 +231,7 @@ public class EditChildActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
-        // Saves the array into json.
+        // Saves the class into json.
         Gson gson = new Gson();
         editor.putString(CHILD_LIST, gson.toJson(childManager));
         editor.apply();
