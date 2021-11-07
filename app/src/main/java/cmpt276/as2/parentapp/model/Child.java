@@ -1,7 +1,7 @@
 package cmpt276.as2.parentapp.model;
 
 /**
- * Encapsulates a single child into a class.
+ * Encapsulates a single child and its functionality into a class.
  */
 public class Child {
     private String name;
