@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -31,8 +34,7 @@ import cmpt276.as2.parentapp.model.RingtonePlayService;
 
 //timer button= start and stop button
 public class TimeoutActivity extends AppCompatActivity {
-    private static final String DURATION_SETTING = "Duration Settings";
-    private static final String DURATION_CHOICE = "Duration Choice";
+    private static final String TIMER_SITUATION = "timer situation";
     private static final String BACKGROUND_TITLE = "beach";
     private static final int BACKGROUND_SIZE = 7;
     public static MediaPlayer beach_sound;
@@ -49,8 +51,8 @@ public class TimeoutActivity extends AppCompatActivity {
     int timeLeft;
     int currentBackground;
     CountDownTimer timer;
-    private NotificationManagerCompat timerNotificationManager;
     CountDownTimer BackgroundTimer;
+//    boolean timerIsPaused;
 
     int backgroundList[];
     int counter = 0;
@@ -126,14 +128,17 @@ public class TimeoutActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timer.cancel();
-                timeLeft = initialTime;
-                timerIsRunning = false;
-                optionButton.setAlpha(1);
-                timerButton.setText("START");
-                updateTimer(timeLeft);
-                rotate(0);
-                changeBackground(0);
+                if(timer!=null){
+                    timer.cancel();
+                    timeLeft = initialTime;
+                    timerIsRunning = false;
+                    optionButton.setAlpha(1);
+                    timerButton.setText("START");
+                    updateTimer(timeLeft);
+                    rotate(0);
+                    changeBackground(0);
+                }
+
 
             }
         });
@@ -141,12 +146,9 @@ public class TimeoutActivity extends AppCompatActivity {
         optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!timerIsRunning) {
-                    Intent i = TimeoutOptionActivity.makeIntent(TimeoutActivity.this);
-                    startActivity(i);
-                } else {
-                    Toast.makeText(TimeoutActivity.this, "A timer is running", Toast.LENGTH_SHORT);
-                }
+                Intent i = TimeoutOptionActivity.makeIntent(TimeoutActivity.this);
+                startActivity(i);
+
             }
         });
 
@@ -156,6 +158,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private void changeBackground(int i) {
 
         if(i!=currentBackground){
+
             background.setImageResource(backgroundList[i]);
             Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_in);
             Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_out);
@@ -167,15 +170,9 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        beach_sound.release();
-    }
 
     @Override
     protected void onResume() {
-
         super.onResume();
         if (getDuration() != initialTime) {
             initialTime = getDuration();
@@ -187,7 +184,12 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
+
+
+
     private void stopTimer() {
+//        timerIsPaused=true;
+        timerIsRunning=false;
         beach_sound.pause();
         timer.cancel();
     }
@@ -199,12 +201,13 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-
+//        timerIsPaused=false;
         beach_sound.start();
         beach_sound.setLooping(true);
 
-        changeBackground((int) timeLeft * 8 / initialTime);
-        timer = new CountDownTimer(timeLeft * 1000, 1000) {
+        changeBackground((initialTime - timeLeft) * 8 / initialTime);
+        int x= timeLeft;
+        timer = new CountDownTimer(x * 1000, 1000) {
             public void onTick(long secondsLeft) {
                 timeLeft = ((int) secondsLeft) / 1000;
                 updateTimer((int) secondsLeft / 1000);
@@ -223,10 +226,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerButton.setText("START");
                 optionButton.setAlpha(1);
                 timeLeft = initialTime;
-                counter = 0;
                 sendTimerNotification();
-                beach_sound.pause();
-
             }
         };
         timer.start();
@@ -263,6 +263,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     public void sendTimerNotification() {
+        beach_sound.pause();
         String title = getString(R.string.timerNotificationTitle);
         String message = getString(R.string.timerNotificationDescription);
         String actionButtonText = getString(R.string.notificationActionButtonText);
@@ -291,4 +292,65 @@ public class TimeoutActivity extends AppCompatActivity {
         Intent startAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
         TimeoutActivity.this.startService(startAlarmIntent);
     }
+
+////https://gist.github.com/codinginflow/61e9cec706e7fe94b0ca3fffc0253bf2
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        beach_sound.pause();
+        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        long endTime = System.currentTimeMillis() + timeLeft * 1000;
+        editor.putInt("timeLeft", timeLeft);
+        editor.putBoolean("timerIsRunning", timerIsRunning);
+        editor.putInt("initialTime", initialTime);
+        editor.putLong("endTime", endTime);
+        editor.apply();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        setUpMusic();
+        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
+
+        timerIsRunning = prefs.getBoolean("timerIsRunning", false);
+
+        if (timerIsRunning) {
+            initialTime=prefs.getInt("initialTime",0);
+            timerButton.setText("STOP");
+            long endTime = prefs.getLong("endTime", 0);
+            timeLeft=(int)(endTime -  System.currentTimeMillis())/1000;
+            if(timeLeft<0){
+                timerIsRunning=false;
+                timerButton.setText("START");
+                timeLeft=initialTime;
+                updateTimer(timeLeft);
+                if(timer!=null){
+                    timer.cancel();
+                    updateTimer(0);
+                }
+
+            }
+            else{
+                startTimer();
+
+            }
+        }
+        else{
+            if(getDuration() != initialTime) {
+                initialTime = getDuration();
+                timeLeft = initialTime;
+                updateTimer(timeLeft);
+            } else {
+                timeLeft=prefs.getInt("timeLeft",4);
+                updateTimer(timeLeft);
+            }
+
+
+        }
+    }
+//
+
 }
