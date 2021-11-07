@@ -52,7 +52,7 @@
             android:layout_weight="0.05"
             android:clickable="true"
             android:layout_gravity="right|center_vertical"
-            app:backgroundTint="@android:color/holo_blue_light"
+            app:backgroundTint="@android:color/holo_green_dark"
             app:srcCompat="@android:drawable/ic_menu_share" />
 
     </LinearLayout>
