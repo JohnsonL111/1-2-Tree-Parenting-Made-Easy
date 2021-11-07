@@ -73,6 +73,9 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutText.setTextSize(40);
         timerButton.setText("START");
 
+        backgroundList= new int[9];
+        fillBackgroundList();
+
         timerAnimation = new ImageView(this)       ;
         timerAnimation.setImageResource(R.drawable.round);
         timerAnimation.setAlpha(0.5F);
@@ -185,7 +188,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerAnimation.setMaxWidth(animationLayout.getWidth());
                 timerAnimation.setMaxHeight(animationLayout.getHeight());
                 changeBackground((initialTime-timeLeft)*8/initialTime);
-                Log.e("gelo",(initialTime-timeLeft)*8/initialTime+"");
             }
             public void onFinish() {
                 timeoutText.setText("done!");
