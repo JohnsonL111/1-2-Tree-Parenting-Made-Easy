@@ -1,5 +1,9 @@
 package cmpt276.as2.parentapp.UI;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -7,6 +11,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +28,7 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
 
+import cmpt276.as2.parentapp.MainActivity;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
@@ -37,16 +44,15 @@ public class EditChildActivity extends AppCompatActivity {
     private List<String> childNames; // For display on the listview
     private ListView list;
     private String newChildName = ""; // Store new child name on edit here.
-    private static final String CHILD_LIST = "childListNames";
-    private static final String CHILD_LIST_TAG = "childList";
+    public static final String CHILD_LIST = "childListNames";
+    public static final String CHILD_LIST_TAG = "childList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
-        getSupportActionBar().setTitle(R.string.editChildActivityTitle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle(R.string.editChildActivityTitle);
 
         childManager = getChildData(CHILD_LIST);
         startChildList();
@@ -235,6 +241,35 @@ public class EditChildActivity extends AppCompatActivity {
         Gson gson = new Gson();
         editor.putString(CHILD_LIST, gson.toJson(childManager));
         editor.apply();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        if (getSupportActionBar() != null)
+        {
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(false);
+        }
+
+        getMenuInflater().inflate(R.menu.menu_edit_child, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item)
+    {
+        switch (item.getItemId()) {
+            case R.id.go_back_edit_child:
+                this.finish();
+                return true;
+            case R.id.main_menu:
+                Intent i = MainActivity.makeIntent(EditChildActivity.this);
+                startActivity(i);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 }

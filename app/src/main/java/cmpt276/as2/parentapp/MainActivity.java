@@ -1,5 +1,6 @@
 package cmpt276.as2.parentapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -42,5 +43,10 @@ public class MainActivity extends AppCompatActivity {
             Intent i = EditChildActivity.makeIntent(MainActivity.this);
             startActivity(i);
         });
+    }
+
+    public static Intent makeIntent(Context context)
+    {
+        return new Intent(context, MainActivity.class);
     }
 }

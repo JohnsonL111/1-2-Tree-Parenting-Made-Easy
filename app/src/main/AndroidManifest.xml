@@ -32,7 +32,8 @@
         <activity
             android:name=".UI.EditChildActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.ParentApp"/>
         <activity
             android:name=".UI.CoinFlipActivity"
             android:exported="true"

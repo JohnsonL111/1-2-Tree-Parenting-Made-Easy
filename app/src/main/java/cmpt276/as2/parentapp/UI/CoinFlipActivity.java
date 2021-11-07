@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.model.Child;
+import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.CoinFlip;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
 
@@ -32,7 +34,7 @@ public class CoinFlipActivity extends AppCompatActivity
     private CoinFlip coinFlip;
     public static final String COIN_TAG = "CoinToss";
     public static final String COIN_HISTORY = "TossHistory";
-    public static final String COIN_PICKER_LIST = "PickerList";
+    private ChildManager childManager;
 
     private ViewPager2 viewPager2;
     private CoinFlipMenuAdapter adapter;
@@ -44,7 +46,8 @@ public class CoinFlipActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
-        coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
+        getChildManager();
+        coinFlip = new CoinFlip(childManager.getNameList(), getData(COIN_HISTORY), this);
         videoView = findViewById(R.id.flip);
         viewPager2 = findViewById(R.id.coin_viewpager2);
 
@@ -52,6 +55,17 @@ public class CoinFlipActivity extends AppCompatActivity
         viewPager2.setAdapter(adapter);
 
         setBoardCallBack();
+    }
+
+    private void getChildManager()
+    {
+        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+        if (!prefs.contains(EditChildActivity.CHILD_LIST)) {
+            childManager = ChildManager.getInstance();
+        }
+
+        Gson gson = new Gson();
+        childManager =  gson.fromJson(prefs.getString(EditChildActivity.CHILD_LIST, ""), ChildManager.class);
     }
 
     private void setAdapter() {
@@ -158,7 +172,8 @@ public class CoinFlipActivity extends AppCompatActivity
         viewPager2.setVisibility(View.VISIBLE);
         videoView.setVisibility(View.INVISIBLE);
 
-        coinFlip = new CoinFlip(getData(COIN_PICKER_LIST), getData(COIN_HISTORY), this);
+        getChildManager();
+        coinFlip = new CoinFlip(childManager.getNameList(), getData(COIN_HISTORY), this);
 
         setAdapter();
 
@@ -192,17 +207,16 @@ public class CoinFlipActivity extends AppCompatActivity
     {
         coinFlip.saveResult();
         SharedPreferences prefs = this.getSharedPreferences(COIN_TAG, MODE_PRIVATE);
+        SharedPreferences prefsPub = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences.Editor editor1 = prefsPub.edit();
 
         Gson gson = new Gson();
         editor.putString(COIN_HISTORY, gson.toJson(coinFlip.getHistory()));
-        editor.putString(COIN_PICKER_LIST,gson.toJson(coinFlip.getPickerList()));
+        childManager.tossCoin();
+        editor1.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
         editor.apply();
-    }
-
-    private void checkUpdate()
-    {
-        coinFlip.setSavedPickers(getData(COIN_PICKER_LIST));
+        editor1.apply();
     }
 
     public static Intent makeIntent(Context context)
