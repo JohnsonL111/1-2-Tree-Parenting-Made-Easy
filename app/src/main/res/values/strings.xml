@@ -27,7 +27,7 @@
     <string name="coin_toss_save_history_win">Picker: %s, \nChoice: %s, Result: %s, \nPICKER WIN \ntime: %s</string>
     <string name="coin_toss_save_history_lost">Picker: %s, \nChoice: %s, Result: %s, \nPICKER LOST \ntime: %s</string>
     <string name="coin_toss_picker">Picker: %s</string>
-    <string name="timeout">Timeout</string>
+    <string name="timeout">Timeout Timer</string>
     <string name="editChildActivityTitle">Child History</string>
     <string name="timerNotificationTitle">Timer</string>
     <string name="timerNotificationDescription">Time is up!</string>
@@ -43,4 +43,6 @@
     <string name="child_to_remove">child to remove</string>
     <string name="remove_child">REMOVE CHILD</string>
     <string name="list_of_current_children">List of Current Children (click on child to change their name!)</string>
+    <string name="edit_children">Edit Children</string>
+    <string name="flip_coin">Flip Coin</string>
 </resources>

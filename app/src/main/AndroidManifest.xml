@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+
     <application
         android:name=".model.TimerNotification"
         android:allowBackup="true"
@@ -12,21 +13,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
-        <service android:name=".model.RingtonePlayService"/>
+        <service android:name=".model.RingtonePlayService" />
+
         <activity
             android:name=".UI.TimeoutOptionActivity"
             android:exported="true"
-            android:label="Timeout settings"/>
+            android:parentActivityName=".UI.TimeoutActivity" />
+        android:exported="true"
+        android:label="Timeout settings"/>
         <activity
             android:name=".UI.TimeoutActivity"
             android:exported="true"
-            android:label="Timeout"/>
+            android:parentActivityName=".MainActivity" />
+        android:exported="true"
+        android:label="Timeout"/>
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true" />
         <activity
             android:name=".UI.EditChildActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UI.CoinFlipActivity"
             android:exported="true" />
@@ -41,7 +48,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".model.NotificationReceiver"/>
+
+        <receiver android:name=".model.NotificationReceiver" />
     </application>
 
 </manifest>
