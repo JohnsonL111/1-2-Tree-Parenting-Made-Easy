@@ -160,7 +160,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
-    private void changeBackground(int i) {
+    private void changeBackground(int i)
+    {
 
         background.setImageResource(backgroundList[i]);
         Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this,android.R.anim.fade_in);
@@ -191,8 +192,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
 
-        changeBackground((int)timeLeft*8/initialTime);
-        timer=new CountDownTimer(timeLeft*1000, 1000) {
+        timer=new CountDownTimer(timeLeft*1000, 1000)
+        {
             public void onTick(long secondsLeft) {
                 timeLeft=((int)secondsLeft)/1000;
                 updateTimer((int)secondsLeft / 1000);
@@ -200,7 +201,21 @@ public class TimeoutActivity extends AppCompatActivity {
                 rotate(angle);
                 timerAnimation.setMaxWidth(animationLayout.getWidth());
                 timerAnimation.setMaxHeight(animationLayout.getHeight());
-                changeBackground((initialTime-timeLeft)*8/initialTime);
+
+                int timePassed = initialTime - timeLeft;
+                try
+                {
+                    if (initialTime / timePassed == 4 | initialTime / timePassed == 2 | initialTime / (initialTime - timePassed) == 4)
+                    {
+                        changeBackground((initialTime - timeLeft) * 8 / initialTime);
+                    }
+                }
+                catch (Exception e)
+                {
+                    changeBackground((initialTime - timeLeft) * 8 / initialTime);
+                }
+
+
             }
             public void onFinish() {
                 timeoutText.setText("done!");
