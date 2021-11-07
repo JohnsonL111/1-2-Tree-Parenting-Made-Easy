@@ -42,12 +42,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Gives FAB functionality to swap activities.
+        // Gives functionality to swap activities.
         setUpNewChild();
     }
 
     private void setUpNewChild() {
-        FloatingActionButton btn = findViewById(R.id.fab);
+        Button btn = findViewById(R.id.editChildren);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
