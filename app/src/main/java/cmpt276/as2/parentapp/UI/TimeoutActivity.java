@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -36,6 +37,8 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final String DURATION_CHOICE = "Duration Choice";
     private static final String BACKGROUND_TITLE = "beach";
     private static final int BACKGROUND_SIZE = 7;
+    public static MediaPlayer beach_sound;
+
     ImageView timerAnimation;
     Button timerButton;
     Button resetButton;
@@ -61,7 +64,11 @@ public class TimeoutActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
+        setUpMusic();
+
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
@@ -165,6 +172,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+
         super.onResume();
         if (getDuration() != initialTime) {
             initialTime = getDuration();
@@ -177,10 +185,21 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void stopTimer() {
+        beach_sound.pause();
         timer.cancel();
     }
 
+    private void setUpMusic(){
+        beach_sound = MediaPlayer.create(TimeoutActivity.this,R.raw.beach_sound);
+
+        beach_sound.start();
+        beach_sound.setLooping(true);
+    }
+
     private void startTimer() {
+
+        beach_sound.start();
+
 
         changeBackground((int) timeLeft * 8 / initialTime);
         timer = new CountDownTimer(timeLeft * 1000, 1000) {
