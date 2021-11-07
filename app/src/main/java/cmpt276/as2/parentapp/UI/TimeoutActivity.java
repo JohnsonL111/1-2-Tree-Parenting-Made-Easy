@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -25,7 +24,6 @@ import android.widget.ViewSwitcher;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.NotificationReceiver;
@@ -169,6 +167,11 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        beach_sound.release();
+    }
 
     @Override
     protected void onResume() {
@@ -192,14 +195,13 @@ public class TimeoutActivity extends AppCompatActivity {
     private void setUpMusic(){
         beach_sound = MediaPlayer.create(TimeoutActivity.this,R.raw.beach_sound);
 
-        beach_sound.start();
-        beach_sound.setLooping(true);
+
     }
 
     private void startTimer() {
 
         beach_sound.start();
-
+        beach_sound.setLooping(true);
 
         changeBackground((int) timeLeft * 8 / initialTime);
         timer = new CountDownTimer(timeLeft * 1000, 1000) {
@@ -223,7 +225,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeLeft = initialTime;
                 counter = 0;
                 sendTimerNotification();
-                beach_sound.release();
+                beach_sound.pause();
 
             }
         };
