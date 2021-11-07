@@ -223,6 +223,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 timeLeft = initialTime;
                 counter = 0;
                 sendTimerNotification();
+                beach_sound.release();
 
             }
         };
