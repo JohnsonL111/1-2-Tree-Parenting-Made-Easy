@@ -1,7 +1,5 @@
 package cmpt276.as2.parentapp.UI;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,7 +9,8 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import cmpt276.as2.parentapp.R;
 
