@@ -4,13 +4,8 @@ import static cmpt276.as2.parentapp.model.TimerNotification.TIMER_CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Matrix;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,11 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -85,7 +76,8 @@ public class TimeoutActivity extends AppCompatActivity {
         timerAnimation = new ImageView(this)       ;
         timerAnimation.setImageResource(R.drawable.round);
         timerAnimation.setAlpha(0.5F);
-
+        backgroundList= new int[9];
+        fillBackgroundList();
         background = (ImageSwitcher) findViewById(R.id.background);
         background=findViewById(R.id.background);
         background.setFactory(new ViewSwitcher.ViewFactory() {
@@ -100,12 +92,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
         animationLayout= findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
-
-        backgroundList= new int[9];
-        fillBackgroundList();
-
-
-
         timerButton.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("Range")

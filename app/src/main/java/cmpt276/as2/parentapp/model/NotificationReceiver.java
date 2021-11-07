@@ -7,7 +7,9 @@ import android.content.Intent;
 
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
 
-
+/**
+ * Create a broadcast receiver for the notification
+ */
 public class NotificationReceiver extends BroadcastReceiver {
 
     @Override
