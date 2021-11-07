@@ -3,6 +3,7 @@
     package="cmpt276.as2.parentapp">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <application
         android:name=".model.TimerNotification"
         android:allowBackup="true"
@@ -17,10 +18,14 @@
             android:name=".UI.TimeoutOptionActivity"
             android:exported="true"
             android:parentActivityName=".UI.TimeoutActivity" />
+            android:exported="true"
+            android:label="Timeout settings"/>
         <activity
             android:name=".UI.TimeoutActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
+            android:exported="true"
+            android:label="Timeout"/>
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true" />

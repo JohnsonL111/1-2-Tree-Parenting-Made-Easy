@@ -4,7 +4,9 @@ import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
-
+/**
+ *  Creates the notification channels
+ */
 public class TimerNotification extends Application {
     public static final String TIMER_CHANNEL_ID = "timerChannel";
     @Override

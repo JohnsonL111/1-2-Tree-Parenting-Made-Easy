@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- "Mark Favorite", should appear as action button if possible -->
+    <item
+        android:id="@+id/go_back"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="go_back"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/history"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Save current game"
+        app:showAsAction="ifRoom" />
+
+</menu>

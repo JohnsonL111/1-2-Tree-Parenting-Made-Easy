@@ -13,11 +13,30 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+
+    <integer-array name="coin_two_side">
+        <item>@drawable/head</item>
+        <item>@drawable/tail</item>
+    </integer-array>
+
+    <string-array name="coin_two_side_name">
+        <item>Head</item>
+        <item>Tail</item>
+    </string-array>
+
+    <string name="coin_toss_save_history_win">Picker: %s, \nChoice: %s, Result: %s, \nPICKER WIN \ntime: %s</string>
+    <string name="coin_toss_save_history_lost">Picker: %s, \nChoice: %s, Result: %s, \nPICKER LOST \ntime: %s</string>
+    <string name="coin_toss_picker">Picker: %s</string>
+    <string name="timeout">Timeout</string>
     <string name="timeout">Timeout Timer</string>
     <string name="editChildActivityTitle">Child History</string>
     <string name="timerNotificationTitle">Timer</string>
     <string name="timerNotificationDescription">Time is up!</string>
     <string name="notificationActionButtonText">Dismiss</string>
+    <string name="toss_history">Toss History</string>
+    <string name="Result">Result</string>
+    <string name="result_repeat_option">One more Toss</string>
+    <string name="result_leave_option">Leave</string>
 
     <string name="addChild">Add Child</string>
     <string name="name">Name</string>

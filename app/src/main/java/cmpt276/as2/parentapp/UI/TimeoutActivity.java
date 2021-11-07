@@ -4,13 +4,8 @@ import static cmpt276.as2.parentapp.model.TimerNotification.TIMER_CHANNEL_ID;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.Matrix;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -21,11 +16,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -55,6 +46,7 @@ public class TimeoutActivity extends AppCompatActivity {
     boolean timerIsRunning;
     int initialTime;
     int timeLeft;
+    int currentBackground;
     CountDownTimer timer;
     private NotificationManagerCompat timerNotificationManager;
     CountDownTimer BackgroundTimer;
@@ -73,7 +65,6 @@ public class TimeoutActivity extends AppCompatActivity {
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         timerButton = findViewById(R.id.StartStopButton);
         resetButton = findViewById(R.id.ResetButton);
@@ -105,6 +96,7 @@ public class TimeoutActivity extends AppCompatActivity {
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
 
+        currentBackground=-1;
 
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -158,11 +150,15 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void changeBackground(int i) {
 
-        background.setImageResource(backgroundList[i]);
-        Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_in);
-        Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_out);
-        background.setInAnimation(in);
-        background.setOutAnimation(out);
+        if(i!=currentBackground){
+            background.setImageResource(backgroundList[i]);
+            Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_out);
+            background.setInAnimation(in);
+            background.setOutAnimation(out);
+        }
+        currentBackground=i;
+
 
     }
 
@@ -196,6 +192,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerAnimation.setMaxWidth(animationLayout.getWidth());
                 timerAnimation.setMaxHeight(animationLayout.getHeight());
                 changeBackground((initialTime - timeLeft) * 8 / initialTime);
+
+
             }
 
             public void onFinish() {
