@@ -46,12 +46,13 @@ public class TimeoutActivity extends AppCompatActivity {
     boolean timerIsRunning;
     int initialTime;
     int timeLeft;
+    int currentBackground;
     CountDownTimer timer;
     private NotificationManagerCompat timerNotificationManager;
     CountDownTimer BackgroundTimer;
 
     int backgroundList[];
-    int counter=0;
+    int counter = 0;
 
     public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, TimeoutActivity.class);
@@ -61,28 +62,27 @@ public class TimeoutActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialTime= getDuration();
-        timeLeft=initialTime;
+        initialTime = getDuration();
+        timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
 
         timerButton = findViewById(R.id.StartStopButton);
         resetButton = findViewById(R.id.ResetButton);
-        optionButton=findViewById(R.id.OptionButton);
+        optionButton = findViewById(R.id.OptionButton);
 
-        timeoutText=findViewById(R.id.timeoutText);
+        timeoutText = findViewById(R.id.timeoutText);
         timeoutText.setTextSize(40);
         timerButton.setText("START");
 
-        backgroundList= new int[9];
+        backgroundList = new int[9];
         fillBackgroundList();
 
-        timerAnimation = new ImageView(this)       ;
+        timerAnimation = new ImageView(this);
         timerAnimation.setImageResource(R.drawable.round);
         timerAnimation.setAlpha(0.5F);
-        backgroundList= new int[9];
-        fillBackgroundList();
+
         background = (ImageSwitcher) findViewById(R.id.background);
-        background=findViewById(R.id.background);
+        background = findViewById(R.id.background);
         background.setFactory(new ViewSwitcher.ViewFactory() {
             @Override
             public View makeView() {
@@ -93,23 +93,25 @@ public class TimeoutActivity extends AppCompatActivity {
         });
         changeBackground(0);
 
-        animationLayout= findViewById(R.id.animationLayout);
+        animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
+
+        currentBackground=-1;
+
         timerButton.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("Range")
             @Override
             public void onClick(View view) {
-                if(!timerIsRunning) {
+                if (!timerIsRunning) {
                     startTimer();
-                    timerIsRunning=true;
+                    timerIsRunning = true;
                     timerButton.setText("STOP");
                     optionButton.setAlpha(0);
 
-                }
-                else{
+                } else {
                     stopTimer();
-                    timerIsRunning=false;
+                    timerIsRunning = false;
                     timerButton.setText("START");
                     optionButton.setAlpha(1);
                 }
@@ -120,8 +122,8 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timer.cancel();
-                timeLeft=initialTime;
-                timerIsRunning=false;
+                timeLeft = initialTime;
+                timerIsRunning = false;
                 optionButton.setAlpha(1);
                 timerButton.setText("START");
                 updateTimer(timeLeft);
@@ -134,12 +136,11 @@ public class TimeoutActivity extends AppCompatActivity {
         optionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!timerIsRunning){
+                if (!timerIsRunning) {
                     Intent i = TimeoutOptionActivity.makeIntent(TimeoutActivity.this);
                     startActivity(i);
-                }
-                else{
-                    Toast.makeText(TimeoutActivity.this, "A timer is running",Toast.LENGTH_SHORT);
+                } else {
+                    Toast.makeText(TimeoutActivity.this, "A timer is running", Toast.LENGTH_SHORT);
                 }
             }
         });
@@ -149,11 +150,15 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void changeBackground(int i) {
 
-        background.setImageResource(backgroundList[i]);
-        Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this,android.R.anim.fade_in);
-        Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this,android.R.anim.fade_out);
-        background.setInAnimation(in);
-        background.setOutAnimation(out);
+        if(i!=currentBackground){
+            background.setImageResource(backgroundList[i]);
+            Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_in);
+            Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_out);
+            background.setInAnimation(in);
+            background.setOutAnimation(out);
+        }
+        currentBackground=i;
+
 
     }
 
@@ -161,12 +166,11 @@ public class TimeoutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(getDuration()  != initialTime){
-            initialTime=getDuration();
-            timeLeft=initialTime;
+        if (getDuration() != initialTime) {
+            initialTime = getDuration();
+            timeLeft = initialTime;
             updateTimer(timeLeft);
-        }
-        else{
+        } else {
             updateTimer(timeLeft);
         }
 
@@ -178,24 +182,27 @@ public class TimeoutActivity extends AppCompatActivity {
 
     private void startTimer() {
 
-        changeBackground((int)timeLeft*8/initialTime);
-        timer=new CountDownTimer(timeLeft*1000, 1000) {
+        changeBackground((int) timeLeft * 8 / initialTime);
+        timer = new CountDownTimer(timeLeft * 1000, 1000) {
             public void onTick(long secondsLeft) {
-                timeLeft=((int)secondsLeft)/1000;
-                updateTimer((int)secondsLeft / 1000);
-                float angle=timeLeft*360/initialTime;
+                timeLeft = ((int) secondsLeft) / 1000;
+                updateTimer((int) secondsLeft / 1000);
+                float angle = timeLeft * 360 / initialTime;
                 rotate(angle);
                 timerAnimation.setMaxWidth(animationLayout.getWidth());
                 timerAnimation.setMaxHeight(animationLayout.getHeight());
-                changeBackground((initialTime-timeLeft)*8/initialTime);
+                changeBackground((initialTime - timeLeft) * 8 / initialTime);
+
+
             }
+
             public void onFinish() {
                 timeoutText.setText("done!");
-                timerIsRunning=false;
+                timerIsRunning = false;
                 timerButton.setText("START");
                 optionButton.setAlpha(1);
-                timeLeft=initialTime;
-                counter=0;
+                timeLeft = initialTime;
+                counter = 0;
                 sendTimerNotification();
 
             }
@@ -204,30 +211,31 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
 
-    public void fillBackgroundList(){
-        backgroundList[0]=R.drawable.beach1;
-        backgroundList[1]=R.drawable.beach2;
-        backgroundList[2]=R.drawable.beach3;
-        backgroundList[3]=R.drawable.beach4;
-        backgroundList[4]=R.drawable.beach5;
-        backgroundList[5]=R.drawable.beach6;
-        backgroundList[6]=R.drawable.beach7;
-        backgroundList[7]=R.drawable.beach8;
-        backgroundList[8]=R.drawable.beach9;
+    public void fillBackgroundList() {
+        backgroundList[0] = R.drawable.beach1;
+        backgroundList[1] = R.drawable.beach2;
+        backgroundList[2] = R.drawable.beach3;
+        backgroundList[3] = R.drawable.beach4;
+        backgroundList[4] = R.drawable.beach5;
+        backgroundList[5] = R.drawable.beach6;
+        backgroundList[6] = R.drawable.beach7;
+        backgroundList[7] = R.drawable.beach8;
+        backgroundList[8] = R.drawable.beach9;
     }
 
 
     private void rotate(float angle) {
-        timerAnimation.setRotation(angle*-1);
+        timerAnimation.setRotation(angle * -1);
     }
 
 
     private void updateTimer(int l) {
-        int minute=l/60;
-        int second=l%60;
-        timeoutText.setText(getString(R.string.timerTextFormat,minute,second));
+        int minute = l / 60;
+        int second = l % 60;
+        timeoutText.setText(getString(R.string.timerTextFormat, minute, second));
     }
-    public int getDuration(){
+
+    public int getDuration() {
         int newTime = TimeoutOptionActivity.getDuration(this);
         return newTime;
     }

@@ -15,10 +15,12 @@
         <service android:name=".model.RingtonePlayService"/>
         <activity
             android:name=".UI.TimeoutOptionActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Timeout settings"/>
         <activity
             android:name=".UI.TimeoutActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Timeout"/>
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true" />
