@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
@@ -16,6 +17,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import cmpt276.as2.parentapp.R;
@@ -28,9 +32,12 @@ import cmpt276.as2.parentapp.model.ChildManager;
 public class EditChildActivity extends AppCompatActivity {
 
     private ChildManager childManager;
-    private ArrayAdapter<Child> listAdapter;
+    private ArrayAdapter<String> listAdapter;
+    private List<String> childNames;
     private ListView list;
     private String newChildName = ""; // Store new child name on edit here.
+    private static final String CHILD_LIST = "childListNames";
+    private static final String CHILD_LIST_TAG = "childList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +47,7 @@ public class EditChildActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(R.string.editChildActivityTitle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        childManager = childManager.getInstance();
+        childManager = getChildData(CHILD_LIST);
         startChildList();
         addChild();
         removeChild();
@@ -70,6 +77,7 @@ public class EditChildActivity extends AppCompatActivity {
                         Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
                     }
                 }
+                startChildList();
             }
         });
     }
@@ -93,6 +101,7 @@ public class EditChildActivity extends AppCompatActivity {
                     Toast.makeText(EditChildActivity.this, "Child does not exist!", Toast.LENGTH_SHORT).show();
                 }
 
+                startChildList();
             }
         });
     }
@@ -112,15 +121,24 @@ public class EditChildActivity extends AppCompatActivity {
         // Create list of children.
         List<Child> childItems = childManager.getChildList();
 
+        childNames = new ArrayList<>();
+        int numOfChild = childItems.size();
+        for (int i = 0; i < numOfChild; i++) {
+            Child currentChild = childItems.get(i);
+            childNames.add(currentChild.getName());
+        }
+        java.util.Collections.sort(childNames);
+
         // build adapter
         listAdapter = new ArrayAdapter<>(
                 this, // context
                 android.R.layout.simple_list_item_1,
-                childItems); // items to be displayed
+                childNames); // items to be displayed
 
         // configure the list view
         list = findViewById(R.id.childListView);
         list.setAdapter(listAdapter);
+        saveChildData();
 
     }
 
@@ -129,10 +147,16 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Child childToEdit = childManager.getChildList().get(position);
+                List<Child> childList = childManager.getChildList();
+                String childNameClicked = childNames.get(position);
 
-                // User can change the child's name by clicking on the child in the listview.
-                editChildNamePopUp(childToEdit);
+                for (int i = 0; i < childList.size(); ++i) {
+                    String childName = childList.get(i).getName();
+                    if (childNameClicked.equals(childName)) {
+                        // User can change the child's name by clicking on the child in the listview.
+                        editChildNamePopUp(childList.get(i));
+                    }
+                }
             }
         });
     }
@@ -173,6 +197,8 @@ public class EditChildActivity extends AppCompatActivity {
             // Get the List, find the child's index, and change its name.
             List<Child> childList = childManager.getChildList();
             int childToEditIdx = childList.indexOf(childToEdit);
+            System.out.println("idx of child is: " + childToEditIdx);
+            System.out.println("name of child to edit is: " +  childToEdit);
             if (!newChildName.equals("")) {
                 childList.get(childToEditIdx).setName(newChildName);
                 Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
@@ -185,6 +211,26 @@ public class EditChildActivity extends AppCompatActivity {
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, EditChildActivity.class);
+    }
+
+    private ChildManager getChildData(String tag) {
+        SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
+        if (!prefs.contains(tag)) {
+            return new ChildManager();
+        }
+
+        Gson gson = new Gson();
+        return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
+    }
+
+    private void saveChildData() {
+        SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // Saves the array into json.
+        Gson gson = new Gson();
+        editor.putString(CHILD_LIST, gson.toJson(childManager));
+        editor.apply();
     }
 
 }

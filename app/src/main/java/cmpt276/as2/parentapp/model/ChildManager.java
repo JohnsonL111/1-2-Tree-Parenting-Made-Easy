@@ -41,6 +41,7 @@ public class ChildManager {
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
                 childList.remove(i);
+                break;
             }
         }
     }
