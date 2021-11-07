@@ -17,31 +17,31 @@
 
         <activity
             android:name=".UI.TimeoutOptionActivity"
+            android:parentActivityName=".UI.TimeoutActivity"
             android:exported="true"
-            android:parentActivityName=".UI.TimeoutActivity" />
-        android:exported="true"
-        android:label="Timeout settings"/>
+            android:label="Timeout settings"/>
         <activity
             android:name=".UI.TimeoutActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
-        android:exported="true"
-        android:label="Timeout"/>
+            android:label="Timeout"/>
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Toss History"/>/>
         <activity
             android:name=".UI.EditChildActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UI.CoinFlipActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:label="CoinFlip"/>/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ParentApp.NoActionBar">
+            android:theme="@style/Theme.ParentApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
