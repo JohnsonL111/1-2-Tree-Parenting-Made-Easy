@@ -65,4 +65,23 @@ public class ChildManager {
         return nameExist;
     }
 
+    public ArrayList<String> getNameList()
+    {
+        ArrayList<String> nameList = new ArrayList<>();
+        for(int i = 0; i< childList.size(); i++)
+        {
+            nameList.add(childList.get(i).getName());
+        }
+        return nameList;
+    }
+
+    public void tossCoin()
+    {
+        if(!childList.isEmpty())
+        {
+            Child tmp = childList.get(0);
+            childList.remove(0);
+            childList.add(tmp);
+        }
+    }
 }

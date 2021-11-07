@@ -36,8 +36,8 @@ public class EditChildActivity extends AppCompatActivity {
     private List<String> childNames;
     private ListView list;
     private String newChildName = ""; // Store new child name on edit here.
-    private static final String CHILD_LIST = "childListNames";
-    private static final String CHILD_LIST_TAG = "childList";
+    public static final String CHILD_LIST = "childListNames";
+    public static final String CHILD_LIST_TAG = "childList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
