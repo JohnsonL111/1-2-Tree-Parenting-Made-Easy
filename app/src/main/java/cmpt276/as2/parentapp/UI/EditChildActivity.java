@@ -197,8 +197,6 @@ public class EditChildActivity extends AppCompatActivity {
             // Get the List, find the child's index, and change its name.
             List<Child> childList = childManager.getChildList();
             int childToEditIdx = childList.indexOf(childToEdit);
-            System.out.println("idx of child is: " + childToEditIdx);
-            System.out.println("name of child to edit is: " +  childToEdit);
             if (!newChildName.equals("")) {
                 childList.get(childToEditIdx).setName(newChildName);
                 Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();

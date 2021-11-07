@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
-import cmpt276.as2.parentapp.MainActivity;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
@@ -139,7 +138,8 @@ public class CoinFlipActivity extends AppCompatActivity
             return new ArrayList<String>();
         }
         Gson gson = new Gson();
-            return gson.fromJson(prefs.getString(tag, ""), ArrayList.class);
+
+        return gson.fromJson(prefs.getString(tag, ""), ArrayList.class);
     }
 
     private void showResult()

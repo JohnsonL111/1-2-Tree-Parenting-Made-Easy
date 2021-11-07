@@ -19,14 +19,17 @@
         android:id="@+id/CustomMinute"
         android:layout_width="97dp"
         android:layout_height="67dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="151dp"
         android:ems="10"
         android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/minutesText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.035"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+        app:layout_constraintTop_toTopOf="@+id/minutesText"
+        app:layout_constraintVertical_bias="0.85" />
 
     <EditText
         android:id="@+id/CustomSecond"
@@ -34,8 +37,9 @@
         android:layout_height="64dp"
         android:ems="10"
         android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/CustomMinute"
         app:layout_constraintStart_toEndOf="@+id/minutesText"
-        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+        app:layout_constraintTop_toTopOf="@+id/CustomMinute" />
 
     <TextView
         android:id="@+id/minutesText"
@@ -43,7 +47,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="48dp"
-        android:text="minutes"
+        android:text="Minutes"
+        android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/CustomMinute"
         app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
 
@@ -51,10 +56,11 @@
         android:id="@+id/secondsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
         android:text="Second"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/minutesText"
         app:layout_constraintStart_toEndOf="@+id/CustomSecond"
-        app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
+        app:layout_constraintTop_toTopOf="@+id/minutesText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
