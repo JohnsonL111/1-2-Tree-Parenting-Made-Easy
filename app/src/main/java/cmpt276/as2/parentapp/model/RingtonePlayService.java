@@ -47,6 +47,7 @@ public class RingtonePlayService extends Service {
     @Override
     public void onDestroy() {
         alarm.stop();
+        alarm.release();
         vibrator.cancel();
     }
 }
