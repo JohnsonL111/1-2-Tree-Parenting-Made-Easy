@@ -22,6 +22,7 @@ public class TimeoutOptionActivity extends AppCompatActivity {
 
     private static final String DURATION_SETTING = "Duration Settings";
     private static final String DURATION_CHOICE = "Duration Choice";
+    private static final String CUSTOM_DURATION = "custom duration";
     EditText customMinute;
     EditText customSecond;
 
@@ -56,7 +57,7 @@ public class TimeoutOptionActivity extends AppCompatActivity {
         customMinute = findViewById(R.id.CustomMinute);
         customSecond = findViewById(R.id.CustomSecond);
         //Set up radio buttons
-        customButton.setText("custom duration");
+        customButton.setText(CUSTOM_DURATION);
         customButton.setOnClickListener(view -> { SaveCustomDuration(); });
         durationRadioGroup.addView(customButton);
         customMinute.addTextChangedListener(new TextWatcher() {
