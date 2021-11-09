@@ -14,6 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cmpt276.as2.parentapp.R;
 
+/**
+ * activity for changing the duration of the timer
+ */
+
 public class TimeoutOptionActivity extends AppCompatActivity {
 
     private static final String DURATION_SETTING = "Duration Settings";
@@ -47,12 +51,8 @@ public class TimeoutOptionActivity extends AppCompatActivity {
             button.setOnClickListener(view -> { saveDurationSetting(duration*60); });
             durationRadioGroup.addView(button);
 
-            if (duration == getDuration(this) ){
-                button.setChecked(true);
-            }
 
         }
-
         customMinute = findViewById(R.id.CustomMinute);
         customSecond = findViewById(R.id.CustomSecond);
         //Set up radio buttons
