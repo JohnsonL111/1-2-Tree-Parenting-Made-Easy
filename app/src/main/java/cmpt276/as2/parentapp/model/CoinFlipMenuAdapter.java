@@ -5,7 +5,6 @@ import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,6 +18,9 @@ import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
 
+/**
+ * Adapter for the coin flip ui, display a picture of haed& tail, a string to show current picker, and a button lead to edit child activity.
+ */
 public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapter.HorizontalViewHolder>
 {
     private final ArrayList<clickObserverAnimation> observerAnimations = new ArrayList<>();

@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.CoinHistoryMenuAdapter;
 
+/**
+ * Activity that display the history of coin toss, show different icon if the user win and loss.
+ */
 public class CoinFlipHistoryActivity extends AppCompatActivity
 {
     private ArrayList<String> coinTossHistory;

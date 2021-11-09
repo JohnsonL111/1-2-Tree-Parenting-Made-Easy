@@ -128,18 +128,16 @@ public class TimeoutActivity extends AppCompatActivity {
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(timer!=null){
+                if(timer!=null) {
                     timer.cancel();
-                    timeLeft = initialTime;
-                    timerIsRunning = false;
-                    optionButton.setAlpha(1);
-                    timerButton.setText("START");
-                    updateTimer(timeLeft);
-                    rotate(0);
-                    changeBackground(0);
                 }
-
-
+                timeLeft = initialTime;
+                timerIsRunning = false;
+                optionButton.setAlpha(1);
+                timerButton.setText("START");
+                updateTimer(timeLeft);
+                rotate(0);
+                changeBackground(0);
             }
         });
 

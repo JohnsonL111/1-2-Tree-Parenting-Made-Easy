@@ -47,4 +47,6 @@
     <string name="flip_coin">Flip Coin</string>
     <string name="childNameListViewPrint">\"Child Name: \"</string>
     <string name="title">Parenting is as easy as</string>
+    <string name="resources">android.resource://</string>
+    <string name="win_text">WIN</string>
 </resources>
