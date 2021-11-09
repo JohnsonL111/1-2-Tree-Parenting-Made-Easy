@@ -31,16 +31,6 @@
         app:layout_constraintTop_toTopOf="@+id/minutesText"
         app:layout_constraintVertical_bias="0.85" />
 
-    <EditText
-        android:id="@+id/CustomSecond"
-        android:layout_width="87dp"
-        android:layout_height="64dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintBottom_toBottomOf="@+id/CustomMinute"
-        app:layout_constraintStart_toEndOf="@+id/minutesText"
-        app:layout_constraintTop_toTopOf="@+id/CustomMinute" />
-
     <TextView
         android:id="@+id/minutesText"
         android:layout_width="wrap_content"
@@ -51,16 +41,6 @@
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/CustomMinute"
         app:layout_constraintTop_toBottomOf="@+id/timerOptionRadioGroup" />
-
-    <TextView
-        android:id="@+id/secondsText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Second"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/minutesText"
-        app:layout_constraintStart_toEndOf="@+id/CustomSecond"
-        app:layout_constraintTop_toTopOf="@+id/minutesText" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
