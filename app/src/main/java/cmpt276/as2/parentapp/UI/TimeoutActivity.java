@@ -315,6 +315,7 @@ public class TimeoutActivity extends AppCompatActivity {
         setUpMusic();
         SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
         timerIsRunning = prefs.getBoolean(TIMER_IS_RUNNING, false);
+        initialTime=getDuration();
         if(timerIsRunning){
             beach_sound.start();
             updateButton();
