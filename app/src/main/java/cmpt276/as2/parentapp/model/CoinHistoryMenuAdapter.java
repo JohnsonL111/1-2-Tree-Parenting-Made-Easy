@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
-
+/**
+ * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
+ */
 public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder>
 {
     private Context context;
@@ -37,7 +39,7 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
         String str = historyList.get(position);
         holder.detail.setText(str);
 
-        if(str.contains("WIN"))
+        if(str.contains(context.getString(R.string.win_text)))
         {
             holder.icon1.setImageResource(R.drawable.win);
             holder.icon2.setImageResource(R.drawable.win);
