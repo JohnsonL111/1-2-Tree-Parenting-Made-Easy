@@ -54,6 +54,7 @@ public class TimeoutActivity extends AppCompatActivity {
     int initialTime;
     int timeLeft;
     int currentBackground;
+    int counter=0;
 
     int backgroundList[];
 
@@ -82,8 +83,6 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutText.setTextSize(40);
         updateButton();
 
-        backgroundList = new int[9];
-        fillBackgroundList();
 
         timerAnimation = new ImageView(this);
         timerAnimation.setImageResource(R.drawable.round);
@@ -99,7 +98,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 return myView;
             }
         });
-        changeBackground();
 
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
@@ -163,7 +161,7 @@ public class TimeoutActivity extends AppCompatActivity {
                     initialTime=getDuration();
                     updateTimer( newTimeLeft);
                     updateAnimation(newTimeLeft);
-                    changeBackground();
+                    counter++;
                     editor.apply();
                 }
                 if(newTimeLeft==0){
@@ -194,19 +192,6 @@ public class TimeoutActivity extends AppCompatActivity {
         rotate(angle);
     }
 
-    private void changeBackground() {
-        int current=(initialTime - timeLeft) * 8 / initialTime;
-        if(current!=currentBackground){
-            background.setImageResource(backgroundList[current]);
-            Animation in = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_in);
-            Animation out = AnimationUtils.loadAnimation(TimeoutActivity.this, android.R.anim.fade_out);
-            background.setInAnimation(in);
-            background.setOutAnimation(out);
-        }
-        currentBackground=current;
-
-
-    }
 
     private void stopTimer() {
         timerIsRunning=false;
@@ -222,7 +207,6 @@ public class TimeoutActivity extends AppCompatActivity {
     private void startTimer() {
         beach_sound.start();
         updateButton();
-        changeBackground();
         Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
         timerIntent.putExtra(TIME_LEFT,timeLeft);
         startService(timerIntent);
@@ -266,18 +250,6 @@ public class TimeoutActivity extends AppCompatActivity {
         TimeoutActivity.this.stopService(stopAlarmIntent);
         Intent startAlarmIntent = new Intent(TimeoutActivity.this, RingtonePlayService.class);
         TimeoutActivity.this.startService(startAlarmIntent);
-    }
-
-    public void fillBackgroundList() {
-        backgroundList[0] = R.drawable.beach1;
-        backgroundList[1] = R.drawable.beach2;
-        backgroundList[2] = R.drawable.beach3;
-        backgroundList[3] = R.drawable.beach4;
-        backgroundList[4] = R.drawable.beach5;
-        backgroundList[5] = R.drawable.beach6;
-        backgroundList[6] = R.drawable.beach7;
-        backgroundList[7] = R.drawable.beach8;
-        backgroundList[8] = R.drawable.beach9;
     }
 
     private void rotate(float angle) {
@@ -328,13 +300,11 @@ public class TimeoutActivity extends AppCompatActivity {
             updateTimer(timeLeft);
             updateButton();
         }
-        changeBackground();
         if(getDuration()!=initialTime){
             initialTime=getDuration();
             timeLeft=getDuration();
             updateTimer(timeLeft);
             updateAnimation(timeLeft);
-            changeBackground();
 
         }
     }
