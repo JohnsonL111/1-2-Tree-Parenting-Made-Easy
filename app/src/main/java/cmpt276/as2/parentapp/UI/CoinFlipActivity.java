@@ -24,11 +24,13 @@ import com.google.gson.Gson;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
-import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.CoinFlip;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
 
+/**
+ *The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
+ */
 public class CoinFlipActivity extends AppCompatActivity
 {
     private CoinFlip coinFlip;
@@ -51,7 +53,7 @@ public class CoinFlipActivity extends AppCompatActivity
         videoView = findViewById(R.id.flip);
         viewPager2 = findViewById(R.id.coin_viewpager2);
 
-        setAdapter();
+        setPageAdapter();
         viewPager2.setAdapter(adapter);
 
         setBoardCallBack();
@@ -68,7 +70,8 @@ public class CoinFlipActivity extends AppCompatActivity
         childManager =  gson.fromJson(prefs.getString(EditChildActivity.CHILD_LIST, ""), ChildManager.class);
     }
 
-    private void setAdapter() {
+    private void setPageAdapter()
+    {
         if(coinFlip.getPickerList().size() != 0) {
             adapter = new CoinFlipMenuAdapter(this,
                     getString(R.string.coin_toss_picker,
@@ -81,13 +84,6 @@ public class CoinFlipActivity extends AppCompatActivity
                     "",
                     getResources().getStringArray(R.array.coin_two_side_name));
         }
-    }
-
-    @Override
-    protected void onPostResume()
-    {
-        super.onPostResume();
-        reset();
     }
 
     private void setBoardCallBack()
@@ -103,6 +99,13 @@ public class CoinFlipActivity extends AppCompatActivity
         adapter.registerChangeCallBack(obsEdit);
     }
 
+    @Override
+    protected void onPostResume()
+    {
+        super.onPostResume();
+        reset();
+    }
+
     private void tossCoin()
     {
         coinFlip.setResult(adapter.getResult());
@@ -111,11 +114,11 @@ public class CoinFlipActivity extends AppCompatActivity
         Uri videoUri;
         if(coinFlip.getResultInt() == 0)
         {
-            videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_h1);
+            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_h1);
         }
         else
         {
-            videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.full_t1);
+            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_t1);
         }
 
         videoView.setVideoURI(videoUri);
@@ -175,7 +178,7 @@ public class CoinFlipActivity extends AppCompatActivity
         getChildManager();
         coinFlip = new CoinFlip(childManager.getNameList(), getData(COIN_HISTORY), this);
 
-        setAdapter();
+        setPageAdapter();
 
         viewPager2.setAdapter(adapter);
         setBoardCallBack();

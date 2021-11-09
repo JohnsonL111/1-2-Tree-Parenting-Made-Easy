@@ -9,6 +9,9 @@ import java.util.Random;
 
 import cmpt276.as2.parentapp.R;
 
+/**
+ * Class handle the logic of coin toss, generate string for the result with time stamp.
+ */
 public class CoinFlip
 {
     private final String TS_FORMAT = "@yyyy-MM-dd HH:mm:ss";
@@ -95,11 +98,6 @@ public class CoinFlip
     public ArrayList<String> getPickerList()
     {
         return savedPickers;
-    }
-
-    public void setSavedPickers(ArrayList<String> savedPickers)
-    {
-        this.savedPickers = savedPickers;
     }
 
     public String getResult()
