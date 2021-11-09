@@ -321,7 +321,8 @@ public class TimeoutActivity extends AppCompatActivity {
             updateTimer(timeLeft);
         }
         else{
-            timeLeft=prefs.getInt(TIME_LEFT,0);
+
+            timeLeft=prefs.getInt(TIME_LEFT,initialTime);
             updateAnimation(timeLeft);
             updateTimer(timeLeft);
             updateButton();
