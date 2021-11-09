@@ -10,3 +10,8 @@ The coin flip animations are made use blender.
 User can asses the edit child by click the floating action button in the right corner of the coin flip menu.
 There are two buttons on the action bar for the edit child menu, one on the left to to go back to previse activity, one on the left is go directly to the main menu.
 
+https://codinginflow.com/tutorials/android/notifications-notification-channels/part-2-tap-action-action-buttons (Notification channels, notification action button)
+https://developer.android.com/guide/components/services (play alarm and vibration using service)
+https://developer.android.com/reference/android/app/Notification.Builder (notification appearance)
+https://developer.android.com/guide/topics/media/mediaplayer (alarm sound, background music for the timer)
+https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency (vibrations)
