@@ -210,7 +210,9 @@ public class EditChildActivity extends AppCompatActivity {
             List<Child> childList = childManager.getChildList();
             int childToEditIdx = childList.indexOf(childToEdit);
             if (!newChildName.equals("")) {
+                String oldChildName = childList.get(childToEditIdx).getName();
                 childList.get(childToEditIdx).setName(newChildName);
+                childManager.updateTaskChildNames(oldChildName, newChildName);
                 Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -228,7 +230,6 @@ public class EditChildActivity extends AppCompatActivity {
         if (!prefs.contains(tag)) {
             return new ChildManager();
         }
-
         Gson gson = new Gson();
         return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
     }
