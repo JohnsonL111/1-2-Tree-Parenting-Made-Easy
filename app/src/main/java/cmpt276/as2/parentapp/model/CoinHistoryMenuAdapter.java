@@ -19,12 +19,16 @@ import cmpt276.as2.parentapp.R;
 public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder>
 {
     private Context context;
-    private ArrayList<String> historyList;
+    private ArrayList<String> historyListTS;
+    private ArrayList<String> historyListName;
+    private ArrayList<Child> childList;
 
-    public CoinHistoryMenuAdapter(Context context, ArrayList<String> historyList)
+    public CoinHistoryMenuAdapter(Context context, ArrayList<String> historyName, ArrayList<String> historyList, ArrayList<Child> childList)
     {
         this.context = context;
-        this.historyList = historyList;
+        this.historyListName = historyName;
+        this.historyListTS = historyList;
+        this.childList = childList;
     }
     @NonNull
     @Override
@@ -36,42 +40,53 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position)
     {
-        String str = historyList.get(position);
-        holder.detail.setText(str);
+        String name = historyListName.get(position);
+        String ts = historyListTS.get(position);
+        holder.detail.setText(context.getString(R.string.history_string_coin_flip, name, ts));
 
-        if(str.contains(context.getString(R.string.win_text)))
+        for(int i = 0; i < childList.size(); i++)
         {
-            holder.icon1.setImageResource(R.drawable.win);
-            holder.icon2.setImageResource(R.drawable.win);
+            if(childList.get(i).getName().equals(name))
+            {
+                /**
+                 * set child photo
+                 */
+                holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+                break;
+            }
+        }
+
+        if(ts.contains(context.getString(R.string.win_text)))
+        {
+            holder.icon.setImageResource(R.drawable.win);
         }
         else
         {
-            holder.icon1.setImageResource(R.drawable.loss);
-            holder.icon2.setImageResource(R.drawable.loss);
+            holder.icon.setImageResource(R.drawable.loss);
         }
     }
 
     @Override
     public int getItemCount()
     {
-        if (historyList == null)
+        if (historyListName == null)
         {
             return 0;
         }
-        return historyList.size();
+        return historyListName.size();
     }
 
     protected class HistoryViewHolder extends RecyclerView.ViewHolder
     {
-        public ImageView icon1;
-        public ImageView icon2;
+        public ImageView childPhoto;
+        public ImageView icon;
         public TextView detail;
 
         public HistoryViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            icon1 = itemView.findViewById(R.id.toss_history_icon1);
-            icon2 = itemView.findViewById(R.id.toss_history_icon2);
+            childPhoto = itemView.findViewById(R.id.toss_history_icon1);
+            icon = itemView.findViewById(R.id.toss_history_icon2);
             detail = itemView.findViewById(R.id.toss_history_text);
         }
     }

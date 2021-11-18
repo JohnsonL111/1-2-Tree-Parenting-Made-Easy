@@ -14,6 +14,7 @@ public class ChildManager {
 
     // Singleton support.
     private static ChildManager instance;
+    public CoinFlip coinFlip;
 
     // Get instance of a singleton ChildManager.
     public static ChildManager getInstance() {
@@ -23,10 +24,16 @@ public class ChildManager {
         return instance;
     }
 
+    private ChildManager()
+    {
+        coinFlip = new CoinFlip();
+    }
+
     public void addChild(String name) {
         Child childToAdd = new Child(name);
         if (!name.equals("")) {
             childList.add(childToAdd);
+            coinFlip.addChild(childToAdd);
         }
     }
 
@@ -41,6 +48,16 @@ public class ChildManager {
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
                 childList.remove(i);
+                break;
+            }
+        }
+
+        for(int i = 0; i< numChildren; i++)
+        {
+            String current = coinFlip.getPickerList().get(i).getName();
+            if(current.equals(name))
+            {
+                coinFlip.removeChild(i);
                 break;
             }
         }
@@ -61,27 +78,6 @@ public class ChildManager {
                 break;
             }
         }
-
         return nameExist;
-    }
-
-    public ArrayList<String> getNameList()
-    {
-        ArrayList<String> nameList = new ArrayList<>();
-        for(int i = 0; i< childList.size(); i++)
-        {
-            nameList.add(childList.get(i).getName());
-        }
-        return nameList;
-    }
-
-    public void tossCoin()
-    {
-        if(!childList.isEmpty())
-        {
-            Child tmp = childList.get(0);
-            childList.remove(0);
-            childList.add(tmp);
-        }
     }
 }

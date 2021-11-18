@@ -24,8 +24,8 @@
         <item>Tail</item>
     </string-array>
 
-    <string name="coin_toss_save_history_win">Picker: %s, \nChoice: %s, Result: %s, \nPICKER WIN \ntime: %s</string>
-    <string name="coin_toss_save_history_lost">Picker: %s, \nChoice: %s, Result: %s, \nPICKER LOST \ntime: %s</string>
+    <string name="coin_toss_save_history_win">Choice: %s, Result: %s, \nPICKER WIN \ntime: %s</string>
+    <string name="coin_toss_save_history_lost">Choice: %s, Result: %s, \nPICKER LOST \ntime: %s</string>
     <string name="coin_toss_picker">Picker: %s</string>
     <string name="timeout">Timeout Timer</string>
     <string name="editChildActivityTitle">Child History</string>
@@ -49,4 +49,5 @@
     <string name="title">Parenting is as easy as</string>
     <string name="resources">android.resource://</string>
     <string name="win_text">WIN</string>
+    <string name="history_string_coin_flip">\"Picker: %s\n,%s\"</string>
 </resources>

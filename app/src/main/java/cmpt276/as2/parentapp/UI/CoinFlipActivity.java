@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -21,21 +22,16 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
-import cmpt276.as2.parentapp.model.CoinFlip;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
 
 /**
- *The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
+ * The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
  */
-public class CoinFlipActivity extends AppCompatActivity
-{
-    private CoinFlip coinFlip;
-    public static final String COIN_TAG = "CoinToss";
-    public static final String COIN_HISTORY = "TossHistory";
+public class CoinFlipActivity extends AppCompatActivity {
+
     private ChildManager childManager;
 
     private ViewPager2 viewPager2;
@@ -43,13 +39,11 @@ public class CoinFlipActivity extends AppCompatActivity
     private VideoView videoView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coin_flip);
 
         getChildManager();
-        coinFlip = new CoinFlip(childManager.getNameList(), getData(COIN_HISTORY), this);
         videoView = findViewById(R.id.flip);
         viewPager2 = findViewById(R.id.coin_viewpager2);
 
@@ -59,35 +53,29 @@ public class CoinFlipActivity extends AppCompatActivity
         setBoardCallBack();
     }
 
-    private void getChildManager()
-    {
+    private void getChildManager() {
         SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
         if (!prefs.contains(EditChildActivity.CHILD_LIST)) {
             childManager = ChildManager.getInstance();
+        } else {
+            Gson gson = new Gson();
+            childManager = gson.fromJson(prefs.getString(EditChildActivity.CHILD_LIST, ""), ChildManager.class);
         }
-
-        Gson gson = new Gson();
-        childManager =  gson.fromJson(prefs.getString(EditChildActivity.CHILD_LIST, ""), ChildManager.class);
     }
 
-    private void setPageAdapter()
-    {
-        if(coinFlip.getPickerList().size() != 0) {
+    private void setPageAdapter() {
+        if (childManager.coinFlip.getPickerList().size() != 0) {
+            adapter = new CoinFlipMenuAdapter(this
+                    ,childManager.coinFlip.getPickerList().get(0)
+                    ,getResources().getStringArray(R.array.coin_two_side_name));
+        } else {
             adapter = new CoinFlipMenuAdapter(this,
-                    getString(R.string.coin_toss_picker,
-                            coinFlip.getPickerList().get(0)),
-                    getResources().getStringArray(R.array.coin_two_side_name));
-        }
-        else
-        {
-            adapter = new CoinFlipMenuAdapter(this,
-                    "",
+                    new Child(""),
                     getResources().getStringArray(R.array.coin_two_side_name));
         }
     }
 
-    private void setBoardCallBack()
-    {
+    private void setBoardCallBack() {
         CoinFlipMenuAdapter.clickObserverAnimation obs = () -> tossCoin();
         CoinFlipMenuAdapter.clickObserverEditChild obsEdit = () ->
         {
@@ -95,29 +83,34 @@ public class CoinFlipActivity extends AppCompatActivity
             startActivity(childIntent);
         };
 
+        CoinFlipMenuAdapter.clickObserverChangeOrder obsOrder = () ->
+        {
+            Toast.makeText(this, "ChangeOrder", Toast.LENGTH_SHORT).show();
+            /**
+             *
+             */
+        };
+
         adapter.registerChangeCallBack(obs);
         adapter.registerChangeCallBack(obsEdit);
+        adapter.registerChangeCallBack(obsOrder);
+
     }
 
     @Override
-    protected void onPostResume()
-    {
+    protected void onPostResume() {
         super.onPostResume();
         reset();
     }
 
-    private void tossCoin()
-    {
-        coinFlip.setResult(adapter.getResult());
-        coinFlip.tossTheCoin();
+    private void tossCoin() {
+        childManager.coinFlip.setResult(adapter.getResult());
+        childManager.coinFlip.tossTheCoin();
 
         Uri videoUri;
-        if(coinFlip.getResultInt() == 0)
-        {
+        if (childManager.coinFlip.getResultInt() == 0) {
             videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_h1);
-        }
-        else
-        {
+        } else {
             videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_t1);
         }
 
@@ -133,31 +126,15 @@ public class CoinFlipActivity extends AppCompatActivity
         videoView.setOnCompletionListener(mediaPlayer -> showResult());
     }
 
-    private ArrayList getData(String tag)
-    {
-        SharedPreferences prefs = this.getSharedPreferences(COIN_TAG, MODE_PRIVATE);
-        if(!prefs.contains(tag))
-        {
-            return new ArrayList<String>();
-        }
-        Gson gson = new Gson();
-
-        return gson.fromJson(prefs.getString(tag, ""), ArrayList.class);
-    }
-
-    private void showResult()
-    {
+    private void showResult() {
         View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_result, null);
         TextView textView = v.findViewById(R.id.coin_flip_result_text);
         ImageView imageView = v.findViewById(R.id.coin_flip_result_image);
 
-        textView.setText(coinFlip.getResult());
-        if(coinFlip.pickerWin())
-        {
+        textView.setText(childManager.coinFlip.getResult(this));
+        if (childManager.coinFlip.pickerWin()) {
             imageView.setImageResource(R.drawable.win);
-        }
-        else
-        {
+        } else {
             imageView.setImageResource(R.drawable.loss);
         }
 
@@ -170,14 +147,11 @@ public class CoinFlipActivity extends AppCompatActivity
         dialog.show();
     }
 
-    private void reset()
-    {
+    private void reset() {
         viewPager2.setVisibility(View.VISIBLE);
         videoView.setVisibility(View.INVISIBLE);
 
         getChildManager();
-        coinFlip = new CoinFlip(childManager.getNameList(), getData(COIN_HISTORY), this);
-
         setPageAdapter();
 
         viewPager2.setAdapter(adapter);
@@ -185,8 +159,7 @@ public class CoinFlipActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_coin_acitivity, menu);
         return true;
     }
@@ -206,24 +179,17 @@ public class CoinFlipActivity extends AppCompatActivity
         }
     }
 
-    private void saveResult()
-    {
-        coinFlip.saveResult();
-        SharedPreferences prefs = this.getSharedPreferences(COIN_TAG, MODE_PRIVATE);
-        SharedPreferences prefsPub = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+    private void saveResult() {
+        childManager.coinFlip.saveResult(this);
+        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        SharedPreferences.Editor editor1 = prefsPub.edit();
 
         Gson gson = new Gson();
-        editor.putString(COIN_HISTORY, gson.toJson(coinFlip.getHistory()));
-        childManager.tossCoin();
-        editor1.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
+        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
         editor.apply();
-        editor1.apply();
     }
 
-    public static Intent makeIntent(Context context)
-    {
+    public static Intent makeIntent(Context context) {
         return new Intent(context, CoinFlipActivity.class);
     }
 }
