@@ -22,10 +22,13 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
+import cmpt276.as2.parentapp.model.CoinHistoryChangeOrderMenuAdapter;
 
 /**
  * The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
@@ -36,6 +39,7 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager2;
     private CoinFlipMenuAdapter adapter;
+    private CoinHistoryChangeOrderMenuAdapter adapterChangeOrder;
     private VideoView videoView;
 
     @Override
@@ -66,13 +70,21 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void setPageAdapter() {
         if (childManager.coinFlip.getPickerList().size() != 0) {
             adapter = new CoinFlipMenuAdapter(this
-                    ,childManager.coinFlip.getPickerList().get(0)
-                    ,getResources().getStringArray(R.array.coin_two_side_name));
-        } else {
-            adapter = new CoinFlipMenuAdapter(this,
-                    new Child(""),
-                    getResources().getStringArray(R.array.coin_two_side_name));
+                    , childManager.coinFlip.getPickerList().get(0)
+                    , getResources().getStringArray(R.array.coin_two_side_name));
+
+            ArrayList<Child> tmpList = childManager.coinFlip.getPickerList();
+            tmpList.add(new Child(""));
+
+            adapterChangeOrder = new CoinHistoryChangeOrderMenuAdapter(this, tmpList);
         }
+
+        /**
+         else {
+         adapter = new CoinFlipMenuAdapter(this,
+         new Child(""),
+         getResources().getStringArray(R.array.coin_two_side_name));
+         }*/
     }
 
     private void setBoardCallBack() {
@@ -83,17 +95,18 @@ public class CoinFlipActivity extends AppCompatActivity {
             startActivity(childIntent);
         };
 
-        CoinFlipMenuAdapter.clickObserverChangeOrder obsOrder = () ->
-        {
-            Toast.makeText(this, "ChangeOrder", Toast.LENGTH_SHORT).show();
-            /**
-             *
-             */
-        };
+        CoinFlipMenuAdapter.clickObserverChangeOrder obsOrder = () -> showChangeOrderMenu();
+
+        CoinHistoryChangeOrderMenuAdapter.clickObserverChangeOrder obsChangeOrder = () -> childManager.coinFlip.changeOrder(adapterChangeOrder.getPick());
 
         adapter.registerChangeCallBack(obs);
         adapter.registerChangeCallBack(obsEdit);
         adapter.registerChangeCallBack(obsOrder);
+        adapterChangeOrder.registerChangeCallBack(obsChangeOrder);
+
+    }
+
+    private void showChangeOrderMenu() {
 
     }
 
@@ -127,16 +140,25 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void showResult() {
-        View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_result, null);
-        TextView textView = v.findViewById(R.id.coin_flip_result_text);
-        ImageView imageView = v.findViewById(R.id.coin_flip_result_image);
+        View v = LayoutInflater.from(this).inflate(R.layout.coin_toss_result_withpicker, null);
+        TextView textView = v.findViewById(R.id.change_order_child_name);
+
+        ImageView childPhoto = v.findViewById(R.id.change_order_child_photo);
+        ImageView icon = v.findViewById(R.id.toss_history_icon2);
 
         textView.setText(childManager.coinFlip.getResult(this));
         if (childManager.coinFlip.pickerWin()) {
-            imageView.setImageResource(R.drawable.win);
+            icon.setImageResource(R.drawable.win);
         } else {
-            imageView.setImageResource(R.drawable.loss);
+            icon.setImageResource(R.drawable.loss);
         }
+
+        /**
+         * Child lastPicker = childManager.coinFlip.getPickerList().get(childManager.coinFlip.getPickerList().size());
+         * set child photo
+         */
+
+        childPhoto.setImageResource(R.drawable.default_child_photo);
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
                 .setTitle(R.string.Result)

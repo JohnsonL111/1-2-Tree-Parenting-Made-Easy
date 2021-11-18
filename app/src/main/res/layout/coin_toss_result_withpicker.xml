@@ -15,12 +15,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/toss_history_icon2"
-                android:layout_width="60dp"
-                android:layout_height="48dp"
+                android:layout_width="119dp"
+                android:layout_height="53dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="right"
                 app:layout_constraintBottom_toBottomOf="@+id/change_order_child_name"
@@ -32,26 +32,27 @@
 
             <ImageView
                 android:id="@+id/change_order_child_photo"
-                android:layout_width="78dp"
-                android:layout_height="76dp"
+                android:layout_width="106dp"
+                android:layout_height="110dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="left"
                 app:layout_constraintBottom_toBottomOf="@+id/change_order_child_name"
                 app:layout_constraintEnd_toStartOf="@+id/change_order_child_name"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintHorizontal_bias="0.591"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/change_order_child_name"
+                app:layout_constraintVertical_bias="0.482"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/change_order_child_name"
-                android:layout_width="222dp"
-                android:layout_height="92dp"
+                android:layout_width="111dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

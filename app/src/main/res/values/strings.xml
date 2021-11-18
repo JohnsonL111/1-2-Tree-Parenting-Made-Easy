@@ -50,4 +50,5 @@
     <string name="resources">android.resource://</string>
     <string name="win_text">WIN</string>
     <string name="history_string_coin_flip">\"Picker: %s\n,%s\"</string>
+    <string name="nobody">NOBODY</string>
 </resources>

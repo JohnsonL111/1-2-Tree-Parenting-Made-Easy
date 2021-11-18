@@ -148,4 +148,14 @@ public class CoinFlip {
             }
         }
     }
+
+    public void changeOrder(int pick)
+    {
+        if(pick < savedPickers.size())
+        {
+            Child tmp = savedPickers.get(pick);
+            savedPickers.remove(pick);
+            savedPickers.add(tmp);
+        }
+    }
 }

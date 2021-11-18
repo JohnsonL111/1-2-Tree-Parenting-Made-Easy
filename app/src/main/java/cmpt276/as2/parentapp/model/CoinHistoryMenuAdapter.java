@@ -18,6 +18,7 @@ import cmpt276.as2.parentapp.R;
  */
 public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder>
 {
+
     private Context context;
     private ArrayList<String> historyListTS;
     private ArrayList<String> historyListName;
@@ -85,9 +86,9 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
         public HistoryViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            childPhoto = itemView.findViewById(R.id.toss_history_icon1);
+            childPhoto = itemView.findViewById(R.id.change_order_child_photo);
             icon = itemView.findViewById(R.id.toss_history_icon2);
-            detail = itemView.findViewById(R.id.toss_history_text);
+            detail = itemView.findViewById(R.id.change_order_child_name);
         }
     }
 }
