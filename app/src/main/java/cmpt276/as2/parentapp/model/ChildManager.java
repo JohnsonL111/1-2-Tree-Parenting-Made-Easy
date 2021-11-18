@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ChildManager {
     private List<Child> childList = new ArrayList<>();
-
+    private TaskManager task = new TaskManager();
     // Singleton support.
     private static ChildManager instance;
     public CoinFlip coinFlip;
@@ -32,7 +32,6 @@ public class ChildManager {
         Child childToAdd = new Child(name);
         if (!name.equals("")) {
             childList.add(childToAdd);
-            coinFlip.addChild(childToAdd);
         }
     }
 
@@ -46,6 +45,11 @@ public class ChildManager {
         for (int i = 0; i < numChildren; ++i) {
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
+                String nextChildName = "";
+                if (numChildren > 1) {
+                    int nextChildPosition = (i + 1) % numChildren;
+                    nextChildName = childList.get(nextChildPosition).getName();
+                }
                 childList.remove(i);
                 break;
             }
@@ -76,5 +80,30 @@ public class ChildManager {
             }
         }
         return nameExist;
+    }
+
+    public ArrayList<String> getNameList() {
+        ArrayList<String> nameList = new ArrayList<>();
+        for (int i = 0; i < childList.size(); i++) {
+            nameList.add(childList.get(i).getName());
+        }
+        return nameList;
+    }
+
+    public void tossCoin() {
+        if (!childList.isEmpty()) {
+            Child tmp = childList.get(0);
+            childList.remove(0);
+            childList.add(tmp);
+        }
+    }
+
+    public void updateTaskChildNames(String currChildName, String newChildName) {
+        task.editTasksWithDeletedChildName(currChildName, newChildName);
+        task.updateChildNameForNewTask(currChildName, newChildName);
+    }
+
+    public void updateTaskNextChild(int taskNumber) {
+        task.updateNextChildToDoTask(taskNumber);
     }
 }

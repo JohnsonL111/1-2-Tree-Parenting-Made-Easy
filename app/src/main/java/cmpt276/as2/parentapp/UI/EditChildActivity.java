@@ -211,7 +211,9 @@ public class EditChildActivity extends AppCompatActivity {
             int childToEditIdx = childList.indexOf(childToEdit);
             String childToEditName = childToEdit.getName();
             if (!newChildName.equals("")) {
+                String oldChildName = childList.get(childToEditIdx).getName();
                 childList.get(childToEditIdx).setName(newChildName);
+                childManager.updateTaskChildNames(oldChildName, newChildName);
                 Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
 
                 childManager.coinFlip.editChildName(childToEditName, newChildName);
@@ -231,7 +233,6 @@ public class EditChildActivity extends AppCompatActivity {
         if (!prefs.contains(tag)) {
             return ChildManager.getInstance();
         }
-
         Gson gson = new Gson();
         return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
     }
