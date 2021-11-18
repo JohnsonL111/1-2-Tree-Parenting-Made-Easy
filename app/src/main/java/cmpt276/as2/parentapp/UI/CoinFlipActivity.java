@@ -291,15 +291,15 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private void saveResult() {
 
-        if(saveGame) {
+        if (saveGame) {
             childManager.coinFlip.saveResult(this);
         }
-            SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
 
-            Gson gson = new Gson();
-            editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
-            editor.apply();
+        Gson gson = new Gson();
+        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
+        editor.apply();
 
     }
 
