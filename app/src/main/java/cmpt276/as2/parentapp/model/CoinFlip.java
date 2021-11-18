@@ -126,12 +126,18 @@ public class CoinFlip {
             }
         }
 
+        ArrayList<String> tmpNameList = new ArrayList<>();
+        ArrayList<String> tmpTSList = new ArrayList<>();
+
         for (int i = 0; i < historyChildName.size(); i++) {
-            if (historyChildName.get(i).equals(deleteName)) {
-                historyChildName.remove(i);
-                historyTS.remove(i);
+            if (!historyChildName.get(i).equals(deleteName)) {
+                tmpNameList.add(historyChildName.get(i));
+                tmpTSList.add(historyTS.get(i));
             }
         }
+
+        this.historyChildName = tmpNameList;
+        this.historyTS = tmpTSList;
     }
 
     public void editChildName(String childToEditName, String newChildName) {
@@ -152,7 +158,7 @@ public class CoinFlip {
         if (pick < savedPickers.size()) {
             Child tmp = savedPickers.get(pick);
             savedPickers.remove(pick);
-            savedPickers.add(0,tmp);
+            savedPickers.add(0, tmp);
         }
         setCurrentPickerName();
     }

@@ -14,7 +14,7 @@ public class ChildManager {
     private TaskManager task = new TaskManager();
     // Singleton support.
     private static ChildManager instance;
-    public CoinFlip coinFlip;
+    public CoinFlip coinFlip = new CoinFlip();
 
     // Get instance of a singleton ChildManager.
     public static ChildManager getInstance() {
@@ -22,10 +22,6 @@ public class ChildManager {
             instance = new ChildManager();
         }
         return instance;
-    }
-
-    private ChildManager() {
-        coinFlip = new CoinFlip();
     }
 
     public void addChild(String name) {

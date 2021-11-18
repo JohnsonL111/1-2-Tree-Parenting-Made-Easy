@@ -61,7 +61,10 @@ public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenu
         if (!child.getName().isEmpty()) {
             holder.childName.setText(child.getName());
 
-            //set child photo
+            /**
+             * set child photo
+             * currently set the photo to default one
+             */
             holder.childPhoto.setImageResource(R.drawable.default_child_photo);
         } else {
             holder.childName.setText(R.string.nobody);
