@@ -52,12 +52,18 @@ public class CoinFlip {
     }
 
     public void saveResult(Context context) {
-        if (!currentPickerName.isEmpty()) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().isEmpty()) {
+                savedPickers.remove(i);
+                break;
+            }
+        }
+
+        if (savedPickers.size() > 0) {
             String pickerName = savedPickers.get(0).getName();
             Child tmp = savedPickers.get(0);
-
             savedPickers.remove(0);
-            savedPickers.add(savedPickers.size(), tmp);
+            savedPickers.add(tmp);
 
             String[] name = context.getResources().getStringArray(R.array.coin_two_side_name);
             String record;
@@ -120,42 +126,34 @@ public class CoinFlip {
             }
         }
 
-        for(int i = 0; i< historyChildName.size(); i++)
-        {
-            if(historyChildName.get(i).equals(deleteName))
-            {
+        for (int i = 0; i < historyChildName.size(); i++) {
+            if (historyChildName.get(i).equals(deleteName)) {
                 historyChildName.remove(i);
                 historyTS.remove(i);
             }
         }
     }
 
-    public void editChildName(String childToEditName, String newChildName)
-    {
-        for(int i = 0; i < savedPickers.size(); i++)
-        {
-            if(savedPickers.get(i).getName().equals(childToEditName))
-            {
+    public void editChildName(String childToEditName, String newChildName) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().equals(childToEditName)) {
                 savedPickers.get(i).setName(newChildName);
             }
         }
 
-        for(int i = 0; i< historyChildName.size(); i++)
-        {
-            if(historyChildName.get(i).equals(childToEditName))
-            {
-                historyChildName.set(i,newChildName);
+        for (int i = 0; i < historyChildName.size(); i++) {
+            if (historyChildName.get(i).equals(childToEditName)) {
+                historyChildName.set(i, newChildName);
             }
         }
     }
 
-    public void changeOrder(int pick)
-    {
-        if(pick < savedPickers.size())
-        {
+    public void changeOrder(int pick) {
+        if (pick < savedPickers.size()) {
             Child tmp = savedPickers.get(pick);
             savedPickers.remove(pick);
-            savedPickers.add(tmp);
+            savedPickers.add(0,tmp);
         }
+        setCurrentPickerName();
     }
 }

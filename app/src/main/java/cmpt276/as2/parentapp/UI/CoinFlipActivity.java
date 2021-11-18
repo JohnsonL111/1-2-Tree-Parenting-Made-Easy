@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,17 +19,19 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.gson.Gson;
-
-import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
-import cmpt276.as2.parentapp.model.CoinHistoryChangeOrderMenuAdapter;
+import cmpt276.as2.parentapp.model.ChangeOrderMenuAdapter;
 
 /**
  * The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
@@ -39,8 +42,9 @@ public class CoinFlipActivity extends AppCompatActivity {
 
     private ViewPager2 viewPager2;
     private CoinFlipMenuAdapter adapter;
-    private CoinHistoryChangeOrderMenuAdapter adapterChangeOrder;
+    private ChangeOrderMenuAdapter adapterChangeOrder;
     private VideoView videoView;
+    private boolean saveGame = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         viewPager2.setAdapter(adapter);
 
         setBoardCallBack();
+
+        if (childManager.getChildList().isEmpty()) {
+            tossCoin();
+        }
     }
 
     private void getChildManager() {
@@ -72,23 +80,16 @@ public class CoinFlipActivity extends AppCompatActivity {
             adapter = new CoinFlipMenuAdapter(this
                     , childManager.coinFlip.getPickerList().get(0)
                     , getResources().getStringArray(R.array.coin_two_side_name));
-
-            ArrayList<Child> tmpList = childManager.coinFlip.getPickerList();
-            tmpList.add(new Child(""));
-
-            adapterChangeOrder = new CoinHistoryChangeOrderMenuAdapter(this, tmpList);
+        } else {
+            adapter = new CoinFlipMenuAdapter(this,
+                    new Child(""),
+                    getResources().getStringArray(R.array.coin_two_side_name));
         }
-
-        /**
-         else {
-         adapter = new CoinFlipMenuAdapter(this,
-         new Child(""),
-         getResources().getStringArray(R.array.coin_two_side_name));
-         }*/
     }
 
     private void setBoardCallBack() {
         CoinFlipMenuAdapter.clickObserverAnimation obs = () -> tossCoin();
+
         CoinFlipMenuAdapter.clickObserverEditChild obsEdit = () ->
         {
             Intent childIntent = EditChildActivity.makeIntent(CoinFlipActivity.this);
@@ -97,17 +98,68 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         CoinFlipMenuAdapter.clickObserverChangeOrder obsOrder = () -> showChangeOrderMenu();
 
-        CoinHistoryChangeOrderMenuAdapter.clickObserverChangeOrder obsChangeOrder = () -> childManager.coinFlip.changeOrder(adapterChangeOrder.getPick());
-
         adapter.registerChangeCallBack(obs);
         adapter.registerChangeCallBack(obsEdit);
         adapter.registerChangeCallBack(obsOrder);
-        adapterChangeOrder.registerChangeCallBack(obsChangeOrder);
-
     }
 
     private void showChangeOrderMenu() {
 
+        populateList();
+    }
+
+    private void populateList() {
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_change_order, null);
+        RecyclerView childList = v.findViewById(R.id.coin_flip_change_listview);
+        childList.setLayoutManager(mLayoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(childList.getContext(), mLayoutManager.getOrientation());
+        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
+        childList.addItemDecoration(decoration);
+
+        adapterChangeOrder = new ChangeOrderMenuAdapter(this, childManager.coinFlip.getPickerList());
+        childManager.coinFlip.getPickerList().add(new Child(""));
+
+        childList.setAdapter(adapterChangeOrder);
+
+        AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
+                .setTitle("Change Order")
+                .setNegativeButton(R.string.result_leave_option, (dialogInterface, i) ->
+                {
+                    dialogInterface.dismiss();
+                    for (int j = 0; j < childManager.coinFlip.getPickerList().size(); j++) {
+                        if (childManager.coinFlip.getPickerList().get(j).getName().isEmpty()) {
+                            childManager.coinFlip.getPickerList().remove(j);
+                            break;
+                        }
+                    }
+                });
+
+        Dialog dialog = build.create();
+        dialog.show();
+
+        ChangeOrderMenuAdapter.clickObserverChangeOrder obsChangeOrder = () ->
+        {
+            dialog.dismiss();
+            for (int j = 0; j < childManager.coinFlip.getPickerList().size(); j++) {
+                if (childManager.coinFlip.getPickerList().get(j).getName().isEmpty()) {
+                    childManager.coinFlip.getPickerList().remove(j);
+                    break;
+                }
+            }
+            childManager.coinFlip.changeOrder(adapterChangeOrder.getPick());
+            if (adapterChangeOrder.getPick() == childManager.coinFlip.getPickerList().size()) {
+                saveGame = false;
+                tossCoin();
+            } else {
+                setPageAdapter();
+                viewPager2.setAdapter(adapter);
+                setBoardCallBack();
+            }
+        };
+
+        adapterChangeOrder.registerChangeCallBack(obsChangeOrder);
     }
 
     @Override
@@ -136,10 +188,17 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         saveResult();
 
-        videoView.setOnCompletionListener(mediaPlayer -> showResult());
+        videoView.setOnCompletionListener(mediaPlayer ->
+        {
+            if (childManager.getChildList().size() > 0 && saveGame) {
+                showResultWithPicker();
+            } else {
+                showResultWithOutPicker();
+            }
+        });
     }
 
-    private void showResult() {
+    private void showResultWithPicker() {
         View v = LayoutInflater.from(this).inflate(R.layout.coin_toss_result_withpicker, null);
         TextView textView = v.findViewById(R.id.change_order_child_name);
 
@@ -169,7 +228,32 @@ public class CoinFlipActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void showResultWithOutPicker() {
+
+        String result = childManager.coinFlip.getResult(this);
+        TextView message = new TextView(this);
+        message.setText(result);
+        message.setTextSize(48);
+        message.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        AlertDialog.Builder build = new AlertDialog.Builder(this)
+                .setTitle(R.string.Result)
+                .setPositiveButton(R.string.result_repeat_option, (dialogInterface, i) -> reset())
+                .setNeutralButton(R.string.add_child_option, (dialogInterface, i) ->
+                {
+                    Intent childIntent = EditChildActivity.makeIntent(CoinFlipActivity.this);
+                    startActivity(childIntent);
+                })
+                .setNegativeButton(R.string.result_leave_option, (dialogInterface, i) -> this.finish())
+                .setTitle(R.string.Result)
+                .setView(message);
+
+        Dialog dialog = build.create();
+        dialog.show();
+    }
+
     private void reset() {
+        saveGame = true;
         viewPager2.setVisibility(View.VISIBLE);
         videoView.setVisibility(View.INVISIBLE);
 
@@ -178,6 +262,10 @@ public class CoinFlipActivity extends AppCompatActivity {
 
         viewPager2.setAdapter(adapter);
         setBoardCallBack();
+
+        if (childManager.getChildList().isEmpty()) {
+            tossCoin();
+        }
     }
 
     @Override
@@ -202,13 +290,17 @@ public class CoinFlipActivity extends AppCompatActivity {
     }
 
     private void saveResult() {
-        childManager.coinFlip.saveResult(this);
-        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
 
-        Gson gson = new Gson();
-        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
-        editor.apply();
+        if(saveGame) {
+            childManager.coinFlip.saveResult(this);
+        }
+            SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+
+            Gson gson = new Gson();
+            editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
+            editor.apply();
+
     }
 
     public static Intent makeIntent(Context context) {

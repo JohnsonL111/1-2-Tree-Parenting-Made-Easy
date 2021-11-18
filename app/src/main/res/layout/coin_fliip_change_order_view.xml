@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/change_order_child_photo"
-                android:layout_width="136dp"
-                android:layout_height="118dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="left"
                 app:layout_constraintBottom_toBottomOf="@+id/change_order_child_name"
@@ -33,13 +33,11 @@
 
             <TextView
                 android:id="@+id/change_order_child_name"
-                android:layout_width="132dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="185dp"
+                android:layout_height="87dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.881"

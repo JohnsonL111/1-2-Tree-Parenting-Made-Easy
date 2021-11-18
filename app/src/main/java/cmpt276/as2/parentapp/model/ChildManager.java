@@ -24,8 +24,7 @@ public class ChildManager {
         return instance;
     }
 
-    private ChildManager()
-    {
+    private ChildManager() {
         coinFlip = new CoinFlip();
     }
 
@@ -52,11 +51,9 @@ public class ChildManager {
             }
         }
 
-        for(int i = 0; i< numChildren; i++)
-        {
+        for (int i = 0; i < numChildren; i++) {
             String current = coinFlip.getPickerList().get(i).getName();
-            if(current.equals(name))
-            {
+            if (current.equals(name)) {
                 coinFlip.removeChild(i);
                 break;
             }

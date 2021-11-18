@@ -31,7 +31,6 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
     private Context context;
     private Child picker;
     private String[] option;
-
     private TypedArray image;
 
     public CoinFlipMenuAdapter(Context context, Child picker, String[] option) {
@@ -54,14 +53,15 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
 
-        if(!picker.getName().isEmpty())
-        {
-            holder.title.setText(context.getString(R.string.coin_toss_picker,picker.getName()));
+        if (!picker.getName().isEmpty()) {
+            holder.childName.setText(context.getString(R.string.coin_toss_picker, picker.getName()));
 
             /**
              * set photo
              */
             holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+        } else {
+            holder.childName.setText(R.string.no_save_child);
         }
 
         holder.coinPicture.setImageResource(image.getResourceId(position, 0));
@@ -76,7 +76,7 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
 
     protected class HorizontalViewHolder extends RecyclerView.ViewHolder {
         public LinearLayout layOut;
-        public TextView title;
+        public TextView childName;
         public TextView text;
         public ImageView coinPicture;
         public FloatingActionButton editChild;
@@ -84,8 +84,9 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
 
         public HorizontalViewHolder(@NonNull View itemView) {
             super(itemView);
+
             layOut = itemView.findViewById(R.id.lay_coin);
-            title = itemView.findViewById(R.id.coin_btn_title);
+            childName = itemView.findViewById(R.id.coin_btn_child_name);
             text = itemView.findViewById(R.id.coin_text);
             editChild = itemView.findViewById(R.id.edit_child_btn);
             childPhoto = itemView.findViewById(R.id.child_photo);
@@ -106,6 +107,13 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
             });
 
             childPhoto.setOnClickListener(view ->
+            {
+                for (clickObserverChangeOrder obs : observerChangeOrder) {
+                    obs.notifyClickerChangeOrder();
+                }
+            });
+
+            childName.setOnClickListener(view ->
             {
                 for (clickObserverChangeOrder obs : observerChangeOrder) {
                     obs.notifyClickerChangeOrder();

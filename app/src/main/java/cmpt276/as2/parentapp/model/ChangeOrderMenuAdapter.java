@@ -17,14 +17,14 @@ import cmpt276.as2.parentapp.R;
 /**
  *
  */
-public class CoinHistoryChangeOrderMenuAdapter extends RecyclerView.Adapter<CoinHistoryChangeOrderMenuAdapter.ChangeOrderViewHolder> {
+public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenuAdapter.ChangeOrderViewHolder> {
 
     private final ArrayList<clickObserverChangeOrder> observerChangeOrder = new ArrayList<>();
     private Context context;
     private ArrayList<Child> childList;
     private int pick;
 
-    public CoinHistoryChangeOrderMenuAdapter(Context context, ArrayList<Child> childList) {
+    public ChangeOrderMenuAdapter(Context context, ArrayList<Child> childList) {
         this.context = context;
         this.childList = childList;
     }
@@ -32,13 +32,31 @@ public class CoinHistoryChangeOrderMenuAdapter extends RecyclerView.Adapter<Coin
     @NonNull
     @Override
     public ChangeOrderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ChangeOrderViewHolder(LayoutInflater.from(context).inflate((R.layout.coin_toss_history_view), parent, false));
+        View view = LayoutInflater.from(context).inflate((R.layout.coin_fliip_change_order_view), parent, false);
+        return new ChangeOrderViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChangeOrderViewHolder holder, int position) {
         Child child = childList.get(position);
-        pick = holder.getAdapterPosition();
+
+        holder.childName.setOnClickListener(view ->
+        {
+            pick = holder.getAdapterPosition();
+            for(clickObserverChangeOrder obs : observerChangeOrder)
+            {
+                obs.notifyChangeOrder();
+            }
+        });
+
+        holder.childPhoto.setOnClickListener(view ->
+        {
+            pick = holder.getAdapterPosition();
+            for(clickObserverChangeOrder obs : observerChangeOrder)
+            {
+                obs.notifyChangeOrder();
+            }
+        });
 
         if (!child.getName().isEmpty()) {
             holder.childName.setText(child.getName());

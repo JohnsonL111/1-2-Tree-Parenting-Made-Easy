@@ -51,4 +51,6 @@
     <string name="win_text">WIN</string>
     <string name="history_string_coin_flip">\"Picker: %s\n,%s\"</string>
     <string name="nobody">NOBODY</string>
+    <string name="no_save_child">No saved child data</string>
+    <string name="add_child_option">Add child</string>
 </resources>
