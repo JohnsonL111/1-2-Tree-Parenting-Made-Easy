@@ -10,9 +10,9 @@
 
     <Button
         android:id="@+id/TimeoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_width="240dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btn_effect"
         android:backgroundTintMode="add"
         android:hapticFeedbackEnabled="false"
@@ -20,28 +20,42 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/flipCoin"
         app:layout_constraintEnd_toEndOf="@+id/editChildren"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/editChildren" />
 
     <Button
         android:id="@+id/flipCoin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="240dp"
+        android:layout_height="100dp"
         android:background="@drawable/btn_effect"
         android:text="@string/flip_coin"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.541" />
+
+    <Button
+        android:id="@+id/task_btn"
+        android:layout_width="240dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_effect"
+        android:text="Task"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/editChildren"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editChildren"
+        app:layout_constraintTop_toBottomOf="@+id/editChildren" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="381dp"
         android:layout_height="30dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
         android:fontFamily="@font/tcm_tw"
         android:shadowColor="@color/white"
         android:shadowRadius="5"
@@ -55,12 +69,10 @@
         android:id="@+id/editChildren"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/btn_effect"
         android:text="@string/edit_children"
         android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/flipCoin"
         app:layout_constraintStart_toStartOf="@+id/flipCoin"
         app:layout_constraintTop_toBottomOf="@+id/flipCoin" />
@@ -80,6 +92,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title"
-        app:layout_constraintVertical_bias="0.552" />
+        app:layout_constraintVertical_bias="0.728" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,48 +15,60 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="123dp">
 
             <ImageView
                 android:id="@+id/task_view_child_photo"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="right"
-                app:layout_constraintBottom_toBottomOf="@+id/task_view_task_name"
+                app:layout_constraintBottom_toBottomOf="@+id/task_view_task_Detail"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.8"
+                app:layout_constraintHorizontal_bias="0.082"
                 app:layout_constraintStart_toEndOf="@+id/task_view_task_name"
                 app:layout_constraintTop_toTopOf="@+id/task_view_task_name"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <ImageView
-                android:id="@+id/toss_history_icon1"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:contentDescription="TODO"
-                android:foregroundGravity="left"
-                app:layout_constraintBottom_toBottomOf="@+id/task_view_task_name"
-                app:layout_constraintEnd_toStartOf="@+id/task_view_task_name"
-                app:layout_constraintHorizontal_bias="0.2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/task_view_task_name"
+                app:layout_constraintVertical_bias="0.714"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/task_view_task_name"
-                android:layout_width="222dp"
-                android:layout_height="92dp"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/task_view_task_Detail"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/task_view_task_Detail"
+                android:layout_width="160dp"
+                android:layout_height="48dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.47" />
+                app:layout_constraintTop_toBottomOf="@+id/task_view_task_name"
+                app:layout_constraintVertical_bias="0.757" />
+
+            <TextView
+                android:id="@+id/task_view_child_name"
+                android:layout_width="109dp"
+                android:layout_height="72dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

@@ -71,8 +71,8 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
         {
             super(itemView);
             icon1 = itemView.findViewById(R.id.toss_history_icon1);
-            icon2 = itemView.findViewById(R.id.toss_history_icon2);
-            detail = itemView.findViewById(R.id.toss_history_text);
+            icon2 = itemView.findViewById(R.id.task_view_child_photo);
+            detail = itemView.findViewById(R.id.task_view_task_name);
         }
     }
 }

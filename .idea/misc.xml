@@ -5,8 +5,6 @@
       <map>
         <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout-normal/activity_timeout.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout-xxhdpi/activity_timeout.xml" value="0.13333333333333333" />
-        <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.11367753623188406" />
-        <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.1358695652173913" />
         <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout/activity_timeout.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Fang-/Desktop/276Project/ParentApp/app/src/main/res/layout/content_main.xml" value="0.14855072463768115" />
         <entry key="..\:/Users/Johnson/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip.xml" value="0.1234375" />
@@ -24,8 +22,22 @@
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_coin_flip_history.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_edit_child.xml" value="0.2928205128205128" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_task_manager.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/activity_timeout_option.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_btn.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_change_order.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_fliip_change_order_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_flip_change_order.xml" value="0.25" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_flip_result.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_toss_history_view.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_toss_result.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_toss_result_without_picker.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/coin_toss_result_withpicker.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/content_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/task_edit.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/task_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/task_pop_up.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/layout/task_sigle_view.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/menu/menu_coin_acitivity.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/menu/menu_coin_history.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/danie/AndroidStudioProjects/ParentApp/app/src/main/res/menu/menu_edit_child.xml" value="0.36614583333333334" />
