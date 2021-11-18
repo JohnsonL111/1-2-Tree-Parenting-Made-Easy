@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -28,10 +27,10 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.gson.Gson;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.model.ChangeOrderMenuAdapter;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
-import cmpt276.as2.parentapp.model.ChangeOrderMenuAdapter;
 
 /**
  * The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
@@ -81,9 +80,9 @@ public class CoinFlipActivity extends AppCompatActivity {
                     , childManager.coinFlip.getPickerList().get(0)
                     , getResources().getStringArray(R.array.coin_two_side_name));
         } else {
-            adapter = new CoinFlipMenuAdapter(this,
-                    new Child(""),
-                    getResources().getStringArray(R.array.coin_two_side_name));
+            adapter = new CoinFlipMenuAdapter(this
+                    , new Child("")
+                    , getResources().getStringArray(R.array.coin_two_side_name));
         }
     }
 
@@ -103,12 +102,38 @@ public class CoinFlipActivity extends AppCompatActivity {
         adapter.registerChangeCallBack(obsOrder);
     }
 
-    private void showChangeOrderMenu() {
+    private void tossCoin() {
+        childManager.coinFlip.setResult(adapter.getResult());
+        childManager.coinFlip.tossTheCoin();
 
-        populateList();
+        Uri videoUri;
+        if (childManager.coinFlip.getResultInt() == 0) {
+            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_h1);
+        } else {
+            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_t1);
+        }
+
+        videoView.setVideoURI(videoUri);
+        videoView.setVisibility(View.VISIBLE);
+        viewPager2.setVisibility(View.INVISIBLE);
+        videoView.setZOrderOnTop(true);
+        videoView.requestFocus();
+        videoView.start();
+
+        saveResult();
+
+        videoView.setOnCompletionListener(mediaPlayer ->
+        {
+            if (childManager.getChildList().size() > 0 && saveGame) {
+                showResultWithPicker();
+            } else {
+                showResultWithOutPicker();
+            }
+        });
     }
 
-    private void populateList() {
+
+    private void showChangeOrderMenu() {
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_change_order, null);
@@ -124,7 +149,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         childList.setAdapter(adapterChangeOrder);
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
-                .setTitle("Change Order")
+                .setTitle(R.string.change_order)
                 .setNegativeButton(R.string.result_leave_option, (dialogInterface, i) ->
                 {
                     dialogInterface.dismiss();
@@ -162,42 +187,6 @@ public class CoinFlipActivity extends AppCompatActivity {
         adapterChangeOrder.registerChangeCallBack(obsChangeOrder);
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        reset();
-    }
-
-    private void tossCoin() {
-        childManager.coinFlip.setResult(adapter.getResult());
-        childManager.coinFlip.tossTheCoin();
-
-        Uri videoUri;
-        if (childManager.coinFlip.getResultInt() == 0) {
-            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_h1);
-        } else {
-            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_t1);
-        }
-
-        videoView.setVideoURI(videoUri);
-        videoView.setVisibility(View.VISIBLE);
-        viewPager2.setVisibility(View.INVISIBLE);
-        videoView.setZOrderOnTop(true);
-        videoView.requestFocus();
-        videoView.start();
-
-        saveResult();
-
-        videoView.setOnCompletionListener(mediaPlayer ->
-        {
-            if (childManager.getChildList().size() > 0 && saveGame) {
-                showResultWithPicker();
-            } else {
-                showResultWithOutPicker();
-            }
-        });
-    }
-
     private void showResultWithPicker() {
         View v = LayoutInflater.from(this).inflate(R.layout.coin_toss_result_withpicker, null);
         TextView textView = v.findViewById(R.id.change_order_child_name);
@@ -215,6 +204,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         /**
          * Child lastPicker = childManager.coinFlip.getPickerList().get(childManager.coinFlip.getPickerList().size());
          * set child photo
+         * currently just use the default photo
          */
 
         childPhoto.setImageResource(R.drawable.default_child_photo);
@@ -268,6 +258,24 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
+    private void saveResult() {
+
+        if (saveGame) {
+            childManager.coinFlip.saveResult(this);
+        }
+        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Gson gson = new Gson();
+        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
+        editor.apply();
+
+    }
+
+    public static Intent makeIntent(Context context) {
+        return new Intent(context, CoinFlipActivity.class);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_coin_acitivity, menu);
@@ -289,21 +297,9 @@ public class CoinFlipActivity extends AppCompatActivity {
         }
     }
 
-    private void saveResult() {
-
-        if (saveGame) {
-            childManager.coinFlip.saveResult(this);
-        }
-        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        Gson gson = new Gson();
-        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
-        editor.apply();
-
-    }
-
-    public static Intent makeIntent(Context context) {
-        return new Intent(context, CoinFlipActivity.class);
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        reset();
     }
 }

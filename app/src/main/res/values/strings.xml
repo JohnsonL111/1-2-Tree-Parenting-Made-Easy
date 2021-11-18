@@ -53,4 +53,5 @@
     <string name="nobody">NOBODY</string>
     <string name="no_save_child">No saved child data</string>
     <string name="add_child_option">Add child</string>
+    <string name="change_order">Change Order</string>
 </resources>

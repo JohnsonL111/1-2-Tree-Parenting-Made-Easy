@@ -57,7 +57,8 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
             holder.childName.setText(context.getString(R.string.coin_toss_picker, picker.getName()));
 
             /**
-             * set photo
+             * set child photo
+             * currently just use the default photo
              */
             holder.childPhoto.setImageResource(R.drawable.default_child_photo);
         } else {

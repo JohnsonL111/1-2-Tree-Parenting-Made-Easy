@@ -51,6 +51,7 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
             {
                 /**
                  * set child photo
+                 * currently just use the default photo
                  */
                 holder.childPhoto.setImageResource(R.drawable.default_child_photo);
                 break;
