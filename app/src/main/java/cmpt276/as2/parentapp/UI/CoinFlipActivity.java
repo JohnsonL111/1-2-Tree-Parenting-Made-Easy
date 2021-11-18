@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.widget.MediaController;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -118,7 +120,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         viewPager2.setVisibility(View.INVISIBLE);
         videoView.setZOrderOnTop(true);
         videoView.requestFocus();
-        videoView.start();
+
+        videoView.setOnPreparedListener(arg0 -> videoView.start());
 
         saveResult();
 
@@ -128,7 +131,9 @@ public class CoinFlipActivity extends AppCompatActivity {
                 showResultWithPicker();
             } else {
                 showResultWithOutPicker();
+
             }
+
         });
     }
 
