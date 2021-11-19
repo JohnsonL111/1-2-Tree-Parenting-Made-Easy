@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskManager {
+
+
     private List<Task> listOfTasks = new ArrayList<>();
     private String childNameForNewTask = "";
 
-    public void addTask(String taskTitle) {
-        getChildNameForNewTask();
+    public void addTask(String taskTitle, List<Child> childList) {
+        getChildNameForNewTask(childList);
         Task task = new Task(taskTitle, childNameForNewTask);
         listOfTasks.add(task);
     }
@@ -21,6 +23,10 @@ public class TaskManager {
         String childName = listOfTasks.get(taskNumber).getChildName();
         Task editedTask = new Task(newTaskName, childName);
         listOfTasks.set(taskNumber, editedTask);
+    }
+
+    public List<Task> getListOfTasks() {
+        return listOfTasks;
     }
 
     public void editTasksWithDeletedChildName(String childNameDeleted, String newChildName) {
@@ -49,9 +55,7 @@ public class TaskManager {
         task.updateNextChildToDoTask();
     }
 
-    private void getChildNameForNewTask() {
-        ChildManager childManager = ChildManager.getInstance();
-        List<Child> childList = childManager.getChildList();
+    private void getChildNameForNewTask(List<Child> childList) {
         int childListSize = childList.size();
         if (!childList.isEmpty()) {
             if (childNameForNewTask.equals("")) {

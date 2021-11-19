@@ -14,9 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
-        <activity
-            android:name=".UI.TaskManagerActivity"
-            android:exported="false" />
+
 
         <service android:name=".model.RingtonePlayService" />
         <service android:name=".model.TimerService" />
@@ -44,6 +42,10 @@
             android:name=".UI.CoinFlipActivity"
             android:exported="true"
             android:label="CoinFlip" />
+        <activity
+        android:name=".UI.TaskManagerActivity"
+        android:exported="true"
+        android:label="Task"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

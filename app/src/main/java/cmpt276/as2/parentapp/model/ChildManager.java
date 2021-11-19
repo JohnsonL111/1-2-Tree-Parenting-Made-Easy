@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ChildManager {
     private List<Child> childList = new ArrayList<>();
-    private TaskManager task = new TaskManager();
+    public TaskManager task = new TaskManager();
     // Singleton support.
     private static ChildManager instance;
 
@@ -94,5 +94,10 @@ public class ChildManager {
 
     public void updateTaskNextChild(int taskNumber) {
         task.updateNextChildToDoTask(taskNumber);
+    }
+
+    public void addTask(String taskName)
+    {
+        task.addTask(taskName, childList);
     }
 }

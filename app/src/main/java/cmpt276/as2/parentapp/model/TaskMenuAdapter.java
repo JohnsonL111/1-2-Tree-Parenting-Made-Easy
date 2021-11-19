@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cmpt276.as2.parentapp.R;
 
@@ -23,13 +24,15 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
     private final ArrayList<TaskMenuAdapter.clickObserverEditTask> observerEditTask = new ArrayList<>();
 
     private Context context;
-    private ArrayList<String> historyList;
+    private List<Task> taskList;
+    private List<Child> childList;
     private int pick;
 
-    public TaskMenuAdapter(Context context, ArrayList<String> historyList)
+    public TaskMenuAdapter(Context context, List<Task> taskList, List<Child> childList)
     {
         this.context = context;
-        this.historyList = historyList;
+        this.taskList = taskList;
+        this.childList = childList;
     }
     @NonNull
     @Override
@@ -54,10 +57,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
             }
         };
 
-        holder.detail.setText("View Detail");
-        holder.detail.setOnClickListener(listenerViewDetail);
-
-        holder.nameOfTask.setText("View Detail");
+        holder.nameOfTask.setText(taskList.get(position).getTaskTitle());
         holder.nameOfTask.setOnClickListener(view ->
         {
             pick = holder.getAdapterPosition();
@@ -67,20 +67,23 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
             }
         });
 
+        holder.detail.setText("Detail");
+        holder.detail.setOnClickListener(listenerViewDetail);
+
         /**
          * holder.childPhoto.setImageResource();
          * set child photo
          */
-        holder.nameOfTask.setOnClickListener(listenerViewDetail);
+        holder.childPhoto.setOnClickListener(listenerViewDetail);
 
-        holder.nameOfTask.setText("View Detail");
-        holder.nameOfTask.setOnClickListener(listenerViewDetail);
+        holder.nameOfChild.setText(taskList.get(position).getChildName());
+        holder.nameOfChild.setOnClickListener(listenerViewDetail);
     }
 
     @Override
     public int getItemCount()
     {
-        return historyList.size();
+        return taskList.size();
     }
 
     protected class TaskViewHolder extends RecyclerView.ViewHolder
