@@ -13,66 +13,72 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
+
 /**
  * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
  */
-public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder>
-{
-    private Context context;
-    private ArrayList<String> historyList;
+public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder> {
 
-    public CoinHistoryMenuAdapter(Context context, ArrayList<String> historyList)
-    {
+    private Context context;
+    private ArrayList<String> historyListTS;
+    private ArrayList<String> historyListName;
+    private ArrayList<Child> childList;
+
+    public CoinHistoryMenuAdapter(Context context, ArrayList<String> historyName, ArrayList<String> historyList, ArrayList<Child> childList) {
         this.context = context;
-        this.historyList = historyList;
+        this.historyListName = historyName;
+        this.historyListTS = historyList;
+        this.childList = childList;
     }
+
     @NonNull
     @Override
-    public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new HistoryViewHolder(LayoutInflater.from(context).inflate((R.layout.coin_toss_history_view), parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position)
-    {
-        String str = historyList.get(position);
-        holder.detail.setText(str);
+    public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
+        String name = historyListName.get(position);
+        String ts = historyListTS.get(position);
+        holder.detail.setText(context.getString(R.string.history_string_coin_flip, name, ts));
 
-        if(str.contains(context.getString(R.string.win_text)))
-        {
-            holder.icon1.setImageResource(R.drawable.win);
-            holder.icon2.setImageResource(R.drawable.win);
+        for (int i = 0; i < childList.size(); i++) {
+            if (childList.get(i).getName().equals(name)) {
+                /**
+                 * set child photo
+                 * currently just use the default photo
+                 */
+                holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+                break;
+            }
         }
-        else
-        {
-            holder.icon1.setImageResource(R.drawable.loss);
-            holder.icon2.setImageResource(R.drawable.loss);
+
+        if (ts.contains(context.getString(R.string.win_text))) {
+            holder.icon.setImageResource(R.drawable.win);
+        } else {
+            holder.icon.setImageResource(R.drawable.loss);
         }
     }
 
     @Override
-    public int getItemCount()
-    {
-        if (historyList == null)
-        {
+    public int getItemCount() {
+        if (historyListName == null) {
             return 0;
         }
-        return historyList.size();
+        return historyListName.size();
     }
 
-    protected class HistoryViewHolder extends RecyclerView.ViewHolder
-    {
-        public ImageView icon1;
-        public ImageView icon2;
+    protected class HistoryViewHolder extends RecyclerView.ViewHolder {
+        public ImageView childPhoto;
+        public ImageView icon;
         public TextView detail;
 
-        public HistoryViewHolder(@NonNull View itemView)
-        {
+        public HistoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            icon1 = itemView.findViewById(R.id.toss_history_icon1);
-            icon2 = itemView.findViewById(R.id.task_detail_child_photo);
-            detail = itemView.findViewById(R.id.task_detail_task_name);
+            childPhoto = itemView.findViewById(R.id.change_order_child_photo);
+            icon = itemView.findViewById(R.id.toss_history_icon2);
+            detail = itemView.findViewById(R.id.change_order_child_name);
         }
     }
 }

@@ -209,11 +209,14 @@ public class EditChildActivity extends AppCompatActivity {
             // Get the List, find the child's index, and change its name.
             List<Child> childList = childManager.getChildList();
             int childToEditIdx = childList.indexOf(childToEdit);
+            String childToEditName = childToEdit.getName();
             if (!newChildName.equals("")) {
                 String oldChildName = childList.get(childToEditIdx).getName();
                 childList.get(childToEditIdx).setName(newChildName);
                 childManager.updateTaskChildNames(oldChildName, newChildName);
                 Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
+
+                childManager.coinFlip.editChildName(childToEditName, newChildName);
             }
         } else {
             Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
@@ -228,7 +231,7 @@ public class EditChildActivity extends AppCompatActivity {
     private ChildManager getChildData(String tag) {
         SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
         if (!prefs.contains(tag)) {
-            return new ChildManager();
+            return ChildManager.getInstance();
         }
         Gson gson = new Gson();
         return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);

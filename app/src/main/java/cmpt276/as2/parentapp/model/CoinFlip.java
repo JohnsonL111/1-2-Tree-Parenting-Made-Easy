@@ -12,107 +12,154 @@ import cmpt276.as2.parentapp.R;
 /**
  * Class handle the logic of coin toss, generate string for the result with time stamp.
  */
-public class CoinFlip
-{
+public class CoinFlip {
     private final String TS_FORMAT = "@yyyy-MM-dd HH:mm:ss";
     private final int HEAD = 0;
     private final int TAIL = 1;
 
-    private String currentPicker = "";
-    private Context context;
-    private ArrayList<String> savedPickers;
+    private String currentPickerName = "";
+    private ArrayList<Child> savedPickers;
     private String timeStamp;
-    private ArrayList<String> history;
+    private ArrayList<String> historyTS;
+    private ArrayList<String> historyChildName;
     private int userPick;
     private int result;
 
-    public CoinFlip(ArrayList<String> savedPickers, ArrayList<String> history, Context context)
-    {
-        this.savedPickers = savedPickers;
-        this.history = history;
-        this.context = context;
-
-        if(this.savedPickers.size() != 0)
-        {
-            currentPicker = this.savedPickers.get(0);
-        }
-        else
-        {
-            currentPicker = "";
-        }
+    public CoinFlip() {
+        savedPickers = new ArrayList<>();
+        historyTS = new ArrayList<>();
+        historyChildName = new ArrayList<>();
     }
 
-    public void tossTheCoin()
-    {
+    public void tossTheCoin() {
         Random random = new Random();
-        if(random.nextInt()% 2 == 0)
-        {
+        if (random.nextInt() % 2 == 0) {
             result = HEAD;
-        }
-        else
-        {
+        } else {
             result = TAIL;
         }
         formTimeStamp();
     }
 
-    private void formTimeStamp()
-    {
+    private void formTimeStamp() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern(TS_FORMAT);
         timeStamp = now.format(format);
     }
 
-    public void setResult(int result)
-    {
+    public void setResult(int result) {
         this.userPick = result;
     }
 
-    public void saveResult()
-    {
-        if(!currentPicker.isEmpty())
-        {
-            String tmp = savedPickers.get(0);
+    public void saveResult(Context context) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().isEmpty()) {
+                savedPickers.remove(i);
+                break;
+            }
+        }
+
+        if (savedPickers.size() > 0) {
+            String pickerName = savedPickers.get(0).getName();
+            Child tmp = savedPickers.get(0);
             savedPickers.remove(0);
-            savedPickers.add(savedPickers.size(), tmp);
+            savedPickers.add(tmp);
 
             String[] name = context.getResources().getStringArray(R.array.coin_two_side_name);
             String record;
-            if(userPick == result)
-            {
-                record = context.getString(R.string.coin_toss_save_history_win, currentPicker, name[userPick], name[result], timeStamp);
+            if (userPick == result) {
+                record = context.getString(R.string.coin_toss_save_history_win, name[userPick], name[result], timeStamp);
+            } else {
+                record = context.getString(R.string.coin_toss_save_history_lost, name[userPick], name[result], timeStamp);
             }
-            else
-            {
-                record = context.getString(R.string.coin_toss_save_history_lost, currentPicker, name[userPick], name[result], timeStamp);
-            }
-            history.add(record);
+            historyTS.add(record);
+            historyChildName.add(pickerName);
+
+            currentPickerName = savedPickers.get(0).getName();
         }
     }
 
-    public ArrayList<String> getHistory()
-    {
-        return history;
+    public void setCurrentPickerName() {
+        currentPickerName = savedPickers.get(0).getName();
     }
 
-    public ArrayList<String> getPickerList()
-    {
+    public ArrayList<String> getHistoryTS() {
+        return historyTS;
+    }
+
+    public ArrayList<Child> getPickerList() {
         return savedPickers;
     }
 
-    public String getResult()
-    {
+    public String getResult(Context context) {
         String[] name = context.getResources().getStringArray(R.array.coin_two_side_name);
         return name[result];
     }
 
-    public int getResultInt()
-    {
+    public int getResultInt() {
         return result;
     }
 
-    public boolean pickerWin()
-    {
+    public boolean pickerWin() {
         return result == userPick;
+    }
+
+    public ArrayList<String> getHistoryName() {
+        return historyChildName;
+    }
+
+    public void addChild(Child childToAdd) {
+        this.savedPickers.add(childToAdd);
+        setCurrentPickerName();
+    }
+
+    public void removeChild(int index) {
+
+        String deleteName = savedPickers.get(index).getName();
+
+        savedPickers.remove(index);
+        if (index == 0) {
+            if (savedPickers.size() > 0) {
+                setCurrentPickerName();
+            } else {
+                currentPickerName = "";
+            }
+        }
+
+        ArrayList<String> tmpNameList = new ArrayList<>();
+        ArrayList<String> tmpTSList = new ArrayList<>();
+
+        for (int i = 0; i < historyChildName.size(); i++) {
+            if (!historyChildName.get(i).equals(deleteName)) {
+                tmpNameList.add(historyChildName.get(i));
+                tmpTSList.add(historyTS.get(i));
+            }
+        }
+
+        this.historyChildName = tmpNameList;
+        this.historyTS = tmpTSList;
+    }
+
+    public void editChildName(String childToEditName, String newChildName) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().equals(childToEditName)) {
+                savedPickers.get(i).setName(newChildName);
+            }
+        }
+
+        for (int i = 0; i < historyChildName.size(); i++) {
+            if (historyChildName.get(i).equals(childToEditName)) {
+                historyChildName.set(i, newChildName);
+            }
+        }
+    }
+
+    public void changeOrder(int pick) {
+        if (pick < savedPickers.size()) {
+            Child tmp = savedPickers.get(pick);
+            savedPickers.remove(pick);
+            savedPickers.add(0, tmp);
+        }
+        setCurrentPickerName();
     }
 }
