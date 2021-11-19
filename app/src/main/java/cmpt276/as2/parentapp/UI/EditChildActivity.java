@@ -67,7 +67,16 @@ public class EditChildActivity extends AppCompatActivity {
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Switches to edit single child activity.
+                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                        getApplicationContext(),
+                        null,
+                        -1,
+                        false);
+                startActivity(appInfo);
 
+
+                /*
                 // Get child's name.
                 EditText childNameSlot = findViewById(R.id.addChildBox);
                 String childName = childNameSlot.getText().toString();
@@ -85,6 +94,8 @@ public class EditChildActivity extends AppCompatActivity {
                     }
                 }
                 startChildList();
+
+                 */
             }
         });
     }
@@ -159,8 +170,10 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                /*
                 List<Child> childList = childManager.getChildList();
                 String childNameClicked = childNames.get(position);
+
 
                 for (int i = 0; i < childList.size(); ++i) {
                     String childName = childList.get(i).getName();
@@ -169,6 +182,15 @@ public class EditChildActivity extends AppCompatActivity {
                         editChildNamePopUp(childList.get(i));
                     }
                 }
+
+                 */
+                // Switches to edit single child activity.
+                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                        getApplicationContext(),
+                        childManager.getChildList().get(position),
+                        position, true);
+                startActivity(appInfo);
+
             }
         });
     }
@@ -245,10 +267,8 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        if (getSupportActionBar() != null)
-        {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (getSupportActionBar() != null) {
             ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
@@ -258,8 +278,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.go_back_edit_child:
                 this.finish();
@@ -272,5 +291,4 @@ public class EditChildActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }

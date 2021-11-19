@@ -57,4 +57,6 @@
     <string name="edit">Edit</string>
     <string name="task_detail">Task Detail</string>
     <string name="done">Done</string>
+    <string name="choose_image_from_gallery">Choose image from gallery</string>
+    <string name="take_new_image">Take new image</string>
 </resources>
