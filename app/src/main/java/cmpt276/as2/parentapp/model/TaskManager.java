@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskManager {
+
+
     private List<Task> listOfTasks = new ArrayList<>();
     private String childNameForNewTask = "";
 
-    public void addTask(String taskTitle) {
-        getChildNameForNewTask();
+    public void addTask(String taskTitle, List<Child> childList) {
+        getChildNameForNewTask(childList);
         Task task = new Task(taskTitle, childNameForNewTask);
         listOfTasks.add(task);
     }
@@ -21,6 +23,10 @@ public class TaskManager {
         String childName = listOfTasks.get(taskNumber).getChildName();
         Task editedTask = new Task(newTaskName, childName);
         listOfTasks.set(taskNumber, editedTask);
+    }
+
+    public List<Task> getListOfTasks() {
+        return listOfTasks;
     }
 
     public void editTasksWithDeletedChildName(String childNameDeleted, String newChildName) {
@@ -44,30 +50,22 @@ public class TaskManager {
     }
 
     //updates current task child name to the next child name
-    public void updateNextChildToDoTask(int taskNumber) {
+    public void updateNextChildToDoTask(int taskNumber, List<Child> childList) {
         Task task = listOfTasks.get(taskNumber);
-        task.updateNextChildToDoTask();
+        task.updateNextChildToDoTask(childList);
     }
 
-    private void getChildNameForNewTask() {
-        ChildManager childManager = ChildManager.getInstance();
-        List<Child> childList = childManager.getChildList();
-        int childListSize = childList.size();
+    private void getChildNameForNewTask(List<Child> childList) {
         if (!childList.isEmpty()) {
-            if (childNameForNewTask.equals("")) {
-                childNameForNewTask = childList.get(0).getName();
-            } else {
-                for (int i = 0; i < childListSize; i++) {
-                    String childName = childList.get(i).getName();
-                    if (childNameForNewTask.equals(childName)) {
-                        int nextChildPosition = (i + 1) % childListSize;
-                        childNameForNewTask = childList.get(nextChildPosition).getName();
-                        break;
-                    }
-                }
+            childNameForNewTask = childList.get(0).getName();
+        }
+    }
+
+    public void checkForUpdate(List<Child> childList) {
+        for (int i = 0; i < listOfTasks.size(); i++) {
+            if (listOfTasks.get(i).getChildName().isEmpty()) {
+                updateNextChildToDoTask(i, childList);
             }
-        } else {
-            childNameForNewTask = "";
         }
     }
 }

@@ -6,7 +6,6 @@ import java.util.List;
 public class Task {
     private String childName;
     private String taskTitle;
-    private List<Child> childList;
 
     public Task(String taskTitle, String childName) {
         this.taskTitle = taskTitle;
@@ -21,12 +20,7 @@ public class Task {
         return taskTitle;
     }
 
-    private void getChildList() {
-        ChildManager childManager = ChildManager.getInstance();
-        childList = childManager.getChildList();
-    }
-
-    private int getChildPositionInList() {
+    private int getChildPositionInList(List<Child> childList) {
         int childPosition = -1;
         int childListSize = childList.size();
         for (int i = 0; i < childListSize; i++) {
@@ -39,9 +33,8 @@ public class Task {
         return childPosition;
     }
 
-    public void updateNextChildToDoTask() {
-        getChildList();
-        int childPositionInTheList = getChildPositionInList();
+    public void updateNextChildToDoTask(List<Child> childList) {
+        int childPositionInTheList = getChildPositionInList(childList);
         if (!childList.isEmpty()) {
             int childListSize = childList.size();
             int nextChildPositionInTheList = (childPositionInTheList + 1) % childListSize;
