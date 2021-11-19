@@ -18,16 +18,16 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/task_view_child_photo"
+                android:id="@+id/task_detail_child_photo"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="right"
-                app:layout_constraintBottom_toBottomOf="@+id/task_view_task_name"
+                app:layout_constraintBottom_toBottomOf="@+id/task_detail_task_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.8"
-                app:layout_constraintStart_toEndOf="@+id/task_view_task_name"
-                app:layout_constraintTop_toTopOf="@+id/task_view_task_name"
+                app:layout_constraintStart_toEndOf="@+id/task_detail_task_name"
+                app:layout_constraintTop_toTopOf="@+id/task_detail_task_name"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <ImageView
@@ -36,15 +36,15 @@
                 android:layout_height="45dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="left"
-                app:layout_constraintBottom_toBottomOf="@+id/task_view_task_name"
-                app:layout_constraintEnd_toStartOf="@+id/task_view_task_name"
+                app:layout_constraintBottom_toBottomOf="@+id/task_detail_task_name"
+                app:layout_constraintEnd_toStartOf="@+id/task_detail_task_name"
                 app:layout_constraintHorizontal_bias="0.2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/task_view_task_name"
+                app:layout_constraintTop_toTopOf="@+id/task_detail_task_name"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/task_view_task_name"
+                android:id="@+id/task_detail_task_name"
                 android:layout_width="222dp"
                 android:layout_height="92dp"
                 android:layout_marginTop="8dp"

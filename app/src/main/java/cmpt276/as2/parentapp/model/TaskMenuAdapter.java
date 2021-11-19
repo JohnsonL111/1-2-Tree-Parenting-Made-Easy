@@ -34,6 +34,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         this.taskList = taskList;
         this.childList = childList;
     }
+
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
@@ -72,8 +73,11 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
 
         /**
          * holder.childPhoto.setImageResource();
+         * find the child in child list by name
+         * then display the photo
          * set child photo
          */
+
         holder.childPhoto.setOnClickListener(listenerViewDetail);
 
         holder.nameOfChild.setText(taskList.get(position).getChildName());
@@ -96,9 +100,9 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         public TaskViewHolder(@NonNull View itemView)
         {
             super(itemView);
-            childPhoto = itemView.findViewById(R.id.task_view_child_photo);
-            nameOfTask = itemView.findViewById(R.id.task_view_task_name);
-            nameOfChild = itemView.findViewById(R.id.task_view_child_name);
+            childPhoto = itemView.findViewById(R.id.task_detail_child_photo);
+            nameOfTask = itemView.findViewById(R.id.task_detail_task_name);
+            nameOfChild = itemView.findViewById(R.id.task_detail_child_name);
             detail = itemView.findViewById(R.id.task_view_task_Detail);
         }
     }

@@ -50,28 +50,22 @@ public class TaskManager {
     }
 
     //updates current task child name to the next child name
-    public void updateNextChildToDoTask(int taskNumber) {
+    public void updateNextChildToDoTask(int taskNumber, List<Child> childList) {
         Task task = listOfTasks.get(taskNumber);
-        task.updateNextChildToDoTask();
+        task.updateNextChildToDoTask(childList);
     }
 
     private void getChildNameForNewTask(List<Child> childList) {
-        int childListSize = childList.size();
         if (!childList.isEmpty()) {
-            if (childNameForNewTask.equals("")) {
-                childNameForNewTask = childList.get(0).getName();
-            } else {
-                for (int i = 0; i < childListSize; i++) {
-                    String childName = childList.get(i).getName();
-                    if (childNameForNewTask.equals(childName)) {
-                        int nextChildPosition = (i + 1) % childListSize;
-                        childNameForNewTask = childList.get(nextChildPosition).getName();
-                        break;
-                    }
-                }
+            childNameForNewTask = childList.get(0).getName();
+        }
+    }
+
+    public void checkForUpdate(List<Child> childList) {
+        for (int i = 0; i < listOfTasks.size(); i++) {
+            if (listOfTasks.get(i).getChildName().isEmpty()) {
+                updateNextChildToDoTask(i, childList);
             }
-        } else {
-            childNameForNewTask = "";
         }
     }
 }
