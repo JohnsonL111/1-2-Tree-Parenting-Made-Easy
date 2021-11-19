@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class ChildManager {
     private List<Child> childList = new ArrayList<>();
-    private TaskManager task = new TaskManager();
+    public TaskManager task = new TaskManager();
     // Singleton support.
     private static ChildManager instance;
 
@@ -28,6 +28,7 @@ public class ChildManager {
         if (!name.equals("")) {
             childList.add(childToAdd);
         }
+        task.checkForUpdate(childList);
     }
 
     public void removeChild(String name) {
@@ -93,6 +94,11 @@ public class ChildManager {
     }
 
     public void updateTaskNextChild(int taskNumber) {
-        task.updateNextChildToDoTask(taskNumber);
+        task.updateNextChildToDoTask(taskNumber, childList);
+    }
+
+    public void addTask(String taskName)
+    {
+        task.addTask(taskName, childList);
     }
 }

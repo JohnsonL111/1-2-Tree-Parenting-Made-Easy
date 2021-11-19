@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cmpt276.as2.parentapp.UI.CoinFlipActivity;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
+import cmpt276.as2.parentapp.UI.TaskManagerActivity;
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
 
 /**
@@ -41,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         editChild.setOnClickListener(view ->
         {
             Intent i = EditChildActivity.makeIntent(MainActivity.this);
+            startActivity(i);
+        });
+
+        Button task = findViewById(R.id.task_btn);
+        task.setOnClickListener(view ->
+        {
+            Intent i = TaskManagerActivity.makeIntent(MainActivity.this);
             startActivity(i);
         });
     }

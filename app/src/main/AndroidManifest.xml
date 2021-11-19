@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".model.TimerNotification"
@@ -14,31 +14,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
+
+
         <service android:name=".model.RingtonePlayService" />
-        <service android:name=".model.TimerService"/>
+        <service android:name=".model.TimerService" />
+
         <activity
             android:name=".UI.TimeoutOptionActivity"
-            android:parentActivityName=".UI.TimeoutActivity"
             android:exported="true"
-            android:label="Timeout settings"/>
+            android:label="Timeout settings"
+            android:parentActivityName=".UI.TimeoutActivity" />
         <activity
             android:name=".UI.TimeoutActivity"
-            android:parentActivityName=".MainActivity"
             android:exported="true"
-            android:label="Timeout"/>
+            android:label="Timeout"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UI.CoinFlipHistoryActivity"
             android:exported="true"
-            android:label="Toss History"/>/>
+            android:label="Toss History" />
         <activity
             android:name=".UI.EditChildActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.ParentApp"/>
+            android:theme="@style/Theme.ParentApp" />
         <activity
             android:name=".UI.CoinFlipActivity"
             android:exported="true"
-            android:label="CoinFlip"/>/>
+            android:label="CoinFlip" />
+        <activity
+        android:name=".UI.TaskManagerActivity"
+        android:exported="true"
+        android:label="Task"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

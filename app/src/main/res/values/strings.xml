@@ -49,4 +49,12 @@
     <string name="title">Parenting is as easy as</string>
     <string name="resources">android.resource://</string>
     <string name="win_text">WIN</string>
+    <string name="add_task">Add Task</string>
+    <string name="add">Add</string>
+    <string name="add_edit_warning">You need to enter a name for the task</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="edit">Edit</string>
+    <string name="task_detail">Task Detail</string>
+    <string name="done">Done</string>
 </resources>
