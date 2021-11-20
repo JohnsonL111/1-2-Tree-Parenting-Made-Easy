@@ -19,8 +19,8 @@
 
             <EditText
                 android:id="@+id/edit_task_input"
-                android:layout_width="252dp"
-                android:layout_height="61dp"
+                android:layout_width="305dp"
+                android:layout_height="75dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 app:layout_constraintBottom_toBottomOf="parent"

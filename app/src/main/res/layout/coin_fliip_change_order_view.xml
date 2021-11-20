@@ -18,45 +18,32 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/toss_history_icon2"
-                android:layout_width="60dp"
-                android:layout_height="48dp"
-                android:contentDescription="TODO"
-                android:foregroundGravity="right"
-                app:layout_constraintBottom_toBottomOf="@+id/change_order_child_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.529"
-                app:layout_constraintStart_toEndOf="@+id/change_order_child_name"
-                app:layout_constraintTop_toTopOf="@+id/change_order_child_name"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <ImageView
                 android:id="@+id/change_order_child_photo"
-                android:layout_width="78dp"
-                android:layout_height="76dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="left"
                 app:layout_constraintBottom_toBottomOf="@+id/change_order_child_name"
                 app:layout_constraintEnd_toStartOf="@+id/change_order_child_name"
-                app:layout_constraintHorizontal_bias="0.2"
+                app:layout_constraintHorizontal_bias="0.559"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/change_order_child_name"
+                app:layout_constraintVertical_bias="0.583"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/change_order_child_name"
-                android:layout_width="222dp"
-                android:layout_height="92dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="185dp"
+                android:layout_height="87dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.881"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.47" />
+                app:layout_constraintVertical_bias="0.619" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

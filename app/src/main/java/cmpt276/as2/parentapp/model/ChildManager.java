@@ -17,6 +17,7 @@ public class ChildManager {
     public TaskManager task = new TaskManager();
     // Singleton support.
     private static ChildManager instance;
+    public CoinFlip coinFlip = new CoinFlip();
 
     // Get instance of a singleton ChildManager.
     public static ChildManager getInstance() {
@@ -32,6 +33,7 @@ public class ChildManager {
             Log.e("bruh", "adding child");
             childList.add(childToAdd);
         }
+        coinFlip.addChild(childToAdd);
         task.checkForUpdate(childList);
     }
 
@@ -55,6 +57,14 @@ public class ChildManager {
                 break;
             }
         }
+
+        for (int i = 0; i < numChildren; i++) {
+            String current = coinFlip.getPickerList().get(i).getName();
+            if (current.equals(name)) {
+                coinFlip.removeChild(i);
+                break;
+            }
+        }
     }
 
     public List<Child> getChildList() {
@@ -72,24 +82,7 @@ public class ChildManager {
                 break;
             }
         }
-
         return nameExist;
-    }
-
-    public ArrayList<String> getNameList() {
-        ArrayList<String> nameList = new ArrayList<>();
-        for (int i = 0; i < childList.size(); i++) {
-            nameList.add(childList.get(i).getName());
-        }
-        return nameList;
-    }
-
-    public void tossCoin() {
-        if (!childList.isEmpty()) {
-            Child tmp = childList.get(0);
-            childList.remove(0);
-            childList.add(tmp);
-        }
     }
 
     public void updateTaskChildNames(String currChildName, String newChildName) {

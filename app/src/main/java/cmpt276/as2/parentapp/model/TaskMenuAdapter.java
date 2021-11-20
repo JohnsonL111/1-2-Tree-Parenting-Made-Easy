@@ -68,8 +68,6 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
             }
         });
 
-        holder.detail.setText("Detail");
-        holder.detail.setOnClickListener(listenerViewDetail);
 
         /**
          * holder.childPhoto.setImageResource();
@@ -79,6 +77,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
          */
 
         holder.childPhoto.setOnClickListener(listenerViewDetail);
+        holder.childPhoto.setImageResource(R.drawable.default_child_photo);
 
         holder.nameOfChild.setText(taskList.get(position).getChildName());
         holder.nameOfChild.setOnClickListener(listenerViewDetail);
@@ -95,7 +94,6 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         public ImageView childPhoto;
         public TextView nameOfTask;
         public TextView nameOfChild;
-        public TextView detail;
 
         public TaskViewHolder(@NonNull View itemView)
         {
@@ -103,7 +101,6 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
             childPhoto = itemView.findViewById(R.id.task_detail_child_photo);
             nameOfTask = itemView.findViewById(R.id.task_detail_task_name);
             nameOfChild = itemView.findViewById(R.id.task_detail_child_name);
-            detail = itemView.findViewById(R.id.task_view_task_Detail);
         }
     }
 

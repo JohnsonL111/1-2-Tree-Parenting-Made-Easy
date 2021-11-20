@@ -93,6 +93,7 @@ public class TaskManagerActivity extends AppCompatActivity {
          childPhoto.setImageResource();
          *set child photo
          */
+        childPhoto.setImageResource(R.drawable.default_child_photo);
 
         Task tmp = childManager.task.getListOfTasks().get(index);
         taskTitle.setText(tmp.getTaskTitle());
