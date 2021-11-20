@@ -1,5 +1,6 @@
 package cmpt276.as2.parentapp.model;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -25,8 +26,8 @@ public class ChildManager {
         return instance;
     }
 
-    public void addChild(String name) {
-        Child childToAdd = new Child(name);
+    public void addChild(String name, Bitmap icon) {
+        Child childToAdd = new Child(name, icon);
         if (!name.equals("") && !checkIfNameExist(name)) {
             Log.e("bruh", "adding child");
             childList.add(childToAdd);

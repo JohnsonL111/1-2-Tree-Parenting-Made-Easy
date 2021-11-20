@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -89,16 +90,25 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Get child's name.
+                // Get child's name
                 EditText childNameSlot = findViewById(R.id.editTextPersonName);
                 String childName = childNameSlot.getText().toString();
+
+                // Get the current icon as a drawable and parse into bitmap.
+                // Citation: https://stackoverflow.com/questions/25906707/i-want-to-get-image-from-imageview?answertab=votes#tab-top
+                Bitmap image = null;
+                if (childIcon.getDrawable() instanceof BitmapDrawable) {
+                    BitmapDrawable drawable = (BitmapDrawable)childIcon.getDrawable();
+                    image = drawable.getBitmap();
+                }
 
                 if (isEditChild) {
                     if (!childName.equals("")) {
                         childManager.getChildList().get(editChildIdx).setName(childName);
+                        childManager.getChildList().get(editChildIdx).setIcon(image);
                     }
                 } else {
-                    childManager.addChild(childName);
+                    childManager.addChild(childName, image);
                 }
 
                 finish();
