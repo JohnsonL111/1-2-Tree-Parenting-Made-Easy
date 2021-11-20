@@ -11,11 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
+import cmpt276.as2.parentapp.databinding.ActivityEditChildBinding;
 import cmpt276.as2.parentapp.model.ChildManager;
 
 public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager;
+    private ActitivityEditSingleChildBinding binding;
 
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
@@ -29,7 +32,8 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actitivity_edit_single_child);
+        binding = ActitivityEditSingleChildBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         childManager = ChildManager.getInstance();
 
         extractIntent();
