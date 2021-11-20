@@ -9,13 +9,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import java.io.ByteArrayOutputStream;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
@@ -33,14 +37,13 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
     private static final String CHILD_IDX_TAG = "child index tag";
-    // insert bitmap tag here
+    private static final String BITMAP_CHILD_TAG = "bitmap child tag";
 
     // Intent Data
     private static boolean isEditChild;
     private String childName;
     private int editChildIdx;
-    //Bitmap childIcon;
-
+    private Bitmap icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +101,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                 // Citation: https://stackoverflow.com/questions/25906707/i-want-to-get-image-from-imageview?answertab=votes#tab-top
                 Bitmap image = null;
                 if (childIcon.getDrawable() instanceof BitmapDrawable) {
-                    BitmapDrawable drawable = (BitmapDrawable)childIcon.getDrawable();
+                    BitmapDrawable drawable = (BitmapDrawable) childIcon.getDrawable();
                     image = drawable.getBitmap();
                 }
 
@@ -118,11 +121,21 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     // create Intent to pass data
     public static Intent makeIntent(Context context, String childName, int childIndex,
-                                    boolean isEditChild) {
+                                    boolean isEditChild, Bitmap icon) {
         Intent intent = new Intent(context, ActitivityEditSingleChildActivity.class);
-        // Load child name and bit image through SP.
+
+        if (isEditChild) {
+            //Convert child's icon to byte array and putExtra it
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+
+            intent.putExtra(CHILD_IDX_TAG, childIndex);
+            intent.putExtra(BITMAP_CHILD_TAG, byteArray);
+        }
+
+        // Put data into intent
         intent.putExtra(CHILD_NAME_TAG, childName);
-        intent.putExtra(CHILD_IDX_TAG, childIndex);
 
         ActitivityEditSingleChildActivity.isEditChild = isEditChild;
         return intent;
@@ -130,12 +143,21 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     private void extractIntent() {
         EditText nameEditText = findViewById(R.id.editTextPersonName);
+
         Intent intent = getIntent();
+
         // inject data where needed.
         childName = intent.getStringExtra(CHILD_NAME_TAG);
-        editChildIdx = intent.getIntExtra(CHILD_IDX_TAG, 0);
+
+        // decode image byte array and set the image if editing
+        if (isEditChild) {
+            byte[] byteArray = intent.getByteArrayExtra(BITMAP_CHILD_TAG);
+            icon = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            childIcon.setImageBitmap(icon);
+            editChildIdx = intent.getIntExtra(CHILD_IDX_TAG, 0);
+        }
+
         nameEditText.setText(childName);
-        // Extract bitmap here
     }
 
     // Helpful resource: https://www.youtube.com/watch?v=XRD-lVwlSjU&t=245s

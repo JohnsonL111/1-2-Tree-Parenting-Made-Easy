@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -76,7 +77,8 @@ public class EditChildActivity extends AppCompatActivity {
                         getApplicationContext(),
                         childName,
                         -1,
-                        false);
+                        false,
+                        null);
                 startActivity(appInfo);
             }
         });
@@ -157,31 +159,38 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                // Finds the actual index and name of the child name that was clicked
+                // Need to do this since we are using a separate list to display on the listview
+                String childName = childNames.get(position);
+                int actualChildIdx = searchForCorrectChild(childName);
+                String actualName = childManager.getChildList().get(actualChildIdx).getName();
+                Bitmap icon = childManager.getChildList().get(actualChildIdx).getIcon();
 
-                /*
-                List<Child> childList = childManager.getChildList();
-                String childNameClicked = childNames.get(position);
-
-
-                for (int i = 0; i < childList.size(); ++i) {
-                    String childName = childList.get(i).getName();
-                    if (childNameClicked.equals(childName)) {
-                        // User can change the child's name by clicking on the child in the listview.
-                        editChildNamePopUp(childList.get(i));
-                    }
-                }
-                */
-                // Switches to edit single child activity.
                 Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
                         getApplicationContext(),
-                        childManager.getChildList().get(position).getName(),
-                        position, true);
+                        actualName,
+                        actualChildIdx,
+                        true,
+                        icon);
                 startActivity(appInfo);
 
             }
         });
     }
 
+    private int searchForCorrectChild(String childName) {
+        int idx = 0;
+        List<Child> childList = childManager.getChildList();
+        for (int i = 0; i < childNames.size(); ++i) {
+            if (childName.equals(childList.get(i).getName())) {
+                idx = i;
+            }
+        }
+        Log.e("bruh", "idx is: " + idx);
+        return idx;
+    }
+
+    /* NO LONGER USED SINCE WE USE A SEPARATE ACTIIVITY TO EDIT DATA.
     // Takes in user input for new child name via dialog popup.
     private void editChildNamePopUp(Child childToEdit) {
         // Citation: https://stackoverflow.com/questions/10903754/input-text-dialog-android
@@ -229,6 +238,7 @@ public class EditChildActivity extends AppCompatActivity {
         }
         startChildList();
     }
+    */
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, EditChildActivity.class);
