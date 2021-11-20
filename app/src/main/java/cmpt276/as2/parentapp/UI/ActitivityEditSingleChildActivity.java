@@ -1,14 +1,20 @@
 package cmpt276.as2.parentapp.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
@@ -19,6 +25,10 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager;
     private ActitivityEditSingleChildBinding binding;
+    ImageView childIcon;
+    Button takePicButton;
+
+
 
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
@@ -26,7 +36,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     // Intent Data
     static boolean isEditChild;
     String childName;
-    Bitmap childIcon;
+    //Bitmap childIcon;
 
 
     @Override
@@ -35,6 +45,25 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         binding = ActitivityEditSingleChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         childManager = ChildManager.getInstance();
+
+        childIcon = findViewById(R.id.icon);
+        takePicButton = findViewById(R.id.takeNewImg);
+
+
+        // Ask for camera run-time permissions.
+        if (ContextCompat.checkSelfPermission(ActitivityEditSingleChildActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ActitivityEditSingleChildActivity.this, new String[]{
+                    Manifest.permission.CAMERA
+            }, 100);
+        }
+
+        takePicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 100);
+            }
+        });
 
         extractIntent();
         Button finishedButton = findViewById(R.id.finishedButton);
@@ -64,29 +93,13 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                 childManager.addChild(childName);
                 finish();
 
-
-                /*
-                // Only attempt to add string if it isn't empty.
-                if (!childName.equals("")) {
-                    // Check if new name is available and execute apt case.
-                    if (!childManager.checkIfNameExist(childName)) {
-                        Toast.makeText(ActitivityEditSingleChildActivity.this, "Added " + childName, Toast.LENGTH_SHORT).show();
-                        childManager.addChild(childName);
-                        childNameSlot.setText("");
-                        //finish();
-                    } else {
-                        Toast.makeText(ActitivityEditSingleChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            */
             }
-
-
         });
     }
 
     // create Intent to pass data
-    public static Intent makeIntent(Context context, String childName, int childIndex, boolean isEditChild) {
+    public static Intent makeIntent(Context context, String childName, int childIndex,
+                                    boolean isEditChild) {
         Intent intent = new Intent(context, ActitivityEditSingleChildActivity.class);
         // Load child name and bit image through SP.
         intent.putExtra(CHILD_NAME_TAG, childName);
@@ -105,6 +118,16 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
         nameEditText.setText(childName);
         // inject bitmap here
+    }
+
+    // Helpful resource: https://www.youtube.com/watch?v=XRD-lVwlSjU&t=245s
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            childIcon.setImageBitmap(bitmap);
+        }
     }
 
 }

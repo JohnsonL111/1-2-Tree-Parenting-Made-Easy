@@ -27,7 +27,7 @@ public class ChildManager {
 
     public void addChild(String name) {
         Child childToAdd = new Child(name);
-        if (!name.equals("")) {
+        if (!name.equals("") && !checkIfNameExist(name)) {
             Log.e("bruh", "adding child");
             childList.add(childToAdd);
         }
