@@ -171,16 +171,19 @@ public class CoinFlipActivity extends AppCompatActivity {
         {
             dialog.dismiss();
             for (int j = 0; j < childManager.coinFlip.getPickerList().size(); j++) {
-                if (childManager.coinFlip.getPickerList().get(j).getName().isEmpty()) {
+                if (childManager.coinFlip.getPickerList().get(j).getName().equals("")) {
                     childManager.coinFlip.getPickerList().remove(j);
                     break;
                 }
             }
+
             childManager.coinFlip.changeOrder(adapterChangeOrder.getPick());
+
             if (adapterChangeOrder.getPick() == childManager.coinFlip.getPickerList().size()) {
                 saveGame = false;
                 tossCoin();
             } else {
+                saveChildManager();
                 setPageAdapter();
                 viewPager2.setAdapter(adapter);
                 setBoardCallBack();
@@ -266,6 +269,17 @@ public class CoinFlipActivity extends AppCompatActivity {
         if (saveGame) {
             childManager.coinFlip.saveResult(this);
         }
+        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        Gson gson = new Gson();
+        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
+        editor.apply();
+
+    }
+
+    private void saveChildManager() {
+
         SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
