@@ -61,11 +61,11 @@
             android:id="@+id/edit_child_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
             android:layout_weight="0.05"
             android:clickable="true"
-            android:layout_gravity="right|center_vertical"
-            app:backgroundTint="@android:color/holo_green_dark"
-            app:srcCompat="@android:drawable/ic_menu_share" />
+            app:backgroundTint="@android:color/holo_green_light"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
 
     </LinearLayout>
 

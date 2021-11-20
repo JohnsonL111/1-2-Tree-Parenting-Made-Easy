@@ -27,45 +27,47 @@
                 android:foregroundGravity="right"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.302"
+                app:layout_constraintHorizontal_bias="0.054"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/task_detail_task_name"
+                app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
                 android:id="@+id/task_detail_task_name"
-                android:layout_width="347dp"
-                android:layout_height="45dp"
+                android:layout_width="390dp"
+                android:layout_height="36dp"
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="48sp"
+                android:textSize="34sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/task_detail_child_name"
-                android:layout_width="112dp"
-                android:layout_height="54dp"
+                android:layout_width="222dp"
+                android:layout_height="35dp"
                 android:layout_marginEnd="16dp"
                 android:gravity="center_horizontal|center_vertical"
-                android:textSize="24sp"
+                android:textSize="34sp"
                 app:layout_constraintBottom_toTopOf="@+id/task_detail_done_btn"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.525"
+                app:layout_constraintHorizontal_bias="0.81"
                 app:layout_constraintStart_toEndOf="@+id/task_detail_child_photo"
-                app:layout_constraintTop_toTopOf="@+id/task_detail_child_photo" />
+                app:layout_constraintTop_toTopOf="@+id/task_detail_child_photo"
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/task_detail_done_btn"
-                android:layout_width="154dp"
-                android:layout_height="46dp"
-                android:layout_marginBottom="8dp"
+                android:layout_width="219dp"
+                android:layout_height="79dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/leaf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.887"
+                app:layout_constraintHorizontal_bias="0.864"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
