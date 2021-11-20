@@ -40,7 +40,7 @@ import cmpt276.as2.parentapp.model.ChildManager;
  */
 public class EditChildActivity extends AppCompatActivity {
 
-    private static ChildManager childManager;
+    private static ChildManager childManager = ChildManager.getInstance();
     private ArrayAdapter<String> listAdapter;
     private List<String> childNames; // For display on the listview
     private ListView list;
@@ -55,7 +55,7 @@ public class EditChildActivity extends AppCompatActivity {
 
         setTitle(R.string.editChildActivityTitle);
 
-        childManager = getChildData(CHILD_LIST);
+        //childManager = getChildData(CHILD_LIST);
         startChildList();
         addChild();
         removeChild();
@@ -126,7 +126,6 @@ public class EditChildActivity extends AppCompatActivity {
         // Forms list of names to display.
         convertChildListToNames();
 
-        //childNames
         // build adapter
         listAdapter = new ArrayAdapter<>(
                 this, // context

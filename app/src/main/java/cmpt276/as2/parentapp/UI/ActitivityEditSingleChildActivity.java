@@ -25,17 +25,19 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager;
     private ActitivityEditSingleChildBinding binding;
+
     ImageView childIcon;
     Button takePicButton;
 
-
-
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
+    private static final String CHILD_IDX_TAG = "child index tag";
+    // insert bitmap tag here
 
     // Intent Data
-    static boolean isEditChild;
-    String childName;
+    private static boolean isEditChild;
+    private String childName;
+    private int editChildIdx;
     //Bitmap childIcon;
 
 
@@ -90,9 +92,16 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                 // Get child's name.
                 EditText childNameSlot = findViewById(R.id.editTextPersonName);
                 String childName = childNameSlot.getText().toString();
-                childManager.addChild(childName);
-                finish();
 
+                if (isEditChild) {
+                    if (!childName.equals("")) {
+                        childManager.getChildList().get(editChildIdx).setName(childName);
+                    }
+                } else {
+                    childManager.addChild(childName);
+                }
+
+                finish();
             }
         });
     }
@@ -103,24 +112,24 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         Intent intent = new Intent(context, ActitivityEditSingleChildActivity.class);
         // Load child name and bit image through SP.
         intent.putExtra(CHILD_NAME_TAG, childName);
+        intent.putExtra(CHILD_IDX_TAG, childIndex);
 
         ActitivityEditSingleChildActivity.isEditChild = isEditChild;
         return intent;
     }
 
     private void extractIntent() {
-        Intent intent = getIntent();
-        childName = intent.getStringExtra(CHILD_NAME_TAG);
-        // extract bitmap here
-
-        // inject data into sections
         EditText nameEditText = findViewById(R.id.editTextPersonName);
-
+        Intent intent = getIntent();
+        // inject data where needed.
+        childName = intent.getStringExtra(CHILD_NAME_TAG);
+        editChildIdx = intent.getIntExtra(CHILD_IDX_TAG, 0);
         nameEditText.setText(childName);
-        // inject bitmap here
+        // Extract bitmap here
     }
 
     // Helpful resource: https://www.youtube.com/watch?v=XRD-lVwlSjU&t=245s
+    // Takes pic and injects it into the imageView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
