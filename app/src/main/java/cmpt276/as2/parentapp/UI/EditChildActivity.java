@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +40,7 @@ import cmpt276.as2.parentapp.model.ChildManager;
  */
 public class EditChildActivity extends AppCompatActivity {
 
-    private ChildManager childManager;
+    private static ChildManager childManager;
     private ArrayAdapter<String> listAdapter;
     private List<String> childNames; // For display on the listview
     private ListView list;
@@ -68,34 +69,15 @@ public class EditChildActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Switches to edit single child activity.
+                EditText childNameField = findViewById(R.id.addChildBox);
+                String childName = childNameField.getText().toString();
+
                 Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
                         getApplicationContext(),
-                        null,
+                        childName,
                         -1,
                         false);
                 startActivity(appInfo);
-
-
-                /*
-                // Get child's name.
-                EditText childNameSlot = findViewById(R.id.addChildBox);
-                String childName = childNameSlot.getText().toString();
-
-                // Only attempt to add string if it isn't empty.
-                if (!childName.equals("")) {
-                    // Check if new name is available and execute apt case.
-                    if (!childManager.checkIfNameExist(childName)) {
-                        Toast.makeText(EditChildActivity.this, "Added " + childName, Toast.LENGTH_SHORT).show();
-                        childManager.addChild(childName);
-                        startChildList();
-                        childNameSlot.setText("");
-                    } else {
-                        Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                startChildList();
-
-                 */
             }
         });
     }
@@ -129,6 +111,11 @@ public class EditChildActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Log.d("bruh", "childlist size is: " + childManager.getChildList().size());
+
+        // Reset the add name slot.
+        EditText childNameSlot = findViewById(R.id.addChildBox);
+        childNameSlot.setText("");
         // Refresh child list listView.
         startChildList();
     }
@@ -139,6 +126,7 @@ public class EditChildActivity extends AppCompatActivity {
         // Forms list of names to display.
         convertChildListToNames();
 
+        //childNames
         // build adapter
         listAdapter = new ArrayAdapter<>(
                 this, // context
@@ -170,6 +158,7 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+
                 /*
                 List<Child> childList = childManager.getChildList();
                 String childNameClicked = childNames.get(position);
@@ -182,12 +171,11 @@ public class EditChildActivity extends AppCompatActivity {
                         editChildNamePopUp(childList.get(i));
                     }
                 }
-
-                 */
+                */
                 // Switches to edit single child activity.
                 Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
                         getApplicationContext(),
-                        childManager.getChildList().get(position),
+                        childManager.getChildList().get(position).getName(),
                         position, true);
                 startActivity(appInfo);
 

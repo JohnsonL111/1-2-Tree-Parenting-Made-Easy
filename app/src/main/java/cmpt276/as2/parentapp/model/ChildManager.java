@@ -1,5 +1,7 @@
 package cmpt276.as2.parentapp.model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class ChildManager {
     public void addChild(String name) {
         Child childToAdd = new Child(name);
         if (!name.equals("")) {
+            Log.e("bruh", "adding child");
             childList.add(childToAdd);
         }
         task.checkForUpdate(childList);
