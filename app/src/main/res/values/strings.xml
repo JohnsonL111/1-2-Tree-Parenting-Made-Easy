@@ -64,4 +64,16 @@
     <string name="done">Done</string>
     <string name="choose_image_from_gallery">Choose image from gallery</string>
     <string name="take_new_image">Take new image</string>
+
+    <!-- Sources-->
+    <string name="timer_background">https://www.youtube.com/watch?v=lorp0Q9yi04</string>
+    <string name="timer_backsound">https://www.youtube.com/watch?v=3Mj92qmOXlE</string>
+    <string name="tree_icon">https://www.shutterstock.com/search/pixel+tree</string>
+    <string name="menu_background">https://scx1.b-cdn.net/csz/news/800a/2017/tree.jpg</string>
+    <string name="help_button">https://www.nicepng.com/ourpic/u2q8e6w7q8o0i1u2_h7-slider-1-img-1-tree-stump-top/</string>
+    <string name="default_photo">https://www.vectorstock.com/royalty-free-vector/pine-tree-kawaii-character-vector-18584176</string>
+    <string name="menu_button"> https://static.wikia.nocookie.net/theforest_gamepedia/images/5/5d/LeafFarket.png/revision/latest/scale-to-width-down/310?cb=20170924102207</string>
+
+
+
 </resources>
