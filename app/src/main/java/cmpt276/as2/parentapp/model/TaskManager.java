@@ -1,5 +1,7 @@
 package cmpt276.as2.parentapp.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +59,13 @@ public class TaskManager {
 
     private void getChildNameForNewTask(List<Child> childList) {
         if (!childList.isEmpty()) {
-            childNameForNewTask = childList.get(0).getName();
+            int position = 0;
+            for(int i = 0; i < childList.size(); i++) {
+                if(childList.get(i).getName().equals(childNameForNewTask)) {
+                    position = (i + 1) % childList.size();
+                }
+            }
+            childNameForNewTask = childList.get(position).getName();
         }
     }
 
