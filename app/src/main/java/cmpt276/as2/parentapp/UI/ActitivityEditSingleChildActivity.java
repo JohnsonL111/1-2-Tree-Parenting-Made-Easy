@@ -12,14 +12,17 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
@@ -30,9 +33,13 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager;
     private ActitivityEditSingleChildBinding binding;
+    private static final int GALLERY_REQUEST = 123;
+    private static final int CAMERA_REQUEST = 100;
+
 
     ImageView childIcon;
     Button takePicButton;
+    Button galleryButton;
 
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
@@ -54,22 +61,33 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
         childIcon = findViewById(R.id.icon);
         takePicButton = findViewById(R.id.takeNewImg);
+        galleryButton= findViewById(R.id.gallerySelectBtn);
 
 
         // Ask for camera run-time permissions.
         if (ContextCompat.checkSelfPermission(ActitivityEditSingleChildActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(ActitivityEditSingleChildActivity.this, new String[]{
                     Manifest.permission.CAMERA
-            }, 100);
+            }, CAMERA_REQUEST);
         }
 
         takePicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 100);
+                startActivityForResult(intent, CAMERA_REQUEST);
             }
         });
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"pick profile"),GALLERY_REQUEST);
+            }
+        });
+
 
         extractIntent();
         Button finishedButton = findViewById(R.id.finishedButton);
@@ -127,7 +145,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         if (isEditChild) {
             //Convert child's icon to byte array and putExtra it
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            icon.compress(Bitmap.CompressFormat.PNG, CAMERA_REQUEST, stream);
             byte[] byteArray = stream.toByteArray();
 
             intent.putExtra(CHILD_IDX_TAG, childIndex);
@@ -165,10 +183,21 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100) {
-            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            childIcon.setImageBitmap(bitmap);
+        Bitmap bitmap= null;
+        if (requestCode == CAMERA_REQUEST) {
+            bitmap = (Bitmap) data.getExtras().get("data");
         }
+        if(requestCode==GALLERY_REQUEST && resultCode==RESULT_OK&& data!=null){
+            Log.e("data", "data is not null");
+            Uri profileImage =data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), profileImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        childIcon.setImageBitmap(bitmap);
+
     }
 
 }

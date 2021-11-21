@@ -103,6 +103,7 @@ public class TimeoutOptionActivity extends AppCompatActivity {
 
     }
 
+
     static public int getDuration(Context context){
         SharedPreferences prefs = context.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
         return prefs.getInt(DURATION_CHOICE,300);
