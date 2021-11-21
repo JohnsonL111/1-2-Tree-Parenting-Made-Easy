@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="cmpt276.as2.parentapp">
+    package="cmpt276.as2.parentapp" >
 
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
@@ -13,11 +13,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_tree_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ParentApp">
+        android:theme="@style/Theme.ParentApp" >
+        <activity
+            android:name=".UI.HelpMenuActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".UI.ActitivityEditSingleChildActivity"
-            android:parentActivityName=".UI.EditChildActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".UI.EditChildActivity" />
         <activity
             android:name=".UI.EditChildActivity"
             android:exported="true"
@@ -53,7 +57,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.ParentApp">
+            android:theme="@style/Theme.ParentApp" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

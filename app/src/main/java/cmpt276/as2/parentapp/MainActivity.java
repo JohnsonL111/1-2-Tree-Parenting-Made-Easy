@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import cmpt276.as2.parentapp.UI.CoinFlipActivity;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
+import cmpt276.as2.parentapp.UI.HelpMenuActivity;
 import cmpt276.as2.parentapp.UI.TaskManagerActivity;
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
 
@@ -49,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         task.setOnClickListener(view ->
         {
             Intent i = TaskManagerActivity.makeIntent(MainActivity.this);
+            startActivity(i);
+        });
+
+        Button help = findViewById(R.id.help_btn);
+        help.setOnClickListener(view ->
+        {
+            Intent i = HelpMenuActivity.makeIntent(MainActivity.this);
             startActivity(i);
         });
     }
