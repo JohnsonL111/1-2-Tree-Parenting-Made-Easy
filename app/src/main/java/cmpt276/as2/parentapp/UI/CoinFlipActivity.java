@@ -5,7 +5,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,9 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -24,6 +25,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.google.gson.Gson;
 
 import cmpt276.as2.parentapp.R;
@@ -42,8 +49,9 @@ public class CoinFlipActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private CoinFlipMenuAdapter adapter;
     private ChangeOrderMenuAdapter adapterChangeOrder;
-    private VideoView videoView;
+    private ImageView flip;
     private boolean saveGame = true;
+    private MediaPlayer mp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +59,8 @@ public class CoinFlipActivity extends AppCompatActivity {
         setContentView(R.layout.activity_coin_flip);
 
         getChildManager();
-        videoView = findViewById(R.id.flip);
+        flip = findViewById(R.id.flip_animation);
+
         viewPager2 = findViewById(R.id.coin_viewpager2);
 
         setPageAdapter();
@@ -106,33 +115,46 @@ public class CoinFlipActivity extends AppCompatActivity {
         childManager.coinFlip.setResult(adapter.getResult());
         childManager.coinFlip.tossTheCoin();
 
-        Uri videoUri;
         if (childManager.coinFlip.getResultInt() == 0) {
-            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_h1);
+            showAnimation(R.raw.sound_h, R.drawable.gif_h);
         } else {
-            videoUri = Uri.parse(getString(R.string.resources) + getPackageName() + "/" + R.raw.full_t1);
+            showAnimation(R.raw.sound_t, R.drawable.gif_t);
         }
 
-        videoView.setVideoURI(videoUri);
-        videoView.setVisibility(View.VISIBLE);
+        flip.setVisibility(View.VISIBLE);
         viewPager2.setVisibility(View.INVISIBLE);
-        videoView.setZOrderOnTop(true);
-        videoView.requestFocus();
-
-        videoView.setOnPreparedListener(arg0 -> videoView.start());
-
         saveResult();
+    }
 
-        videoView.setOnCompletionListener(mediaPlayer ->
+    private void showAnimation(int idSound, int id) {
+        mp = MediaPlayer.create(CoinFlipActivity.this, idSound);
+        mp.start();
+
+        Glide.with(this).load(id).addListener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                if (resource instanceof GifDrawable) {
+                    ((GifDrawable) resource).setLoopCount(1);
+                }
+                return false;
+            }
+        }).into(flip);
+
+        mp.setOnCompletionListener(mediaPlayer ->
         {
             if (childManager.getChildList().size() > 0 && saveGame) {
                 showResultWithPicker();
             } else {
                 showResultWithOutPicker();
             }
+            mp.release();
         });
     }
-
 
     private void showChangeOrderMenu() {
 
@@ -245,7 +267,7 @@ public class CoinFlipActivity extends AppCompatActivity {
     private void reset() {
         saveGame = true;
         viewPager2.setVisibility(View.VISIBLE);
-        videoView.setVisibility(View.INVISIBLE);
+        flip.setVisibility(View.INVISIBLE);
 
         getChildManager();
         setPageAdapter();

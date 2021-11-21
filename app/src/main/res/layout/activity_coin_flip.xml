@@ -29,15 +29,11 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".SecondaryDisplay">
 
-        <VideoView
-            android:id="@+id/flip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginBottom="0dp" />
-
+        <ImageView
+            android:id="@+id/flip_animation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:srcCompat="@tools:sample/avatars" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

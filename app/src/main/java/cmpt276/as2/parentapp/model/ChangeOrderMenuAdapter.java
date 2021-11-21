@@ -21,8 +21,8 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
 public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenuAdapter.ChangeOrderViewHolder> {
 
     private final ArrayList<clickObserverChangeOrder> observerChangeOrder = new ArrayList<>();
-    private Context context;
-    private ArrayList<Child> childList;
+    private final Context context;
+    private final ArrayList<Child> childList;
     private int pick;
 
     public ChangeOrderMenuAdapter(Context context, ArrayList<Child> childList) {

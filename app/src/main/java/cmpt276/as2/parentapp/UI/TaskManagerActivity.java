@@ -28,6 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
+import java.util.Objects;
+
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
@@ -68,7 +70,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         taskList.setLayoutManager(mLayoutManager);
         DividerItemDecoration decoration = new DividerItemDecoration(taskList.getContext(), mLayoutManager.getOrientation());
-        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
+        decoration.setDrawable(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null)));
         taskList.setAdapter(adapter);
         taskList.addItemDecoration(decoration);
 
@@ -100,6 +102,8 @@ public class TaskManagerActivity extends AppCompatActivity {
                 }
             }
             childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
+
+
 
         } else {
             childPhoto.setImageResource(R.drawable.default_photo_nobody);
