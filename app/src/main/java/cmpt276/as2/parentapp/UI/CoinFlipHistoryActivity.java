@@ -41,9 +41,9 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         historyList = findViewById(R.id.coin_history_list);
 
         adapter = new CoinHistoryMenuAdapter(this
-                ,childManager.coinFlip.getHistoryName()
-                ,childManager.coinFlip.getHistoryTS()
-                ,childManager.coinFlip.getPickerList());
+                , childManager.coinFlip.getHistoryName()
+                , childManager.coinFlip.getHistoryTS()
+                , childManager.coinFlip.getPickerList());
 
         populateList();
         this.setTitle(getString(R.string.toss_history));

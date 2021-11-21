@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
@@ -45,11 +46,8 @@ public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenu
 
         for (int i = 0; i < childList.size(); i++) {
             if (childList.get(i).getName().equals(name)) {
-                /**
-                 * set child photo
-                 * currently just use the default photo
-                 */
-                holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+
+                holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(childList.get(i).getIcon()));
                 break;
             }
         }

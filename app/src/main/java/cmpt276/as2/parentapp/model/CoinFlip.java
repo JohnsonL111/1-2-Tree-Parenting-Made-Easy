@@ -162,4 +162,12 @@ public class CoinFlip {
         }
         setCurrentPickerName();
     }
+
+    public void changeIcon(String childName, String newIcon) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().equals(childName)) {
+                savedPickers.get(i).setIcon(newIcon);
+            }
+        }
+    }
 }

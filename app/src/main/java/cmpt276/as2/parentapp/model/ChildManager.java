@@ -87,10 +87,7 @@ public class ChildManager {
     public void updateTaskChildNames(String currChildName, String newChildName) {
         task.editTasksWithDeletedChildName(currChildName, newChildName);
         task.updateChildNameForNewTask(currChildName, newChildName);
-    }
-
-    public void updateTaskNextChild(int taskNumber) {
-        task.updateNextChildToDoTask(taskNumber, childList);
+        coinFlip.editChildName(currChildName, newChildName);
     }
 
     public void addTask(String taskName)

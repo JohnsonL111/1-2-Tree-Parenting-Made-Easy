@@ -29,6 +29,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.Task;
 import cmpt276.as2.parentapp.model.TaskMenuAdapter;
@@ -89,11 +90,20 @@ public class TaskManagerActivity extends AppCompatActivity {
         Button doneBtn = v.findViewById(R.id.task_detail_done_btn);
 
 
-        /**
-         childPhoto.setImageResource();
-         *set child photo
-         */
-        childPhoto.setImageResource(R.drawable.default_child_photo);
+        if (childManager.getChildList().size() > 0) {
+            Child child = childManager.getChildList().get(0);
+
+            for (int i = 0; i < childManager.getChildList().size(); i++) {
+                child = childManager.getChildList().get(i);
+                if (child.getName().equals(childManager.task.getListOfTasks().get(index).getChildName())) {
+                    break;
+                }
+            }
+            childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
+
+        } else {
+            childPhoto.setImageResource(R.drawable.default_photo_nobody);
+        }
 
         Task tmp = childManager.task.getListOfTasks().get(index);
         taskTitle.setText(tmp.getTaskTitle());
@@ -204,15 +214,13 @@ public class TaskManagerActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_coin_history, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.go_back_coin_history:
                 this.finish();

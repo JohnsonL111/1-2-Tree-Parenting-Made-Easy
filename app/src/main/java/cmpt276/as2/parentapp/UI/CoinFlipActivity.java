@@ -129,9 +129,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                 showResultWithPicker();
             } else {
                 showResultWithOutPicker();
-
             }
-
         });
     }
 
@@ -207,13 +205,8 @@ public class CoinFlipActivity extends AppCompatActivity {
             icon.setImageResource(R.drawable.loss);
         }
 
-        /**
-         * Child lastPicker = childManager.coinFlip.getPickerList().get(childManager.coinFlip.getPickerList().size());
-         * set child photo
-         * currently just use the default photo
-         */
-
-        childPhoto.setImageResource(R.drawable.default_child_photo);
+        Child child = childManager.coinFlip.getPickerList().get(childManager.coinFlip.getPickerList().size() - 1);
+        childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
                 .setTitle(R.string.Result)
@@ -269,13 +262,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         if (saveGame) {
             childManager.coinFlip.saveResult(this);
         }
-        SharedPreferences prefs = this.getSharedPreferences(EditChildActivity.CHILD_LIST_TAG, MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-
-        Gson gson = new Gson();
-        editor.putString(EditChildActivity.CHILD_LIST, gson.toJson(childManager));
-        editor.apply();
-
+        saveChildManager();
     }
 
     private void saveChildManager() {
