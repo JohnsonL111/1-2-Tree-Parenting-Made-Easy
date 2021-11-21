@@ -154,13 +154,13 @@ public class EditChildActivity extends AppCompatActivity {
                 if (childManager.checkIfNameExist(childName)) {
                     Toast.makeText(EditChildActivity.this, "Removed " + childName, Toast.LENGTH_SHORT).show();
                     childManager.removeChild(childName);
-                    //startChildList();
+                    populateListView();
                     childNameSlot.setText("");
                 } else {
                     Toast.makeText(EditChildActivity.this, "Child does not exist!", Toast.LENGTH_SHORT).show();
                 }
 
-                //startChildList();
+                populateListView();
             }
         });
     }

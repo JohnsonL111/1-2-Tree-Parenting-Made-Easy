@@ -113,7 +113,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Get child's name
                 EditText childNameSlot = findViewById(R.id.editTextPersonName);
-                String childName = childNameSlot.getText().toString();
+                String newChildName = childNameSlot.getText().toString();
 
                 // Get the current icon as a drawable and parse into bitmap.
                 // Citation: https://stackoverflow.com/questions/25906707/i-want-to-get-image-from-imageview?answertab=votes#tab-top
@@ -125,8 +125,10 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
                 if (isEditChild) {
                     if (!childName.equals("")) {
-                        childManager.getChildList().get(editChildIdx).setName(childName);
+                        String currentChildName = childManager.getChildList().get(editChildIdx).getName();
+                        childManager.getChildList().get(editChildIdx).setName(newChildName);
                         childManager.getChildList().get(editChildIdx).setIcon(image);
+                        childManager.updateTaskChildNames(currentChildName, newChildName);
                     }
                 } else {
                     childManager.addChild(childName, image);
