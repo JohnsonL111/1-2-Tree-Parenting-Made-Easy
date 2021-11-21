@@ -20,7 +20,7 @@ import cmpt276.as2.parentapp.R;
 public class HelpMenuActivity extends AppCompatActivity {
     TextView sourceText;
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, HelpMenuActivity.class);
 
     }
@@ -33,24 +33,20 @@ public class HelpMenuActivity extends AppCompatActivity {
         setSourcesTextView();
 
 
-
-
-
-
     }
 
 
     private void setDeveloperTextView() {
-        TextView DeveloperName=findViewById(R.id.DeveloperName);
+        TextView DeveloperName = findViewById(R.id.DeveloperName);
 
 
-        DeveloperName.setText(  "Repo Manager: Jonathon (jpa143)\n" +
-                "Product Owner: Daniel Z (yza608)\n" +
-                "Team Member: Johnson L (jkl53)\n" +
-                "Scrum Master: Andrew (afa41) ");
+        DeveloperName.setText(getString(R.string.repoManager) +
+                getString(R.string.productOwner) +
+                getString(R.string.teamMember) +
+                getString(R.string.scrumMaster));
     }
 
-    private void setSourcesTextView(){
+    private void setSourcesTextView() {
         sourceText = findViewById(R.id.sourceText);
 
         SpannableString span_source = createSpanSource();
@@ -61,14 +57,14 @@ public class HelpMenuActivity extends AppCompatActivity {
     }
 
     //Return a spannable string for each source
-    private SpannableString createSpanSource(){
-        String source = "timer Backgrounds\n"
-                + "timer Backsound\n"
-                + "tree for icon\n"
-                + "menu background\n"
-                + "default photo\n"
-                + "menu button\n"
-                + "help button";
+    private SpannableString createSpanSource() {
+        String source = getString(R.string.timerBackground)
+                + getString(R.string.timerBackSound)
+                + getString(R.string.treeForIcon)
+                + getString(R.string.menuBackGround)
+                + getString(R.string.defaultPhoto)
+                + getString(R.string.menuButton)
+                + getString(R.string.helpButton);
 
         //Initialize spannable String for different hyperlink texts
         SpannableString span_source = new SpannableString(source);
@@ -123,7 +119,7 @@ public class HelpMenuActivity extends AppCompatActivity {
                 startActivity(i);
             }
         };
-        ClickableSpan span_menu_btn= new ClickableSpan() {
+        ClickableSpan span_menu_btn = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
                 Intent i = new Intent(Intent.ACTION_VIEW,
@@ -132,7 +128,7 @@ public class HelpMenuActivity extends AppCompatActivity {
                 startActivity(i);
             }
         };
-        ClickableSpan span_help_btn= new ClickableSpan() {
+        ClickableSpan span_help_btn = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View view) {
                 Intent i = new Intent(Intent.ACTION_VIEW,
@@ -143,13 +139,13 @@ public class HelpMenuActivity extends AppCompatActivity {
         };
 
         //Set span
-        span_source.setSpan(span_timer_bg,0,17, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_timer_bs,18,33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_tree_icon,34,47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_menu_bg,48,63, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_default_photo,64,77, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_menu_btn,78,89, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        span_source.setSpan(span_help_btn,90,101, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_timer_bg, 0, 17, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_timer_bs, 18, 33, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_tree_icon, 34, 47, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_menu_bg, 48, 63, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_default_photo, 64, 77, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_menu_btn, 78, 89, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        span_source.setSpan(span_help_btn, 90, 101, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return span_source;
     }

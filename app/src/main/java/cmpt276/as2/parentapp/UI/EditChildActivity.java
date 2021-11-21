@@ -44,11 +44,7 @@ import cmpt276.as2.parentapp.model.ChildManager;
  */
 public class EditChildActivity extends AppCompatActivity {
 
-    private static ChildManager childManager = ChildManager.getInstance();
-    //private ArrayAdapter<String> listAdapter;
-    private List<String> childNames; // For display on the listview
-    private ListView list;
-    private String newChildName = ""; // Store new child name on edit here.
+    private static ChildManager childManager;
     public static final String CHILD_LIST = "childListNames";
     public static final String CHILD_LIST_TAG = "childList";
 
@@ -57,6 +53,7 @@ public class EditChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
+        childManager = getChildData(CHILD_LIST_TAG);
         setTitle(R.string.editChildActivityTitle);
         populateListView();
         startListViewClickable();
@@ -91,11 +88,11 @@ public class EditChildActivity extends AppCompatActivity {
             Child currentChild = currentChildren.get(position);
 
             // Fill the icon
-            ImageView imageView = (ImageView)itemView.findViewById(R.id.childIcon);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.childIcon);
             imageView.setImageBitmap(currentChild.getIcon());
 
             // Fill the name
-            TextView childNameSlot = (TextView)itemView.findViewById(R.id.childName);
+            TextView childNameSlot = (TextView) itemView.findViewById(R.id.childName);
             childNameSlot.setText(currentChild.getName());
 
             return itemView;
@@ -115,7 +112,7 @@ public class EditChildActivity extends AppCompatActivity {
                         true,
                         childManager.getChildList().get(position).getIcon());
                 startActivity(appInfo);
-
+                saveChildData();
             }
         });
     }
@@ -137,6 +134,7 @@ public class EditChildActivity extends AppCompatActivity {
                         false,
                         null);
                 startActivity(appInfo);
+                saveChildData();
             }
         });
     }
@@ -161,6 +159,7 @@ public class EditChildActivity extends AppCompatActivity {
                 }
 
                 populateListView();
+                saveChildData();
             }
         });
     }
@@ -186,9 +185,10 @@ public class EditChildActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
         if (!prefs.contains(tag)) {
             return ChildManager.getInstance();
+        } else {
+            Gson gson = new Gson();
+            return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
         }
-        Gson gson = new Gson();
-        return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
     }
 
     private void saveChildData() {

@@ -73,7 +73,17 @@
     <string name="help_button">https://www.nicepng.com/ourpic/u2q8e6w7q8o0i1u2_h7-slider-1-img-1-tree-stump-top/</string>
     <string name="default_photo">https://www.vectorstock.com/royalty-free-vector/pine-tree-kawaii-character-vector-18584176</string>
     <string name="menu_button"> https://static.wikia.nocookie.net/theforest_gamepedia/images/5/5d/LeafFarket.png/revision/latest/scale-to-width-down/310?cb=20170924102207</string>
-
+    <string name="repoManager">Repo Manager: Jonathon (jpa143)\n</string>
+    <string name="productOwner">Product Owner: Daniel Z (yza608)\n</string>
+    <string name="teamMember">Team Member: Johnson L (jkl53)\n</string>
+    <string name="scrumMaster">\"Scrum Master: Andrew (afa41) \"</string>
+    <string name="timerBackground">timer Backgrounds\n</string>
+    <string name="timerBackSound">timer Backsound\n</string>
+    <string name="treeForIcon">tree for icon\n</string>
+    <string name="menuBackGround">menu background\n</string>
+    <string name="defaultPhoto">default photo\n</string>
+    <string name="menuButton">menu button\n</string>
+    <string name="helpButton">help button</string>
 
 
 </resources>
