@@ -1,7 +1,7 @@
 Scrum Roles
 ------------
 Iteration 1:
-Scrum Master: Jonathon (jpa143)
-Team Member: Daniel Z (yza608)
-Repo Manager: Johnson L (jkl53)
-Product Owner: Andrew (afa41)
+Repo Manager: Jonathon (jpa143)
+Product Owner: Daniel Z (yza608)
+Team Member: Johnson L (jkl53)
+Scrum Master: Andrew (afa41)
