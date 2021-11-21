@@ -81,7 +81,7 @@ public class CoinFlipActivity extends AppCompatActivity {
                     , getResources().getStringArray(R.array.coin_two_side_name));
         } else {
             adapter = new CoinFlipMenuAdapter(this
-                    , new Child("")
+                    , new Child("", null)
                     , getResources().getStringArray(R.array.coin_two_side_name));
         }
     }
@@ -147,7 +147,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         childList.addItemDecoration(decoration);
 
         adapterChangeOrder = new ChangeOrderMenuAdapter(this, childManager.coinFlip.getPickerList());
-        childManager.coinFlip.getPickerList().add(new Child(""));
+        childManager.coinFlip.getPickerList().add(new Child("", null));
 
         childList.setAdapter(adapterChangeOrder);
 
