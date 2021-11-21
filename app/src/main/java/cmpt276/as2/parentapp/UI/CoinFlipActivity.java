@@ -41,6 +41,8 @@ import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
 
 /**
  * The activity to handle th coin flip ui, will let user chose between head and tail and show a animation of coin toss then show the result.
+ * Now also contain a menu allow user to manually select current picker,
+ * if user chose nobody, then it only toss the coin and show the result and the order of picker will not change
  */
 public class CoinFlipActivity extends AppCompatActivity {
 

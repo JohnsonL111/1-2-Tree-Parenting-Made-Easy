@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -36,6 +35,14 @@ import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.Task;
 import cmpt276.as2.parentapp.model.TaskMenuAdapter;
 
+/**
+ * UI for task manager,
+ * Contain a flooding action button to add task,
+ * click the task name to edit title of task
+ * swipe to left to delete the task
+ * click the photo of child or their name will show a dretail view of task
+ * the detail view contain a done button, on click will change the child to next on the list.
+ */
 public class TaskManagerActivity extends AppCompatActivity {
 
     private ChildManager childManager;
@@ -102,7 +109,6 @@ public class TaskManagerActivity extends AppCompatActivity {
                 }
             }
             childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
-
 
 
         } else {

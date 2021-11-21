@@ -22,6 +22,7 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  * Adapter for the coin flip ui, display a picture of head & tail, a string to show current picker, and a button lead to edit child activity.
+ * Add picture for current picker, user can click it to show the menu which allow user to select picker manually.
  */
 public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapter.HorizontalViewHolder> {
 

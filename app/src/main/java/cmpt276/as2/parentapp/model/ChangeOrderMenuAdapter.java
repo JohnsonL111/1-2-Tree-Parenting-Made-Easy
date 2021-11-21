@@ -16,7 +16,7 @@ import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
- *
+ *Adapter for the menu where user can change order of the picker, always contain a nobody option in the last.
  */
 public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenuAdapter.ChangeOrderViewHolder> {
 

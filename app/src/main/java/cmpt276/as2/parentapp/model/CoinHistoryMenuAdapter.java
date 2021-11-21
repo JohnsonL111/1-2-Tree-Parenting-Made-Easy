@@ -17,6 +17,7 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
+ * Now on the left of history, show the picker's photo.
  */
 public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder> {
 
