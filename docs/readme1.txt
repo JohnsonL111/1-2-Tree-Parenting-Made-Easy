@@ -15,3 +15,7 @@ https://developer.android.com/guide/components/services (play alarm and vibratio
 https://developer.android.com/reference/android/app/Notification.Builder (notification appearance)
 https://developer.android.com/guide/topics/media/mediaplayer (alarm sound, background music for the timer)
 https://stackoverflow.com/questions/13950338/how-to-make-an-android-device-vibrate-with-different-frequency (vibrations)
+
+
+code style guide
+https://www.cs.cornell.edu/courses/JavaAndDS/JavaStyle.html#CamelCase
