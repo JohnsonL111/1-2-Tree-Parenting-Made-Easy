@@ -331,4 +331,10 @@ public class CoinFlipActivity extends AppCompatActivity {
         super.onPostResume();
         reset();
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mp.release();
+    }
 }
