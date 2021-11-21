@@ -31,19 +31,24 @@ public class ChildManager {
         Child childToAdd = new Child(name, icon);
         if (!name.equals("") && !checkIfNameExist(name)) {
             childList.add(childToAdd);
+            coinFlip.addChild(childToAdd);
         }
-        coinFlip.addChild(childToAdd);
+
         task.checkForUpdate(childList);
     }
 
     public void removeChild(String name) {
+
         // Guard if for sure child does not exist.
         if (!checkIfNameExist(name)) {
             return;
         }
+        coinFlip.removeChild(name);
+
         // Get the index of the child to remove
         int numChildren = childList.size();
         for (int i = 0; i < numChildren; ++i) {
+
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
                 String nextChildName = "";
@@ -53,14 +58,6 @@ public class ChildManager {
                 }
                 childList.remove(i);
                 updateTaskChildNames(currChildName, nextChildName);
-                break;
-            }
-        }
-
-        for (int i = 0; i < numChildren; i++) {
-            String current = coinFlip.getPickerList().get(i).getName();
-            if (current.equals(name)) {
-                coinFlip.removeChild(i);
                 break;
             }
         }
@@ -87,10 +84,7 @@ public class ChildManager {
     public void updateTaskChildNames(String currChildName, String newChildName) {
         task.editTasksWithDeletedChildName(currChildName, newChildName);
         task.updateChildNameForNewTask(currChildName, newChildName);
-    }
-
-    public void updateTaskNextChild(int taskNumber) {
-        task.updateNextChildToDoTask(taskNumber, childList);
+        coinFlip.editChildName(currChildName, newChildName);
     }
 
     public void addTask(String taskName)

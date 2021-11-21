@@ -159,7 +159,6 @@ public class EditChildActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(EditChildActivity.this, "Child does not exist!", Toast.LENGTH_SHORT).show();
                 }
-
                 populateListView();
                 saveChildData();
             }

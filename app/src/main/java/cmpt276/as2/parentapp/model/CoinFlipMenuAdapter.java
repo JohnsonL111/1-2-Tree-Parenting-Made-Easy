@@ -17,9 +17,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.UI.ActitivityEditSingleChildActivity;
+import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  * Adapter for the coin flip ui, display a picture of head & tail, a string to show current picker, and a button lead to edit child activity.
+ * Add picture for current picker, user can click it to show the menu which allow user to select picker manually.
  */
 public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapter.HorizontalViewHolder> {
 
@@ -28,10 +31,10 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
     private final ArrayList<clickObserverChangeOrder> observerChangeOrder = new ArrayList<>();
 
     private int result;
-    private Context context;
-    private Child picker;
-    private String[] option;
-    private TypedArray image;
+    private final Context context;
+    private final Child picker;
+    private final String[] option;
+    private final TypedArray image;
 
     public CoinFlipMenuAdapter(Context context, Child picker, String[] option) {
         this.context = context;
@@ -56,11 +59,8 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
         if (!picker.getName().isEmpty()) {
             holder.childName.setText(context.getString(R.string.coin_toss_picker, picker.getName()));
 
-            /**
-             * set child photo
-             * currently just use the default photo
-             */
-            holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+            holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(picker.getIcon()));
+
         } else {
             holder.childName.setText(R.string.no_save_child);
         }

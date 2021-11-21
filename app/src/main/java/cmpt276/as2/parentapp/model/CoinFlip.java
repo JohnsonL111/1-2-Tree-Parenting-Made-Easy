@@ -17,7 +17,6 @@ public class CoinFlip {
     private final int HEAD = 0;
     private final int TAIL = 1;
 
-    private String currentPickerName = "";
     private ArrayList<Child> savedPickers;
     private String timeStamp;
     private ArrayList<String> historyTS;
@@ -75,12 +74,10 @@ public class CoinFlip {
             historyTS.add(record);
             historyChildName.add(pickerName);
 
-            currentPickerName = savedPickers.get(0).getName();
         }
     }
 
     public void setCurrentPickerName() {
-        currentPickerName = savedPickers.get(0).getName();
     }
 
     public ArrayList<String> getHistoryTS() {
@@ -113,17 +110,19 @@ public class CoinFlip {
         setCurrentPickerName();
     }
 
-    public void removeChild(int index) {
+    public void removeChild(String deleteName) {
 
-        String deleteName = savedPickers.get(index).getName();
-
-        savedPickers.remove(index);
-        if (index == 0) {
-            if (savedPickers.size() > 0) {
-                setCurrentPickerName();
-            } else {
-                currentPickerName = "";
+        ArrayList<Child> tmpPicker = new ArrayList<>();
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (!savedPickers.get(i).getName().equals(deleteName)) {
+                tmpPicker.add(savedPickers.get(i));
             }
+        }
+        this.savedPickers = tmpPicker;
+
+        if (savedPickers.size() > 0) {
+            setCurrentPickerName();
+        } else {
         }
 
         ArrayList<String> tmpNameList = new ArrayList<>();
@@ -161,5 +160,13 @@ public class CoinFlip {
             savedPickers.add(0, tmp);
         }
         setCurrentPickerName();
+    }
+
+    public void changeIcon(String childName, String newIcon) {
+        for (int i = 0; i < savedPickers.size(); i++) {
+            if (savedPickers.get(i).getName().equals(childName)) {
+                savedPickers.get(i).setIcon(newIcon);
+            }
+        }
     }
 }

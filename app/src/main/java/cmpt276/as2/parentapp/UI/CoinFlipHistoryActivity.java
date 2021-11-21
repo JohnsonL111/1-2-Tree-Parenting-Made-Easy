@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
+import java.util.Objects;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.ChildManager;
@@ -24,6 +24,7 @@ import cmpt276.as2.parentapp.model.CoinHistoryMenuAdapter;
 
 /**
  * Activity that display the history of coin toss, show different icon if the user win and loss.
+ * Image on the left now show the picker's photo
  */
 public class CoinFlipHistoryActivity extends AppCompatActivity {
 
@@ -41,9 +42,9 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         historyList = findViewById(R.id.coin_history_list);
 
         adapter = new CoinHistoryMenuAdapter(this
-                ,childManager.coinFlip.getHistoryName()
-                ,childManager.coinFlip.getHistoryTS()
-                ,childManager.coinFlip.getPickerList());
+                , childManager.coinFlip.getHistoryName()
+                , childManager.coinFlip.getHistoryTS()
+                , childManager.coinFlip.getPickerList());
 
         populateList();
         this.setTitle(getString(R.string.toss_history));
@@ -63,7 +64,7 @@ public class CoinFlipHistoryActivity extends AppCompatActivity {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         historyList.setLayoutManager(mLayoutManager);
         DividerItemDecoration decoration = new DividerItemDecoration(historyList.getContext(), mLayoutManager.getOrientation());
-        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
+        decoration.setDrawable(Objects.requireNonNull(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null)));
         historyList.setAdapter(adapter);
         historyList.addItemDecoration(decoration);
     }

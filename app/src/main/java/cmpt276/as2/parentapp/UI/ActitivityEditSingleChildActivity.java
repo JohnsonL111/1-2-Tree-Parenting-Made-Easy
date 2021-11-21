@@ -1,11 +1,5 @@
 package cmpt276.as2.parentapp.UI;
 
-import static cmpt276.as2.parentapp.UI.EditChildActivity.CHILD_LIST;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -14,16 +8,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.gson.Gson;
 
@@ -31,8 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import cmpt276.as2.parentapp.R;
+
 import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
-import cmpt276.as2.parentapp.databinding.ActivityEditChildBinding;
 import cmpt276.as2.parentapp.model.ChildManager;
 
 public class ActitivityEditSingleChildActivity extends AppCompatActivity {
@@ -138,12 +134,12 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                         childManager.getChildList().get(editChildIdx).setName(newChildName);
                         childManager.getChildList().get(editChildIdx).setIcon(encodeBase64(image));
                         childManager.updateTaskChildNames(currentChildName, newChildName);
+                        childManager.coinFlip.changeIcon(newChildName, encodeBase64(image));
                     }
                 } else {
                     childManager.addChild(childName, encodeBase64(image));
                 }
                 saveChildData();
-
                 finish();
             }
         });

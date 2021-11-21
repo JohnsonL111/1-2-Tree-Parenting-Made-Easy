@@ -13,15 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
- *
+ *Adapter for the menu where user can change order of the picker, always contain a nobody option in the last.
  */
 public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenuAdapter.ChangeOrderViewHolder> {
 
     private final ArrayList<clickObserverChangeOrder> observerChangeOrder = new ArrayList<>();
-    private Context context;
-    private ArrayList<Child> childList;
+    private final Context context;
+    private final ArrayList<Child> childList;
     private int pick;
 
     public ChangeOrderMenuAdapter(Context context, ArrayList<Child> childList) {
@@ -43,8 +44,7 @@ public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenu
         holder.childName.setOnClickListener(view ->
         {
             pick = holder.getAdapterPosition();
-            for(clickObserverChangeOrder obs : observerChangeOrder)
-            {
+            for (clickObserverChangeOrder obs : observerChangeOrder) {
                 obs.notifyChangeOrder();
             }
         });
@@ -52,24 +52,16 @@ public class ChangeOrderMenuAdapter extends RecyclerView.Adapter<ChangeOrderMenu
         holder.childPhoto.setOnClickListener(view ->
         {
             pick = holder.getAdapterPosition();
-            for(clickObserverChangeOrder obs : observerChangeOrder)
-            {
+            for (clickObserverChangeOrder obs : observerChangeOrder) {
                 obs.notifyChangeOrder();
             }
         });
 
         if (!child.getName().isEmpty()) {
             holder.childName.setText(child.getName());
-
-            /**
-             * set child photo
-             * currently set the photo to default one
-             */
-            holder.childPhoto.setImageResource(R.drawable.default_child_photo);
+            holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
         } else {
             holder.childName.setText(R.string.nobody);
-
-            //set child photo
             holder.childPhoto.setImageResource(R.drawable.default_photo_nobody);
         }
     }

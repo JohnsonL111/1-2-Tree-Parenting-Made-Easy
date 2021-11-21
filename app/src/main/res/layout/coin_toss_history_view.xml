@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/toss_history_icon2"
@@ -45,13 +45,13 @@
 
             <TextView
                 android:id="@+id/change_order_child_name"
-                android:layout_width="222dp"
-                android:layout_height="92dp"
+                android:layout_width="242dp"
+                android:layout_height="134dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="14sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
