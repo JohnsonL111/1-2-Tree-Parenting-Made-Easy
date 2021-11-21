@@ -14,7 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_tree_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ParentApp">
-
+        <activity
+            android:name=".UI.ActitivityEditSingleChildActivity"
+            android:parentActivityName=".UI.EditChildActivity"
+            android:exported="true" />
+        <activity
+            android:name=".UI.EditChildActivity"
+            android:exported="true"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.ParentApp" />
 
         <service android:name=".model.RingtonePlayService" />
         <service android:name=".model.TimerService" />
@@ -34,18 +42,13 @@
             android:exported="true"
             android:label="Toss History" />
         <activity
-            android:name=".UI.EditChildActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/Theme.ParentApp" />
-        <activity
             android:name=".UI.CoinFlipActivity"
             android:exported="true"
             android:label="CoinFlip" />
         <activity
-        android:name=".UI.TaskManagerActivity"
-        android:exported="true"
-        android:label="Task"/>
+            android:name=".UI.TaskManagerActivity"
+            android:exported="true"
+            android:label="Task" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

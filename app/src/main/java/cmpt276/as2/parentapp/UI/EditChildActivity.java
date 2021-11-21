@@ -9,8 +9,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,7 +41,7 @@ import cmpt276.as2.parentapp.model.ChildManager;
  */
 public class EditChildActivity extends AppCompatActivity {
 
-    private ChildManager childManager;
+    private static ChildManager childManager = ChildManager.getInstance();
     private ArrayAdapter<String> listAdapter;
     private List<String> childNames; // For display on the listview
     private ListView list;
@@ -54,7 +56,7 @@ public class EditChildActivity extends AppCompatActivity {
 
         setTitle(R.string.editChildActivityTitle);
 
-        childManager = getChildData(CHILD_LIST);
+        //childManager = getChildData(CHILD_LIST);
         startChildList();
         addChild();
         removeChild();
@@ -67,24 +69,17 @@ public class EditChildActivity extends AppCompatActivity {
         addChildButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Switches to edit single child activity.
+                EditText childNameField = findViewById(R.id.addChildBox);
+                String childName = childNameField.getText().toString();
 
-                // Get child's name.
-                EditText childNameSlot = findViewById(R.id.addChildBox);
-                String childName = childNameSlot.getText().toString();
-
-                // Only attempt to add string if it isn't empty.
-                if (!childName.equals("")) {
-                    // Check if new name is available and execute apt case.
-                    if (!childManager.checkIfNameExist(childName)) {
-                        Toast.makeText(EditChildActivity.this, "Added " + childName, Toast.LENGTH_SHORT).show();
-                        childManager.addChild(childName);
-                        startChildList();
-                        childNameSlot.setText("");
-                    } else {
-                        Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                startChildList();
+                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                        getApplicationContext(),
+                        childName,
+                        -1,
+                        false,
+                        null);
+                startActivity(appInfo);
             }
         });
     }
@@ -118,6 +113,11 @@ public class EditChildActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        Log.d("bruh", "childlist size is: " + childManager.getChildList().size());
+
+        // Reset the add name slot.
+        EditText childNameSlot = findViewById(R.id.addChildBox);
+        childNameSlot.setText("");
         // Refresh child list listView.
         startChildList();
     }
@@ -159,20 +159,38 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                List<Child> childList = childManager.getChildList();
-                String childNameClicked = childNames.get(position);
+                // Finds the actual index and name of the child name that was clicked
+                // Need to do this since we are using a separate list to display on the listview
+                String childName = childNames.get(position);
+                int actualChildIdx = searchForCorrectChild(childName);
+                String actualName = childManager.getChildList().get(actualChildIdx).getName();
+                Bitmap icon = childManager.getChildList().get(actualChildIdx).getIcon();
 
-                for (int i = 0; i < childList.size(); ++i) {
-                    String childName = childList.get(i).getName();
-                    if (childNameClicked.equals(childName)) {
-                        // User can change the child's name by clicking on the child in the listview.
-                        editChildNamePopUp(childList.get(i));
-                    }
-                }
+                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                        getApplicationContext(),
+                        actualName,
+                        actualChildIdx,
+                        true,
+                        icon);
+                startActivity(appInfo);
+
             }
         });
     }
 
+    private int searchForCorrectChild(String childName) {
+        int idx = 0;
+        List<Child> childList = childManager.getChildList();
+        for (int i = 0; i < childNames.size(); ++i) {
+            if (childName.equals(childList.get(i).getName())) {
+                idx = i;
+            }
+        }
+        Log.e("bruh", "idx is: " + idx);
+        return idx;
+    }
+
+    /* NO LONGER USED SINCE WE USE A SEPARATE ACTIIVITY TO EDIT DATA.
     // Takes in user input for new child name via dialog popup.
     private void editChildNamePopUp(Child childToEdit) {
         // Citation: https://stackoverflow.com/questions/10903754/input-text-dialog-android
@@ -223,6 +241,7 @@ public class EditChildActivity extends AppCompatActivity {
         }
         startChildList();
     }
+    */
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, EditChildActivity.class);
@@ -248,10 +267,8 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        if (getSupportActionBar() != null)
-        {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (getSupportActionBar() != null) {
             ActionBar actionBar = getSupportActionBar();
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
@@ -261,8 +278,7 @@ public class EditChildActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item)
-    {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.go_back_edit_child:
                 this.finish();
@@ -275,5 +291,4 @@ public class EditChildActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-
 }
