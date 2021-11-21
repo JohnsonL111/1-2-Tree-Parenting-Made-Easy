@@ -16,11 +16,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,7 +45,7 @@ import cmpt276.as2.parentapp.model.ChildManager;
 public class EditChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager = ChildManager.getInstance();
-    private ArrayAdapter<String> listAdapter;
+    //private ArrayAdapter<String> listAdapter;
     private List<String> childNames; // For display on the listview
     private ListView list;
     private String newChildName = ""; // Store new child name on edit here.
@@ -55,12 +58,66 @@ public class EditChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_child);
 
         setTitle(R.string.editChildActivityTitle);
+        populateListView();
+        startListViewClickable();
 
-        //childManager = getChildData(CHILD_LIST);
-        startChildList();
         addChild();
         removeChild();
-        startListViewClickable();
+    }
+
+    // Citation: https://www.youtube.com/watch?v=WRANgDgM2Zg (Brian Fraser: list view with images/text)
+    private void populateListView() {
+        ArrayAdapter<Child> adapter = new myListAdapter();
+        ListView list = findViewById(R.id.childListView);
+        list.setAdapter(adapter);
+    }
+
+    private class myListAdapter extends ArrayAdapter<Child> {
+        public myListAdapter() {
+            super(EditChildActivity.this, R.layout.child_view, childManager.getChildList());
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Ensures we have a view to work with (non-null)
+            View itemView = convertView;
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.child_view, parent, false);
+            }
+
+            List<Child> currentChildren = childManager.getChildList();
+
+            // Find child to work with
+            Child currentChild = currentChildren.get(position);
+
+            // Fill the icon
+            ImageView imageView = (ImageView)itemView.findViewById(R.id.childIcon);
+            imageView.setImageBitmap(currentChild.getIcon());
+
+            // Fill the name
+            TextView childNameSlot = (TextView)itemView.findViewById(R.id.childName);
+            childNameSlot.setText(currentChild.getName());
+
+            return itemView;
+        }
+    }
+
+    // Configure child object to be clickable.
+    private void startListViewClickable() {
+        ListView list = findViewById(R.id.childListView);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
+                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                        getApplicationContext(),
+                        childManager.getChildList().get(position).getName(),
+                        position,
+                        true,
+                        childManager.getChildList().get(position).getIcon());
+                startActivity(appInfo);
+
+            }
+        });
     }
 
     private void addChild() {
@@ -97,13 +154,13 @@ public class EditChildActivity extends AppCompatActivity {
                 if (childManager.checkIfNameExist(childName)) {
                     Toast.makeText(EditChildActivity.this, "Removed " + childName, Toast.LENGTH_SHORT).show();
                     childManager.removeChild(childName);
-                    startChildList();
+                    //startChildList();
                     childNameSlot.setText("");
                 } else {
                     Toast.makeText(EditChildActivity.this, "Child does not exist!", Toast.LENGTH_SHORT).show();
                 }
 
-                startChildList();
+                //startChildList();
             }
         });
     }
@@ -113,135 +170,13 @@ public class EditChildActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        Log.d("bruh", "childlist size is: " + childManager.getChildList().size());
-
         // Reset the add name slot.
         EditText childNameSlot = findViewById(R.id.addChildBox);
         childNameSlot.setText("");
+
         // Refresh child list listView.
-        startChildList();
+        populateListView();
     }
-
-
-    // Resets the list view.
-    private void startChildList() {
-        // Forms list of names to display.
-        convertChildListToNames();
-
-        // build adapter
-        listAdapter = new ArrayAdapter<>(
-                this, // context
-                android.R.layout.simple_list_item_1,
-                childNames); // items to be displayed
-
-        // configure the list view
-        list = findViewById(R.id.childListView);
-        list.setAdapter(listAdapter);
-        saveChildData();
-    }
-
-    // For displaying child names onto listview.
-    private void convertChildListToNames() {
-        // Create list of children.
-        List<Child> childItems = childManager.getChildList();
-
-        childNames = new ArrayList<>();
-        int numOfChild = childItems.size();
-        for (int i = 0; i < numOfChild; i++) {
-            Child currentChild = childItems.get(i);
-            childNames.add(currentChild.getName());
-        }
-        java.util.Collections.sort(childNames);
-    }
-
-    // Configure child object to be clickable.
-    private void startListViewClickable() {
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                // Finds the actual index and name of the child name that was clicked
-                // Need to do this since we are using a separate list to display on the listview
-                String childName = childNames.get(position);
-                int actualChildIdx = searchForCorrectChild(childName);
-                String actualName = childManager.getChildList().get(actualChildIdx).getName();
-                Bitmap icon = childManager.getChildList().get(actualChildIdx).getIcon();
-
-                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
-                        getApplicationContext(),
-                        actualName,
-                        actualChildIdx,
-                        true,
-                        icon);
-                startActivity(appInfo);
-
-            }
-        });
-    }
-
-    private int searchForCorrectChild(String childName) {
-        int idx = 0;
-        List<Child> childList = childManager.getChildList();
-        for (int i = 0; i < childNames.size(); ++i) {
-            if (childName.equals(childList.get(i).getName())) {
-                idx = i;
-            }
-        }
-        Log.e("bruh", "idx is: " + idx);
-        return idx;
-    }
-
-    /* NO LONGER USED SINCE WE USE A SEPARATE ACTIIVITY TO EDIT DATA.
-    // Takes in user input for new child name via dialog popup.
-    private void editChildNamePopUp(Child childToEdit) {
-        // Citation: https://stackoverflow.com/questions/10903754/input-text-dialog-android
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Edit Child Name");
-        final EditText input = new EditText(this);
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                newChildName = input.getText().toString();
-                editChildName(childToEdit);
-                dialog.dismiss();
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
-    }
-
-    // Actually decides the validity of the new name and changes the name if possible.
-    private void editChildName(Child childToEdit) {
-        // Check if new name is available and execute apt case.
-        if (!childManager.checkIfNameExist(newChildName)) {
-            // Get the List, find the child's index, and change its name.
-            List<Child> childList = childManager.getChildList();
-            int childToEditIdx = childList.indexOf(childToEdit);
-            String childToEditName = childToEdit.getName();
-            if (!newChildName.equals("")) {
-                String oldChildName = childList.get(childToEditIdx).getName();
-                childList.get(childToEditIdx).setName(newChildName);
-                childManager.updateTaskChildNames(oldChildName, newChildName);
-                Toast.makeText(EditChildActivity.this, "Changed name to " + newChildName, Toast.LENGTH_SHORT).show();
-
-                childManager.coinFlip.editChildName(childToEditName, newChildName);
-            }
-        } else {
-            Toast.makeText(EditChildActivity.this, "Child already exists!", Toast.LENGTH_SHORT).show();
-        }
-        startChildList();
-    }
-    */
 
     public static Intent makeIntent(Context context) {
         return new Intent(context, EditChildActivity.class);
