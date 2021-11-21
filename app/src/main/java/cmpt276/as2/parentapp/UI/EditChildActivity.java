@@ -10,8 +10,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +55,7 @@ public class EditChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_child);
 
-        childManager = getChildData(CHILD_LIST_TAG);
+        childManager = getChildData();
         setTitle(R.string.editChildActivityTitle);
         populateListView();
         startListViewClickable();
@@ -89,7 +91,7 @@ public class EditChildActivity extends AppCompatActivity {
 
             // Fill the icon
             ImageView imageView = (ImageView) itemView.findViewById(R.id.childIcon);
-            imageView.setImageBitmap(currentChild.getIcon());
+            imageView.setImageBitmap(decodeBase64(currentChild.getIcon()));
 
             // Fill the name
             TextView childNameSlot = (TextView) itemView.findViewById(R.id.childName);
@@ -110,7 +112,7 @@ public class EditChildActivity extends AppCompatActivity {
                         childManager.getChildList().get(position).getName(),
                         position,
                         true,
-                        childManager.getChildList().get(position).getIcon());
+                        decodeBase64(childManager.getChildList().get(position).getIcon()));
                 startActivity(appInfo);
                 saveChildData();
             }
@@ -173,7 +175,7 @@ public class EditChildActivity extends AppCompatActivity {
         EditText childNameSlot = findViewById(R.id.addChildBox);
         childNameSlot.setText("");
 
-        // Refresh child list listView.
+        childManager = getChildData();
         populateListView();
     }
 
@@ -181,13 +183,13 @@ public class EditChildActivity extends AppCompatActivity {
         return new Intent(context, EditChildActivity.class);
     }
 
-    private ChildManager getChildData(String tag) {
+    private ChildManager getChildData() {
         SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
-        if (!prefs.contains(tag)) {
+        if (!prefs.contains(CHILD_LIST)) {
             return ChildManager.getInstance();
         } else {
             Gson gson = new Gson();
-            return gson.fromJson(prefs.getString(tag, ""), ChildManager.class);
+            return gson.fromJson(prefs.getString(CHILD_LIST, ""), ChildManager.class);
         }
     }
 
@@ -225,5 +227,10 @@ public class EditChildActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 }

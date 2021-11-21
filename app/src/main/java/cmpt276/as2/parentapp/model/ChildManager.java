@@ -27,10 +27,9 @@ public class ChildManager {
         return instance;
     }
 
-    public void addChild(String name, Bitmap icon) {
+    public void addChild(String name, String icon) {
         Child childToAdd = new Child(name, icon);
         if (!name.equals("") && !checkIfNameExist(name)) {
-            Log.e("bruh", "adding child");
             childList.add(childToAdd);
         }
         coinFlip.addChild(childToAdd);

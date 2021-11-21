@@ -7,9 +7,9 @@ import android.graphics.Bitmap;
  */
 public class Child {
     private String name;
-    private Bitmap icon;
+    private String icon;
 
-    public Child(String name, Bitmap icon) {
+    public Child(String name, String icon) {
         this.name = name;
         this.icon = icon;
     }
@@ -22,11 +22,11 @@ public class Child {
         name = newName;
     }
 
-    public Bitmap getIcon() {
+    public String getIcon() {
         return icon;
     }
 
-    public void setIcon(Bitmap icon) {
+    public void setIcon(String icon) {
         this.icon = icon;
     }
 

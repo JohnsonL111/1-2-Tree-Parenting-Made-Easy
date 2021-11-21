@@ -1,5 +1,7 @@
 package cmpt276.as2.parentapp.UI;
 
+import static cmpt276.as2.parentapp.UI.EditChildActivity.CHILD_LIST;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -7,6 +9,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,11 +18,14 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,6 +41,9 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     private ActitivityEditSingleChildBinding binding;
     private static final int GALLERY_REQUEST = 123;
     private static final int CAMERA_REQUEST = 100;
+    public static final String CHILD_LIST = "childListNames";
+    public static final String CHILD_LIST_TAG = "childList";
+
 
 
     ImageView childIcon;
@@ -57,11 +66,11 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActitivityEditSingleChildBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        childManager = ChildManager.getInstance();
+        childManager = getChildData();
 
         childIcon = findViewById(R.id.icon);
         takePicButton = findViewById(R.id.takeNewImg);
-        galleryButton= findViewById(R.id.gallerySelectBtn);
+        galleryButton = findViewById(R.id.gallerySelectBtn);
 
 
         // Ask for camera run-time permissions.
@@ -84,7 +93,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,"pick profile"),GALLERY_REQUEST);
+                startActivityForResult(Intent.createChooser(intent, "pick profile"), GALLERY_REQUEST);
             }
         });
 
@@ -127,12 +136,13 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                     if (!childName.equals("")) {
                         String currentChildName = childManager.getChildList().get(editChildIdx).getName();
                         childManager.getChildList().get(editChildIdx).setName(newChildName);
-                        childManager.getChildList().get(editChildIdx).setIcon(image);
+                        childManager.getChildList().get(editChildIdx).setIcon(encodeBase64(image));
                         childManager.updateTaskChildNames(currentChildName, newChildName);
                     }
                 } else {
-                    childManager.addChild(childName, image);
+                    childManager.addChild(childName, encodeBase64(image));
                 }
+                saveChildData();
 
                 finish();
             }
@@ -185,13 +195,12 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap= null;
+        Bitmap bitmap = null;
         if (requestCode == CAMERA_REQUEST) {
             bitmap = (Bitmap) data.getExtras().get("data");
         }
-        if(requestCode==GALLERY_REQUEST && resultCode==RESULT_OK&& data!=null){
-            Log.e("data", "data is not null");
-            Uri profileImage =data.getData();
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri profileImage = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), profileImage);
             } catch (IOException e) {
@@ -200,6 +209,34 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         }
         childIcon.setImageBitmap(bitmap);
 
+    }
+
+    public static String encodeBase64(Bitmap img) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] b = baos.toByteArray();
+        String imgBase64 = Base64.encodeToString(b, Base64.DEFAULT);
+        return imgBase64;
+    }
+
+    private ChildManager getChildData() {
+        SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
+        if (!prefs.contains(CHILD_LIST)) {
+            return ChildManager.getInstance();
+        } else {
+            Gson gson = new Gson();
+            return gson.fromJson(prefs.getString(CHILD_LIST, ""), ChildManager.class);
+        }
+    }
+
+    private void saveChildData() {
+        SharedPreferences prefs = this.getSharedPreferences(CHILD_LIST_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        // Saves the class into json.
+        Gson gson = new Gson();
+        editor.putString(CHILD_LIST, gson.toJson(childManager));
+        editor.apply();
     }
 
 }
