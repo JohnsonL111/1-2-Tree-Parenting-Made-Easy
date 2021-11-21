@@ -144,6 +144,7 @@ public class CoinFlipActivity extends AppCompatActivity {
         decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
         childList.addItemDecoration(decoration);
 
+        getChildManager();
         adapterChangeOrder = new ChangeOrderMenuAdapter(this, childManager.coinFlip.getPickerList());
         childManager.coinFlip.getPickerList().add(new Child("", null));
 

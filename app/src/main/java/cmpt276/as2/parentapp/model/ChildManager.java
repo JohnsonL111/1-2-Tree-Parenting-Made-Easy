@@ -37,13 +37,17 @@ public class ChildManager {
     }
 
     public void removeChild(String name) {
+
         // Guard if for sure child does not exist.
         if (!checkIfNameExist(name)) {
             return;
         }
+        coinFlip.removeChild(name);
+
         // Get the index of the child to remove
         int numChildren = childList.size();
         for (int i = 0; i < numChildren; ++i) {
+
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
                 String nextChildName = "";
@@ -53,14 +57,6 @@ public class ChildManager {
                 }
                 childList.remove(i);
                 updateTaskChildNames(currChildName, nextChildName);
-                break;
-            }
-        }
-
-        for (int i = 0; i < numChildren; i++) {
-            String current = coinFlip.getPickerList().get(i).getName();
-            if (current.equals(name)) {
-                coinFlip.removeChild(i);
                 break;
             }
         }
