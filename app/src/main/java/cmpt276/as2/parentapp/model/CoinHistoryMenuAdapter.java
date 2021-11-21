@@ -20,10 +20,10 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
  */
 public class CoinHistoryMenuAdapter extends RecyclerView.Adapter<CoinHistoryMenuAdapter.HistoryViewHolder> {
 
-    private Context context;
-    private ArrayList<String> historyListTS;
-    private ArrayList<String> historyListName;
-    private ArrayList<Child> childList;
+    private final Context context;
+    private final ArrayList<String> historyListTS;
+    private final ArrayList<String> historyListName;
+    private final ArrayList<Child> childList;
 
     public CoinHistoryMenuAdapter(Context context, ArrayList<String> historyName, ArrayList<String> historyList, ArrayList<Child> childList) {
         this.context = context;

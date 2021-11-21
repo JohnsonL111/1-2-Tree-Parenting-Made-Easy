@@ -140,7 +140,6 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                     childManager.addChild(childName, encodeBase64(image));
                 }
                 saveChildData();
-
                 finish();
             }
         });

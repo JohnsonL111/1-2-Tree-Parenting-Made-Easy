@@ -30,10 +30,10 @@ public class CoinFlipMenuAdapter extends RecyclerView.Adapter<CoinFlipMenuAdapte
     private final ArrayList<clickObserverChangeOrder> observerChangeOrder = new ArrayList<>();
 
     private int result;
-    private Context context;
-    private Child picker;
-    private String[] option;
-    private TypedArray image;
+    private final Context context;
+    private final Child picker;
+    private final String[] option;
+    private final TypedArray image;
 
     public CoinFlipMenuAdapter(Context context, Child picker, String[] option) {
         this.context = context;

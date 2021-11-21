@@ -31,8 +31,9 @@ public class ChildManager {
         Child childToAdd = new Child(name, icon);
         if (!name.equals("") && !checkIfNameExist(name)) {
             childList.add(childToAdd);
+            coinFlip.addChild(childToAdd);
         }
-        coinFlip.addChild(childToAdd);
+
         task.checkForUpdate(childList);
     }
 
