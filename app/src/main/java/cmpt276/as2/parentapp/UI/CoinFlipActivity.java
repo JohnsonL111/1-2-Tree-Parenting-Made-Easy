@@ -335,6 +335,9 @@ public class CoinFlipActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        mp.release();
+        if (mp != null) {
+            mp.release();
+        }
+
     }
 }
