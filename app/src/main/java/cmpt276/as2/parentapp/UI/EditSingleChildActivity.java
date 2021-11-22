@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,7 +32,10 @@ import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.databinding.ActitivityEditSingleChildBinding;
 import cmpt276.as2.parentapp.model.ChildManager;
 
-public class ActitivityEditSingleChildActivity extends AppCompatActivity {
+/**
+ * Interface UI for editing/adding a single child.
+ */
+public class EditSingleChildActivity extends AppCompatActivity {
 
     private static ChildManager childManager;
     private ActitivityEditSingleChildBinding binding;
@@ -39,7 +43,6 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 100;
     public static final String CHILD_LIST = "childListNames";
     public static final String CHILD_LIST_TAG = "childList";
-
 
 
     ImageView childIcon;
@@ -70,8 +73,8 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
 
 
         // Ask for camera run-time permissions.
-        if (ContextCompat.checkSelfPermission(ActitivityEditSingleChildActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ActitivityEditSingleChildActivity.this, new String[]{
+        if (ContextCompat.checkSelfPermission(EditSingleChildActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(EditSingleChildActivity.this, new String[]{
                     Manifest.permission.CAMERA
             }, CAMERA_REQUEST);
         }
@@ -128,16 +131,19 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
                     image = drawable.getBitmap();
                 }
 
+                // Cases for editing an existing child an adding a new child.
                 if (isEditChild) {
-                    if (!childName.equals("")) {
+                    if (changesAreValid(newChildName)) {
                         String currentChildName = childManager.getChildList().get(editChildIdx).getName();
                         childManager.getChildList().get(editChildIdx).setName(newChildName);
-                        childManager.getChildList().get(editChildIdx).setIcon(encodeBase64(image));
                         childManager.updateTaskChildNames(currentChildName, newChildName);
-                        childManager.coinFlip.changeIcon(newChildName, encodeBase64(image));
                     }
+                    childManager.getChildList().get(editChildIdx).setIcon(encodeBase64(image));
+                    childManager.coinFlip.changeIcon(newChildName, encodeBase64(image));
                 } else {
-                    childManager.addChild(childName, encodeBase64(image));
+                    if (changesAreValid(newChildName)) {
+                        childManager.addChild(childName, encodeBase64(image));
+                    }
                 }
                 saveChildData();
                 finish();
@@ -145,10 +151,22 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         });
     }
 
+    private Boolean changesAreValid(String newChildName) {
+        Boolean validChanges = false;
+        if (childManager.checkIfNameExist(newChildName)) {
+            Toast.makeText(EditSingleChildActivity.this, "Child Name Exists Already!", Toast.LENGTH_SHORT).show();
+        } else if (newChildName.equals("")) {
+            Toast.makeText(EditSingleChildActivity.this, "Can't have no name!", Toast.LENGTH_SHORT).show();
+        } else {
+            validChanges = true;
+        }
+        return validChanges;
+    }
+
     // create Intent to pass data
     public static Intent makeIntent(Context context, String childName, int childIndex,
                                     boolean isEditChild, Bitmap icon) {
-        Intent intent = new Intent(context, ActitivityEditSingleChildActivity.class);
+        Intent intent = new Intent(context, EditSingleChildActivity.class);
 
         if (isEditChild) {
             //Convert child's icon to byte array and putExtra it
@@ -163,7 +181,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         // Put data into intent
         intent.putExtra(CHILD_NAME_TAG, childName);
 
-        ActitivityEditSingleChildActivity.isEditChild = isEditChild;
+        EditSingleChildActivity.isEditChild = isEditChild;
         return intent;
     }
 

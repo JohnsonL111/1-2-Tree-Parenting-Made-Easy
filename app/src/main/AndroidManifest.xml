@@ -19,7 +19,7 @@
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".UI.ActitivityEditSingleChildActivity"
+            android:name=".UI.EditSingleChildActivity"
             android:exported="true"
             android:parentActivityName=".UI.EditChildActivity" />
         <activity

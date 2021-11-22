@@ -17,7 +17,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
-import cmpt276.as2.parentapp.UI.ActitivityEditSingleChildActivity;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**

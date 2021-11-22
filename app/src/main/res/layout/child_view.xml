@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/childIcon"
-        android:layout_width="41dp"
-        android:layout_height="37dp"
+        android:layout_width="125dp"
+        android:layout_height="48dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,13 +17,13 @@
 
     <TextView
         android:id="@+id/childName"
-        android:layout_width="44dp"
-        android:layout_height="23dp"
+        android:layout_width="251dp"
+        android:layout_height="43dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="16dp"
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.709"
         app:layout_constraintStart_toEndOf="@+id/childIcon"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

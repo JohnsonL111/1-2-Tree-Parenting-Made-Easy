@@ -4,17 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.Base64;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,11 +24,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cmpt276.as2.parentapp.MainActivity;
@@ -107,7 +100,7 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                Intent appInfo = EditSingleChildActivity.makeIntent(
                         getApplicationContext(),
                         childManager.getChildList().get(position).getName(),
                         position,
@@ -129,7 +122,7 @@ public class EditChildActivity extends AppCompatActivity {
                 EditText childNameField = findViewById(R.id.addChildBox);
                 String childName = childNameField.getText().toString();
 
-                Intent appInfo = ActitivityEditSingleChildActivity.makeIntent(
+                Intent appInfo = EditSingleChildActivity.makeIntent(
                         getApplicationContext(),
                         childName,
                         -1,
