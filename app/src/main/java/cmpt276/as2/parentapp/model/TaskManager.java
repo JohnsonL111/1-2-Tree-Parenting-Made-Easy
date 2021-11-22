@@ -1,10 +1,14 @@
 package cmpt276.as2.parentapp.model;
 
-import androidx.annotation.NonNull;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * - The task manager will add, remove, and edit tasks.
+ * - The task manager will hold a list of task using an arraylist.
+ * - Task manager will update the children names in the tasks when a child's name
+ *   has been removed or edited from the child list.
+ */
 public class TaskManager {
 
 
@@ -60,8 +64,8 @@ public class TaskManager {
     private void getChildNameForNewTask(List<Child> childList) {
         if (!childList.isEmpty()) {
             int position = 0;
-            for(int i = 0; i < childList.size(); i++) {
-                if(childList.get(i).getName().equals(childNameForNewTask)) {
+            for (int i = 0; i < childList.size(); i++) {
+                if (childList.get(i).getName().equals(childNameForNewTask)) {
                     position = (i + 1) % childList.size();
                 }
             }
