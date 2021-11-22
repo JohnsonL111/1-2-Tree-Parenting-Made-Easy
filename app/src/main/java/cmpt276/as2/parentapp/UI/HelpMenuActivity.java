@@ -16,7 +16,9 @@ import android.widget.TextView;
 
 import cmpt276.as2.parentapp.R;
 
-
+/**
+ * Activity that display the developer team name, developer names and the copyrighted items(such as images)
+ */
 public class HelpMenuActivity extends AppCompatActivity {
     TextView sourceText;
 
