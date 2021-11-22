@@ -25,6 +25,7 @@ import androidx.core.content.ContextCompat;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import cmpt276.as2.parentapp.R;
@@ -44,7 +45,6 @@ public class EditSingleChildActivity extends AppCompatActivity {
     public static final String CHILD_LIST = "childListNames";
     public static final String CHILD_LIST_TAG = "childList";
 
-
     ImageView childIcon;
     Button takePicButton;
     Button galleryButton;
@@ -52,7 +52,7 @@ public class EditSingleChildActivity extends AppCompatActivity {
     // Intent Tags.
     private static final String CHILD_NAME_TAG = "child name";
     private static final String CHILD_IDX_TAG = "child index tag";
-    private static final String BITMAP_CHILD_TAG = "bitmap child tag";
+    private static final String BITMAP_CHILD_TAG = "image";
 
     // Intent Data
     private static boolean isEditChild;
@@ -169,13 +169,8 @@ public class EditSingleChildActivity extends AppCompatActivity {
         Intent intent = new Intent(context, EditSingleChildActivity.class);
 
         if (isEditChild) {
-            //Convert child's icon to byte array and putExtra it
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] byteArray = stream.toByteArray();
-
-            intent.putExtra(CHILD_IDX_TAG, childIndex);
-            intent.putExtra(BITMAP_CHILD_TAG, byteArray);
+                intent.putExtra(CHILD_IDX_TAG, childIndex);
+                intent.putExtra(BITMAP_CHILD_TAG, "bitmap.png");
         }
 
         // Put data into intent
@@ -195,8 +190,16 @@ public class EditSingleChildActivity extends AppCompatActivity {
 
         // decode image byte array and set the image if editing
         if (isEditChild) {
-            byte[] byteArray = intent.getByteArrayExtra(BITMAP_CHILD_TAG);
-            icon = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap icon = null;
+            String filename = getIntent().getStringExtra("image");
+            try {
+                FileInputStream is = this.openFileInput(filename);
+                icon = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             childIcon.setImageBitmap(icon);
             editChildIdx = intent.getIntExtra(CHILD_IDX_TAG, 0);
         }

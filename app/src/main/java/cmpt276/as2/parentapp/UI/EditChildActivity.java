@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.FileOutputStream;
 import java.util.List;
 
 import cmpt276.as2.parentapp.MainActivity;
@@ -100,14 +101,28 @@ public class EditChildActivity extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long arg) {
-                Intent appInfo = EditSingleChildActivity.makeIntent(
-                        getApplicationContext(),
-                        childManager.getChildList().get(position).getName(),
-                        position,
-                        true,
-                        decodeBase64(childManager.getChildList().get(position).getIcon()));
-                startActivity(appInfo);
-                saveChildData();
+
+                try {
+                    //Write file
+                    String filename = "bitmap.png";
+                    FileOutputStream stream = openFileOutput(filename, Context.MODE_PRIVATE);
+                    decodeBase64(childManager.getChildList().get(position).getIcon()).compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    //Cleanup
+                    stream.close();
+                    decodeBase64(childManager.getChildList().get(position).getIcon()).recycle();
+
+                    Intent appInfo = EditSingleChildActivity.makeIntent(
+                            getApplicationContext(),
+                            childManager.getChildList().get(position).getName(),
+                            position,
+                            true,
+                            decodeBase64(childManager.getChildList().get(position).getIcon()));
+                    startActivity(appInfo);
+                    saveChildData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
