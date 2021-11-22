@@ -153,7 +153,7 @@ public class ActitivityEditSingleChildActivity extends AppCompatActivity {
         if (isEditChild) {
             //Convert child's icon to byte array and putExtra it
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            icon.compress(Bitmap.CompressFormat.PNG, CAMERA_REQUEST, stream);
+            icon.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] byteArray = stream.toByteArray();
 
             intent.putExtra(CHILD_IDX_TAG, childIndex);
