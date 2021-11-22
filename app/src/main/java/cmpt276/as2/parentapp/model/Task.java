@@ -3,6 +3,12 @@ package cmpt276.as2.parentapp.model;
 
 import java.util.List;
 
+/**
+ * -The task class holds information about a single task such as the task title,and the child's
+ * name.
+ * - The task class will update the child's name when the task has been completed
+ */
+
 public class Task {
     private String childName;
     private String taskTitle;
