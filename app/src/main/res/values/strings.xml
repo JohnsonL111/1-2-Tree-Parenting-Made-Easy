@@ -84,6 +84,10 @@
     <string name="defaultPhoto">default photo\n</string>
     <string name="menuButton">menu button\n</string>
     <string name="helpButton">help button</string>
+    <string name="editChildTitle">Editing Child</string>
+    <string name="addNewChildTitle">Adding New Child</string>
+    <string name="saveChangesButtonText">save changes</string>
+    <string name="addChildButtonText">Add Child</string>
 
 
 </resources>

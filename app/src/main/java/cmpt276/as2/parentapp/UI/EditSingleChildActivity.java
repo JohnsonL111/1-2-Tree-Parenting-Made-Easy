@@ -101,11 +101,11 @@ public class EditSingleChildActivity extends AppCompatActivity {
         Button finishedButton = findViewById(R.id.finishedButton);
 
         if (isEditChild) {
-            setTitle("Editing Child");
-            finishedButton.setText("Edit Child");
+            setTitle(getString(R.string.editChildTitle));
+            finishedButton.setText(R.string.saveChangesButtonText);
         } else {
-            setTitle("Adding New Child");
-            finishedButton.setText("Add Child");
+            setTitle(getString(R.string.addNewChildTitle));
+            finishedButton.setText(R.string.addChildButtonText);
         }
 
         addChild();
