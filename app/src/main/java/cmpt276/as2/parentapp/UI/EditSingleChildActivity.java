@@ -101,11 +101,11 @@ public class EditSingleChildActivity extends AppCompatActivity {
         Button finishedButton = findViewById(R.id.finishedButton);
 
         if (isEditChild) {
-            setTitle(getString(R.string.editChildTitle));
-            finishedButton.setText(R.string.saveChangesButtonText);
+            setTitle("Editing Child");
+            finishedButton.setText("Edit Child");
         } else {
-            setTitle(getString(R.string.addNewChildTitle));
-            finishedButton.setText(R.string.addChildButtonText);
+            setTitle("Adding New Child");
+            finishedButton.setText("Add Child");
         }
 
         addChild();
@@ -154,7 +154,9 @@ public class EditSingleChildActivity extends AppCompatActivity {
     private Boolean changesAreValid(String newChildName) {
         Boolean validChanges = false;
         if (childManager.checkIfNameExist(newChildName)) {
-            Toast.makeText(EditSingleChildActivity.this, "Child Name Exists Already!", Toast.LENGTH_SHORT).show();
+            if (!newChildName.equals(childManager.getChildList().get(editChildIdx).getName())) {
+                Toast.makeText(EditSingleChildActivity.this, "Child Name Exists Already!", Toast.LENGTH_SHORT).show();
+            }
         } else if (newChildName.equals("")) {
             Toast.makeText(EditSingleChildActivity.this, "Can't have no name!", Toast.LENGTH_SHORT).show();
         } else {
@@ -169,8 +171,8 @@ public class EditSingleChildActivity extends AppCompatActivity {
         Intent intent = new Intent(context, EditSingleChildActivity.class);
 
         if (isEditChild) {
-                intent.putExtra(CHILD_IDX_TAG, childIndex);
-                intent.putExtra(BITMAP_CHILD_TAG, "bitmap.png");
+            intent.putExtra(CHILD_IDX_TAG, childIndex);
+            intent.putExtra(BITMAP_CHILD_TAG, "bitmap.png");
         }
 
         // Put data into intent
@@ -213,19 +215,28 @@ public class EditSingleChildActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap bitmap = null;
-        if (requestCode == CAMERA_REQUEST) {
-            bitmap = (Bitmap) data.getExtras().get("data");
-        }
-        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri profileImage = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), profileImage);
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (data != null) {
+            if (requestCode == CAMERA_REQUEST) {
+                bitmap = (Bitmap) data.getExtras().get("data");
             }
+            if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK && data != null) {
+                Uri profileImage = data.getData();
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), profileImage);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            bitmap = decodeBase64(childManager.getChildList().get(editChildIdx).getIcon());
         }
         childIcon.setImageBitmap(bitmap);
 
+    }
+
+    public static Bitmap decodeBase64(String input) {
+        byte[] decodedByte = Base64.decode(input, 0);
+        return BitmapFactory.decodeByteArray(decodedByte, 0, decodedByte.length);
     }
 
     public static String encodeBase64(Bitmap img) {
