@@ -33,6 +33,7 @@ import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.Task;
+import cmpt276.as2.parentapp.model.TaskHistoryMenuAdapter;
 import cmpt276.as2.parentapp.model.TaskMenuAdapter;
 
 /**
@@ -97,7 +98,6 @@ public class TaskManagerActivity extends AppCompatActivity {
         TextView taskTitle = v.findViewById(R.id.task_detail_task_name);
         TextView childName = v.findViewById(R.id.task_detail_child_name);
         Button doneBtn = v.findViewById(R.id.task_detail_done_btn);
-        Button historyBtn = v.findViewById(R.id.task_history_btn);
 
 
         if (childManager.getChildList().size() > 0) {
@@ -122,7 +122,8 @@ public class TaskManagerActivity extends AppCompatActivity {
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
                 .setTitle(R.string.task_detail)
-                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel());
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
+                .setNeutralButton(getString(R.string.history), (dialogInterface, i) ->  showTaskHistory(childManager.task.getListOfTasks().get(index)));
 
         Dialog dialog = build.create();
         dialog.show();
@@ -135,13 +136,26 @@ public class TaskManagerActivity extends AppCompatActivity {
             refresh();
             dialog.dismiss();
         });
-        historyBtn.setText(R.string.history);
-        historyBtn.setOnClickListener(view -> showTaskHistory(childManager.task.getListOfTasks().get(index)));
+
     }
 
     private void showTaskHistory(Task task)
     {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_change_order, null);
+        RecyclerView taskHistory = v.findViewById(R.id.coin_flip_change_listview);
+        taskHistory.setLayoutManager(mLayoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(taskHistory.getContext(), mLayoutManager.getOrientation());
+        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
+        taskHistory.addItemDecoration(decoration);
+        taskHistory.setAdapter(new TaskHistoryMenuAdapter(this,task, childManager.getChildList()));
 
+        AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
+                .setTitle(R.string.history)
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
+
+        Dialog dialog = build.create();
+        dialog.show();
     }
 
     private void setUpSwipe() {
