@@ -97,6 +97,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         TextView taskTitle = v.findViewById(R.id.task_detail_task_name);
         TextView childName = v.findViewById(R.id.task_detail_child_name);
         Button doneBtn = v.findViewById(R.id.task_detail_done_btn);
+        Button historyBtn = v.findViewById(R.id.task_history_btn);
 
 
         if (childManager.getChildList().size() > 0) {
@@ -134,6 +135,13 @@ public class TaskManagerActivity extends AppCompatActivity {
             refresh();
             dialog.dismiss();
         });
+        historyBtn.setText(R.string.history);
+        historyBtn.setOnClickListener(view -> showTaskHistory(childManager.task.getListOfTasks().get(index)));
+    }
+
+    private void showTaskHistory(Task task)
+    {
+
     }
 
     private void setUpSwipe() {

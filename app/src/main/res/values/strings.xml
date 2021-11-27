@@ -91,6 +91,7 @@
     <string name="editChildTextButton">Save Changes</string>
     <string name="addChildTitle">Adding New Child</string>
     <string name="addChildTextButton">Add Child</string>
+    <string name="history">History</string>
 
 
 </resources>
