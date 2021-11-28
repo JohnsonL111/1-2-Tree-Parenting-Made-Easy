@@ -15,16 +15,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.BreathMenuAdapter;
-import cmpt276.as2.parentapp.model.CoinFlipMenuAdapter;
 
 public class BreathActivity extends AppCompatActivity {
 
@@ -43,12 +38,16 @@ public class BreathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_breath);
 
+        setUpButton();
         getNumOfBreath();
         setUpOption();
     }
 
-    private void setUpOption()
-    {
+    private void setUpButton() {
+        mainBtn = findViewById(R.id.breath_main_btn);
+    }
+
+    private void setUpOption() {
         showNumOfBreath = findViewById(R.id.breath_num_of_breath);
         showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathSet));
         helpMessage = findViewById(R.id.breath_help_message);
@@ -60,15 +59,11 @@ public class BreathActivity extends AppCompatActivity {
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
     }
 
-    private void showOptionMenu()
-    {
+    private void showOptionMenu() {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        View v = LayoutInflater.from(this).inflate(R.layout.coin_flip_change_order, null);
-        RecyclerView optionList = v.findViewById(R.id.coin_flip_change_listview);
+        View v = LayoutInflater.from(this).inflate(R.layout.breath_optin_list, null);
+        RecyclerView optionList = v.findViewById(R.id.breath_option_recycle);
         optionList.setLayoutManager(mLayoutManager);
-        DividerItemDecoration decoration = new DividerItemDecoration(optionList.getContext(), mLayoutManager.getOrientation());
-        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
-        optionList.addItemDecoration(decoration);
 
         BreathMenuAdapter breathMenuAdapter = new BreathMenuAdapter(this, TIME_INTERVAL);
         optionList.setAdapter(breathMenuAdapter);
@@ -86,9 +81,19 @@ public class BreathActivity extends AppCompatActivity {
             dialog.dismiss();
             int result = breathMenuAdapter.getResult();
             showNumOfBreath.setText(getString(R.string.num_of_breath_set, TIME_INTERVAL[result]));
+            saveOption(result);
+            getNumOfBreath();
         };
 
         breathMenuAdapter.registerOptionCallBack(obs);
+    }
+
+    private void saveOption(int result) {
+        SharedPreferences prefs = this.getSharedPreferences(BREATH_TAG, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        editor.putInt(NUM_OF_BREATH, result);
+        editor.apply();
     }
 
     public static Intent makeIntent(Context context) {
@@ -99,7 +104,7 @@ public class BreathActivity extends AppCompatActivity {
 
         SharedPreferences prefs = this.getSharedPreferences(BREATH_TAG, MODE_PRIVATE);
 
-        if(!prefs.contains(NUM_OF_BREATH)) {
+        if (!prefs.contains(NUM_OF_BREATH)) {
             /**
              * Default ...
              */
