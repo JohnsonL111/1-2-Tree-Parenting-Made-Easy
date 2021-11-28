@@ -57,6 +57,7 @@ public class ChildManager {
                     nextChildName = childList.get(nextChildPosition).getName();
                 }
                 childList.remove(i);
+                updateTaskHistoryChildNames(currChildName, nextChildName);
                 updateTaskChildNames(currChildName, nextChildName);
                 break;
             }
@@ -87,8 +88,11 @@ public class ChildManager {
         coinFlip.editChildName(currChildName, newChildName);
     }
 
-    public void addTask(String taskName)
-    {
+    public void updateTaskHistoryChildNames(String oldName, String newName) {
+        task.updateTaskNameHistoryList(oldName, newName);
+    }
+
+    public void addTask(String taskName) {
         task.addTask(taskName, childList);
     }
 }

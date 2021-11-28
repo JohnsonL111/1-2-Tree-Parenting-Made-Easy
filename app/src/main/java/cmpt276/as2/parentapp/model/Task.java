@@ -1,6 +1,8 @@
 package cmpt276.as2.parentapp.model;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -12,6 +14,8 @@ import java.util.List;
 public class Task {
     private String childName;
     private String taskTitle;
+    private List<String> childrenHistoryList;
+    private List<String> dateHistoryList;
 
     public Task(String taskTitle, String childName) {
         this.taskTitle = taskTitle;
@@ -48,5 +52,37 @@ public class Task {
         } else {
             this.childName = "";
         }
+    }
+
+    public void updateHistoryChildName(String oldName, String newName) {
+        if (!childrenHistoryList.isEmpty()) {
+            for (int i = 0; i < childrenHistoryList.size(); i++) {
+                String name = childrenHistoryList.get(i);
+                if (name.equals(oldName)) {
+                    childrenHistoryList.set(i, newName);
+                }
+            }
+        }
+    }
+
+    public List<String> getChildrenHistoryList() {
+        return childrenHistoryList;
+    }
+
+    public List<String> getDateHistoryList() {
+        return dateHistoryList;
+    }
+
+    public void addToTaskHistory() {
+        String date = generateTaskDoneDate();
+        childrenHistoryList.add(this.childName);
+        dateHistoryList.add(date);
+    }
+
+    private String generateTaskDoneDate() {
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatDateTime = DateTimeFormatter.ofPattern("yyyy-MM-dd @ HH:mm");
+        String dateTaskCompleted = dateTime.format(formatDateTime);
+        return dateTaskCompleted;
     }
 }

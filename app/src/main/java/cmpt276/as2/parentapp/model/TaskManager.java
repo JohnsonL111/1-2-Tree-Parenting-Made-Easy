@@ -7,7 +7,7 @@ import java.util.List;
  * - The task manager will add, remove, and edit tasks.
  * - The task manager will hold a list of task using an arraylist.
  * - Task manager will update the children names in the tasks when a child's name
- *   has been removed or edited from the child list.
+ * has been removed or edited from the child list.
  */
 public class TaskManager {
 
@@ -79,5 +79,19 @@ public class TaskManager {
                 updateNextChildToDoTask(i, childList);
             }
         }
+    }
+
+    public void updateTaskNameHistoryList(String oldName, String newName) {
+        for (int i = 0; i < listOfTasks.size(); i++) {
+            listOfTasks.get(i).updateHistoryChildName(oldName, newName);
+        }
+    }
+
+    public List<String> getChildHistoryList(int taskNumber) {
+        return listOfTasks.get(taskNumber).getChildrenHistoryList();
+    }
+
+    public List<String> getDateHistoryList(int taskNumber) {
+        return listOfTasks.get(taskNumber).getDateHistoryList();
     }
 }
