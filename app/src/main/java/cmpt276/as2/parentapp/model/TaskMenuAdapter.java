@@ -96,7 +96,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             childPhoto = itemView.findViewById(R.id.task_detail_child_photo);
-            nameOfTask = itemView.findViewById(R.id.breath_option);
+            nameOfTask = itemView.findViewById(R.id.task_detail_task_name);
             nameOfChild = itemView.findViewById(R.id.task_detail_child_name);
         }
     }

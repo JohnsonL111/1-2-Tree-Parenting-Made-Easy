@@ -1,23 +1,17 @@
 package cmpt276.as2.parentapp.model;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.ArrayList;
 
 import cmpt276.as2.parentapp.R;
-import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  *
@@ -70,7 +64,7 @@ public class BreathMenuAdapter extends RecyclerView.Adapter<BreathMenuAdapter.Br
         public BreathViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            option = itemView.findViewById(R.id.breath_option);
+            option = itemView.findViewById(R.id.task_detail_task_name);
 
         }
     }

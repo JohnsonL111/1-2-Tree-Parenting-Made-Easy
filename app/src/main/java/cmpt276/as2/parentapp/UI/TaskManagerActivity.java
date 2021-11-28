@@ -95,7 +95,7 @@ public class TaskManagerActivity extends AppCompatActivity {
     private void showDetail(int index) {
         View v = LayoutInflater.from(this).inflate(R.layout.task_pop_up, null);
         ImageView childPhoto = v.findViewById(R.id.task_detail_child_photo);
-        TextView taskTitle = v.findViewById(R.id.breath_option);
+        TextView taskTitle = v.findViewById(R.id.task_detail_task_name);
         TextView childName = v.findViewById(R.id.task_detail_child_name);
         Button doneBtn = v.findViewById(R.id.task_detail_done_btn);
 
