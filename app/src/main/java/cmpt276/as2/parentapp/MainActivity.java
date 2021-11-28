@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import cmpt276.as2.parentapp.UI.BreathActivity;
 import cmpt276.as2.parentapp.UI.CoinFlipActivity;
 import cmpt276.as2.parentapp.UI.EditChildActivity;
 import cmpt276.as2.parentapp.UI.HelpMenuActivity;
@@ -57,6 +58,13 @@ public class MainActivity extends AppCompatActivity {
         help.setOnClickListener(view ->
         {
             Intent i = HelpMenuActivity.makeIntent(MainActivity.this);
+            startActivity(i);
+        });
+
+        Button breath = findViewById(R.id.breath_btn);
+        breath.setOnClickListener(view ->
+        {
+            Intent i = BreathActivity.makeIntent(MainActivity.this);
             startActivity(i);
         });
     }

@@ -78,7 +78,7 @@
     <string name="teamMember">Team Member: Johnson L (jkl53)\n</string>
     <string name="scrumMaster">\"Scrum Master: Andrew (afa41) \"</string>
     <string name="timerBackground">timer Backgrounds\n</string>
-    <string name="timerBackSound">timer Backsound\n</string>
+    <string name="timerBackSound">timer Background\n</string>
     <string name="treeForIcon">tree for icon\n</string>
     <string name="menuBackGround">menu background\n</string>
     <string name="defaultPhoto">default photo\n</string>
@@ -91,6 +91,8 @@
     <string name="editChildTextButton">Save Changes</string>
     <string name="addChildTitle">Adding New Child</string>
     <string name="addChildTextButton">Add Child</string>
+    <string name="num_of_breath_set">Number of Breath: %d</string>
+    <string name="intial_message_breath">Press the button to start the cycle...</string>
     <string name="history">History</string>
 
 

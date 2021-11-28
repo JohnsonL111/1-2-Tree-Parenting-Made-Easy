@@ -30,7 +30,7 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/task_detail_task_name"
+                android:id="@+id/breath_option"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="8dp"
