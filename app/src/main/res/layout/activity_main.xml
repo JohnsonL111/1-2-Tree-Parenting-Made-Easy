@@ -12,15 +12,15 @@
         android:id="@+id/TimeoutButton"
         android:layout_width="180dp"
         android:layout_height="80dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btn_effect"
         android:backgroundTintMode="add"
         android:hapticFeedbackEnabled="false"
         android:text="@string/timeout"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/flipCoin"
         app:layout_constraintEnd_toEndOf="@+id/editChildren"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editChildren" />
 
     <Button
@@ -32,10 +32,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.536"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.514" />
+        app:layout_constraintVertical_bias="0.465" />
 
     <Button
         android:id="@+id/task_btn"
@@ -55,9 +55,11 @@
         android:layout_width="180dp"
         android:layout_height="80dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/btn_effect"
         android:text="Breath"
         android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editChildren"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editChildren"
@@ -85,7 +87,7 @@
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_effect"
         android:text="@string/edit_children"
-        android:textSize="24sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/flipCoin"
         app:layout_constraintStart_toStartOf="@+id/flipCoin"
         app:layout_constraintTop_toBottomOf="@+id/flipCoin" />

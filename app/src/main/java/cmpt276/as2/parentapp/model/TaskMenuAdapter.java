@@ -20,8 +20,8 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
  * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
  */
 public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskViewHolder> {
-    private final ArrayList<TaskMenuAdapter.clickObserverViewDetail> observerViewDetail = new ArrayList<>();
-    private final ArrayList<TaskMenuAdapter.clickObserverEditTask> observerEditTask = new ArrayList<>();
+    private final ArrayList<clickObserverViewDetail> observerViewDetail = new ArrayList<>();
+    private final ArrayList<clickObserverEditTask> observerEditTask = new ArrayList<>();
 
     private Context context;
     private List<Task> taskList;
@@ -49,7 +49,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         View.OnClickListener listenerViewDetail = view ->
         {
             pick = holder.getAdapterPosition();
-            for (TaskMenuAdapter.clickObserverViewDetail obs : observerViewDetail) {
+            for (clickObserverViewDetail obs : observerViewDetail) {
                 obs.notifyViewDetail();
             }
         };
@@ -58,7 +58,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         holder.nameOfTask.setOnClickListener(view ->
         {
             pick = holder.getAdapterPosition();
-            for (TaskMenuAdapter.clickObserverEditTask obs : observerEditTask) {
+            for (clickObserverEditTask obs : observerEditTask) {
                 obs.notifyClickerEditTask();
             }
         });
@@ -96,7 +96,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             childPhoto = itemView.findViewById(R.id.task_detail_child_photo);
-            nameOfTask = itemView.findViewById(R.id.task_detail_task_name);
+            nameOfTask = itemView.findViewById(R.id.breath_option);
             nameOfChild = itemView.findViewById(R.id.task_detail_child_name);
         }
     }
@@ -109,11 +109,11 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         void notifyClickerEditTask();
     }
 
-    public void registerViewDetail(TaskMenuAdapter.clickObserverViewDetail obs) {
+    public void registerViewDetail(clickObserverViewDetail obs) {
         observerViewDetail.add(obs);
     }
 
-    public void registerEditTask(TaskMenuAdapter.clickObserverEditTask obs) {
+    public void registerEditTask(clickObserverEditTask obs) {
         observerEditTask.add(obs);
     }
 }

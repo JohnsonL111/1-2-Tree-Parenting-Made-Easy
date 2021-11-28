@@ -16,6 +16,7 @@
         android:theme="@style/Theme.ParentApp">
         <activity
             android:name=".UI.BreathActivity"
+            android:label="Deep Breath"
             android:exported="false" />
         <activity
             android:name=".UI.HelpMenuActivity"
