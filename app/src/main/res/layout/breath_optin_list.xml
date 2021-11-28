@@ -8,7 +8,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/breath_option_recycle"
         android:layout_width="120dp"
-        android:layout_height="125dp"
+        android:layout_height="110dp"
+        android:fadingEdge="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

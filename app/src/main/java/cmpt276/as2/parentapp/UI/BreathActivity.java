@@ -113,7 +113,7 @@ public class BreathActivity extends AppCompatActivity {
             /**
              * Default ...
              */
-            prefs.getInt(NUM_OF_BREATH, 3);
+            numOfBreathSet = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
         }
     }
 
