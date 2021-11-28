@@ -10,9 +10,9 @@
 
     <Button
         android:id="@+id/TimeoutButton"
-        android:layout_width="240dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/btn_effect"
         android:backgroundTintMode="add"
         android:hapticFeedbackEnabled="false"
@@ -20,13 +20,13 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/flipCoin"
         app:layout_constraintEnd_toEndOf="@+id/editChildren"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="@+id/editChildren" />
 
     <Button
         android:id="@+id/flipCoin"
-        android:layout_width="240dp"
-        android:layout_height="100dp"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
         android:background="@drawable/btn_effect"
         android:text="@string/flip_coin"
         android:textSize="24sp"
@@ -35,12 +35,12 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.541" />
+        app:layout_constraintVertical_bias="0.514" />
 
     <Button
         android:id="@+id/task_btn"
-        android:layout_width="240dp"
-        android:layout_height="100dp"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_effect"
         android:text="Task"
@@ -49,6 +49,19 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/editChildren"
         app:layout_constraintTop_toBottomOf="@+id/editChildren" />
+
+    <Button
+        android:id="@+id/breath_btn"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_effect"
+        android:text="Breath"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="@+id/editChildren"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editChildren"
+        app:layout_constraintTop_toBottomOf="@+id/task_btn" />
 
     <TextView
         android:id="@+id/title"
@@ -67,8 +80,8 @@
 
     <Button
         android:id="@+id/editChildren"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/btn_effect"
         android:text="@string/edit_children"
