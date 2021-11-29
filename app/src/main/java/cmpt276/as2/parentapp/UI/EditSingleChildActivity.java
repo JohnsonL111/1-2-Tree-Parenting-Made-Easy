@@ -137,6 +137,7 @@ public class EditSingleChildActivity extends AppCompatActivity {
                         String currentChildName = childManager.getChildList().get(editChildIdx).getName();
                         childManager.getChildList().get(editChildIdx).setName(newChildName);
                         childManager.updateTaskChildNames(currentChildName, newChildName);
+                        childManager.updateTaskHistoryChildNames(currentChildName, newChildName);
                     }
                     childManager.getChildList().get(editChildIdx).setIcon(encodeBase64(image));
                     childManager.coinFlip.changeIcon(newChildName, encodeBase64(image));
