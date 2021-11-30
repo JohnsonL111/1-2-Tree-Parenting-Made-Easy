@@ -3,6 +3,7 @@ package cmpt276.as2.parentapp.model;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class Task {
     public Task(String taskTitle, String childName) {
         this.taskTitle = taskTitle;
         this.childName = childName;
+        childrenHistoryList = new ArrayList<>();
+        dateHistoryList = new ArrayList<>();
     }
 
     public String getChildName() {
@@ -38,6 +41,7 @@ public class Task {
             String childNameInTheList = child.getName();
             if (childNameInTheList.equals(this.childName)) {
                 childPosition = i;
+                break;
             }
         }
         return childPosition;

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 import cmpt276.as2.parentapp.R;
+import cmpt276.as2.parentapp.UI.EditChildActivity;
 
 /**
  * Adapter for the coin flip history ui, display string to state the result, also display different icons for picker win and loss.
@@ -39,11 +40,33 @@ public class TaskHistoryMenuAdapter extends RecyclerView.Adapter<TaskHistoryMenu
     @Override
     public void onBindViewHolder(@NonNull TaskHistoryViewHolder holder, int position) {
 
+        holder.timeStamp.setText(task.getDateHistoryList().get(holder.getAdapterPosition()));
+        if(task.getChildrenHistoryList().get(holder.getAdapterPosition()).isEmpty()) {
+            holder.childName.setText("DELETED");
+            holder.childPhoto.setImageResource(R.drawable.default_photo_nobody);
+
+        } else {
+
+            holder.childName.setText(task.getChildrenHistoryList().get(holder.getAdapterPosition()));
+            String nameStr = task.getChildrenHistoryList().get(holder.getAdapterPosition());
+
+            for(int i = 0; i < childList.size();i ++) {
+                if(childList.get(i).getName().equals(nameStr)) {
+                    String photo = childList.get(i).getIcon();
+                    holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(photo));
+                    break;
+                }
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        if(task != null) {
+            return task.getDateHistoryList().size();
+        } else {
+            return 0;
+        }
     }
 
     protected class TaskHistoryViewHolder extends RecyclerView.ViewHolder {
