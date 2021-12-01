@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.BreathMenuAdapter;
+import cmpt276.as2.parentapp.model.State.ReadyToStartState;
+import cmpt276.as2.parentapp.model.State.State;
 
 public class BreathActivity extends AppCompatActivity {
 
@@ -30,8 +33,11 @@ public class BreathActivity extends AppCompatActivity {
     private TextView showNumOfBreath;
     private int numOfBreathSet;
     private int numOfBreathLeft;
+    private int numOfBreathLeft2= 3;
     private Button mainBtn;
     private TextView helpMessage;
+
+    private State currentState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +47,13 @@ public class BreathActivity extends AppCompatActivity {
         setUpButton();
         getNumOfBreath();
         setUpOption();
+
+        setState(new ReadyToStartState(this));
     }
 
     private void setUpButton() {
         mainBtn = findViewById(R.id.breath_main_btn);
+        mainBtn.setText(R.string.begin_button_text);
     }
 
     private void setUpOption() {
@@ -56,7 +65,13 @@ public class BreathActivity extends AppCompatActivity {
         /**
          * Currently always show up the menu, change to only show up the menu when not in cycle later.
          */
+        //showNumOfBreath.setOnClickListener(view -> showOptionMenu());
+    }
+    public void showNumBreathsMenu() {
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
+    }
+    public void disableBreathsMenu(){
+        showNumOfBreath.setOnClickListener(view -> {});
     }
 
     private void showOptionMenu() {
@@ -132,5 +147,23 @@ public class BreathActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setState(State state) {
+        currentState = state;
+        currentState.helpTextHandler(this);
+        currentState.onClickHandler(this);
+        currentState.timingHandler(this);
+    }
+    public void setText(String btnText, String helpText){
+        mainBtn.setText(btnText);
+        helpMessage.setText(helpText);
+    }
+    public void updateDecreaseBreathsText(){
+        numOfBreathLeft2 = numOfBreathLeft2 - 1;
+        showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathLeft2));
+    }
+    public int getNumOfBreathLeft() {
+        return numOfBreathLeft2;
     }
 }
