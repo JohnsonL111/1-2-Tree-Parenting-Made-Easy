@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import cmpt276.as2.parentapp.R;
@@ -18,7 +19,7 @@ public class WaitingToInhaleState extends State {
 
     @Override
     public void helpTextHandler(BreathActivity context) {
-        context.setText("In", "Hold button and breath in");
+        context.setText("In", "Hold button and breathe in");
     }
 
     @SuppressLint("ClickableViewAccessibility")

@@ -23,6 +23,7 @@ public class ExhaleState extends State{
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onClickHandler(BreathActivity context) {
+        timingHandler(context);
         Button btn = context.findViewById(R.id.breath_main_btn);
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override

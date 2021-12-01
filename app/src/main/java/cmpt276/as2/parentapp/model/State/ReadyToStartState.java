@@ -23,7 +23,7 @@ public class ReadyToStartState extends State {
     @Override
     public void onClickHandler(BreathActivity context) {
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
-        context.showNumBreathsMenu();
+        context.setUpOption();
         mainBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {

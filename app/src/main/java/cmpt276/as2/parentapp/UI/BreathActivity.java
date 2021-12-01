@@ -33,7 +33,6 @@ public class BreathActivity extends AppCompatActivity {
     private TextView showNumOfBreath;
     private int numOfBreathSet;
     private int numOfBreathLeft;
-    private int numOfBreathLeft2= 3;
     private Button mainBtn;
     private TextView helpMessage;
 
@@ -56,7 +55,7 @@ public class BreathActivity extends AppCompatActivity {
         mainBtn.setText(R.string.begin_button_text);
     }
 
-    private void setUpOption() {
+    public void setUpOption() {
         showNumOfBreath = findViewById(R.id.breath_num_of_breath);
         showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathSet));
         helpMessage = findViewById(R.id.breath_help_message);
@@ -65,9 +64,6 @@ public class BreathActivity extends AppCompatActivity {
         /**
          * Currently always show up the menu, change to only show up the menu when not in cycle later.
          */
-        //showNumOfBreath.setOnClickListener(view -> showOptionMenu());
-    }
-    public void showNumBreathsMenu() {
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
     }
     public void disableBreathsMenu(){
@@ -124,11 +120,13 @@ public class BreathActivity extends AppCompatActivity {
              * Default ...
              */
             numOfBreathSet = 3;
+            numOfBreathLeft = 3;
         } else {
             /**
              * Default ...
              */
             numOfBreathSet = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
+            numOfBreathLeft =TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
         }
     }
 
@@ -153,17 +151,16 @@ public class BreathActivity extends AppCompatActivity {
         currentState = state;
         currentState.helpTextHandler(this);
         currentState.onClickHandler(this);
-        currentState.timingHandler(this);
     }
     public void setText(String btnText, String helpText){
         mainBtn.setText(btnText);
         helpMessage.setText(helpText);
     }
     public void updateDecreaseBreathsText(){
-        numOfBreathLeft2 = numOfBreathLeft2 - 1;
-        showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathLeft2));
+        numOfBreathLeft = numOfBreathLeft - 1;
+        showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathLeft));
     }
     public int getNumOfBreathLeft() {
-        return numOfBreathLeft2;
+        return numOfBreathLeft;
     }
 }

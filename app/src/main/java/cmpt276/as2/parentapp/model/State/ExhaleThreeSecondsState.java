@@ -2,9 +2,11 @@ package cmpt276.as2.parentapp.model.State;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
@@ -20,6 +22,8 @@ public class ExhaleThreeSecondsState extends State{
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onClickHandler(BreathActivity context) {
+        context.updateDecreaseBreathsText();
+        timingHandler(context);
         Button btn = context.findViewById(R.id.breath_main_btn);
         if(context.getNumOfBreathLeft() <= 0) {
             btn.setText("Goodjob");
@@ -43,6 +47,7 @@ public class ExhaleThreeSecondsState extends State{
     @Override
     public void helpTextHandler(BreathActivity context) {
         context.setText("In", "Continue to breathe out or press button");
+        Log.i("TAG",""+context.getNumOfBreathLeft());
     }
 
     @Override
