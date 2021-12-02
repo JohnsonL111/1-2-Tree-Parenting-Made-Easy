@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,6 +66,7 @@ public class BreathActivity extends AppCompatActivity {
          * Currently always show up the menu, change to only show up the menu when not in cycle later.
          */
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
+        numOfBreathLeft = numOfBreathSet;
     }
 
     public void disableBreathsMenu() {
@@ -187,6 +187,9 @@ public class BreathActivity extends AppCompatActivity {
             calmSounds.release();
             calmSounds = null;
         }
+    }
+    public void resetNumBreathLeft(){
+        numOfBreathLeft = numOfBreathSet;
     }
 
     @Override
