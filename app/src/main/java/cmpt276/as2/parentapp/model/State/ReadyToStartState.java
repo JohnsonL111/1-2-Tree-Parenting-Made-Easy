@@ -26,6 +26,7 @@ public class ReadyToStartState extends State {
     public void onClickHandler(BreathActivity context) {
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
         context.setUpOption();
+        context.resetNumBreathLeft();
         mainBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
