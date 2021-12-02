@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="interval">
+        <item>250</item>
+        <item>333</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>1333</item>
+        <item>2000</item>
+        <item>4000</item>
+    </integer-array>>
+
+    <integer name="maxSpeed">250</integer>
+    <integer name="minSpeed">4000</integer>
+
+</resources>
