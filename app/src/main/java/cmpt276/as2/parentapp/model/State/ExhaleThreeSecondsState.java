@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,6 +21,8 @@ public class ExhaleThreeSecondsState extends State {
 
     public ExhaleThreeSecondsState(BreathActivity context) {
         super(context);
+        Button mainBtn = context.findViewById(R.id.breath_main_btn);
+        mainBtn.setBackgroundResource(R.drawable.round_btn);
         helpMsg = context.getString(R.string.exhale_or_press_button_text);
         btnText = context.getString(R.string.in_button_text);
     }
@@ -36,6 +40,7 @@ public class ExhaleThreeSecondsState extends State {
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
+                btn.clearAnimation();
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_UP:
                         handler.removeCallbacks(run);
@@ -64,4 +69,6 @@ public class ExhaleThreeSecondsState extends State {
         };
         handler.postDelayed(run, 7000);
     }
+
+
 }
