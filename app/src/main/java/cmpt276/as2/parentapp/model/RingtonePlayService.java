@@ -28,7 +28,7 @@ public class RingtonePlayService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        this.alarm = MediaPlayer.create(getBaseContext(), alarmSound);
+        alarm = MediaPlayer.create(getBaseContext(), alarmSound);
 
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         final long[] pattern = {0, 1000, 1000};
