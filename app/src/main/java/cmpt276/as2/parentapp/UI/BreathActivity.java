@@ -66,7 +66,6 @@ public class BreathActivity extends AppCompatActivity {
          * Currently always show up the menu, change to only show up the menu when not in cycle later.
          */
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
-        numOfBreathLeft = numOfBreathSet;
     }
 
     public void disableBreathsMenu() {
