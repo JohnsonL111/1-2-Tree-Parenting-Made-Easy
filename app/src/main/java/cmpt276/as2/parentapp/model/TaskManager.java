@@ -35,20 +35,6 @@ public class TaskManager {
         return listOfTasks;
     }
 
-    public void editTasksWithDeletedChildName(String childNameDeleted, String newChildName) {
-        int taskSize = listOfTasks.size();
-        if (!listOfTasks.isEmpty()) {
-            for (int i = 0; i < taskSize; i++) {
-                String childName = listOfTasks.get(i).getChildName();
-                if (childName.equals(childNameDeleted)) {
-                    String taskTitle = listOfTasks.get(i).getTaskTitle();
-                    Task task = new Task(taskTitle, newChildName);
-                    listOfTasks.set(i, task);
-                }
-            }
-        }
-    }
-
     public void updateChildNameForNewTask(String deletedChildName, String newChildName) {
         if (childNameForNewTask.equals(deletedChildName)) {
             childNameForNewTask = newChildName;

@@ -29,12 +29,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.054"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/breath_option"
+                app:layout_constraintTop_toBottomOf="@+id/task_detail_task_name"
                 app:layout_constraintVertical_bias="0.0"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/breath_option"
+                android:id="@+id/task_detail_task_name"
                 android:layout_width="390dp"
                 android:layout_height="36dp"
                 android:layout_marginTop="8dp"
@@ -61,13 +61,13 @@
 
             <Button
                 android:id="@+id/task_detail_done_btn"
-                android:layout_width="219dp"
-                android:layout_height="79dp"
-                android:layout_marginBottom="12dp"
+                android:layout_width="146dp"
+                android:layout_height="63dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/leaf"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.864"
+                app:layout_constraintHorizontal_bias="0.784"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

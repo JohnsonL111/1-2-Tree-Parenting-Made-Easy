@@ -44,21 +44,27 @@ public class ChildManager {
             return;
         }
         coinFlip.removeChild(name);
+        updateTaskHistoryChildNames(name, "");
+
 
         // Get the index of the child to remove
         int numChildren = childList.size();
-        for (int i = 0; i < numChildren; ++i) {
+
+        for(int i = 0; i < task.getListOfTasks().size(); i++) {
+            if(task.getListOfTasks().get(i).getChildName().equals(name)){
+                if(childList.size() > 1){
+                    task.getListOfTasks().get(i).updateNextChildToDoTask(childList);
+                } else {
+                    task.getListOfTasks().get(i).updateNextChildToDoTask(new ArrayList<>());
+                }
+            }
+        }
+
+        for (int i = 0; i < numChildren; i++) {
 
             String currChildName = childList.get(i).getName();
             if (currChildName.equals(name)) {
-                String nextChildName = "";
-                if (numChildren > 1) {
-                    int nextChildPosition = (i + 1) % numChildren;
-                    nextChildName = childList.get(nextChildPosition).getName();
-                }
                 childList.remove(i);
-                updateTaskHistoryChildNames(currChildName, nextChildName);
-                updateTaskChildNames(currChildName, nextChildName);
                 break;
             }
         }
@@ -83,7 +89,6 @@ public class ChildManager {
     }
 
     public void updateTaskChildNames(String currChildName, String newChildName) {
-        task.editTasksWithDeletedChildName(currChildName, newChildName);
         task.updateChildNameForNewTask(currChildName, newChildName);
         coinFlip.editChildName(currChildName, newChildName);
     }

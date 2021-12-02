@@ -21,19 +21,19 @@
                 android:id="@+id/task_detail_child_photo"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginBottom="4dp"
                 android:contentDescription="TODO"
                 android:foregroundGravity="right"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/task_detail_child_name"
+                app:layout_constraintStart_toEndOf="@+id/task_detail_task_name"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/breath_option"
+                android:id="@+id/task_detail_task_name"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="4dp"
                 android:layout_marginTop="8dp"
                 android:gravity="start|center_vertical"
                 android:textColor="@color/black"
@@ -43,8 +43,9 @@
 
             <TextView
                 android:id="@+id/task_detail_child_name"
-                android:layout_width="114dp"
+                android:layout_width="100dp"
                 android:layout_height="50dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
@@ -52,6 +53,7 @@
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/task_detail_child_photo"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.466" />
         </androidx.constraintlayout.widget.ConstraintLayout>

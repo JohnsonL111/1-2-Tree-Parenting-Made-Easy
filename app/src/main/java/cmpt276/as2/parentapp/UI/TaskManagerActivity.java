@@ -33,6 +33,7 @@ import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.Child;
 import cmpt276.as2.parentapp.model.ChildManager;
 import cmpt276.as2.parentapp.model.Task;
+import cmpt276.as2.parentapp.model.TaskHistoryMenuAdapter;
 import cmpt276.as2.parentapp.model.TaskMenuAdapter;
 
 /**
@@ -94,7 +95,7 @@ public class TaskManagerActivity extends AppCompatActivity {
     private void showDetail(int index) {
         View v = LayoutInflater.from(this).inflate(R.layout.task_pop_up, null);
         ImageView childPhoto = v.findViewById(R.id.task_detail_child_photo);
-        TextView taskTitle = v.findViewById(R.id.breath_option);
+        TextView taskTitle = v.findViewById(R.id.task_detail_task_name);
         TextView childName = v.findViewById(R.id.task_detail_child_name);
         Button doneBtn = v.findViewById(R.id.task_detail_done_btn);
 
@@ -121,7 +122,8 @@ public class TaskManagerActivity extends AppCompatActivity {
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
                 .setTitle(R.string.task_detail)
-                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel());
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
+                .setNeutralButton(getString(R.string.history), (dialogInterface, i) ->  showTaskHistory(index));
 
         Dialog dialog = build.create();
         dialog.show();
@@ -129,11 +131,38 @@ public class TaskManagerActivity extends AppCompatActivity {
         doneBtn.setText(R.string.done);
         doneBtn.setOnClickListener(view ->
         {
-            childManager.task.updateNextChildToDoTask(index, childManager.getChildList());
-            saveResult();
-            refresh();
+            if(!childManager.getChildList().isEmpty()) {
+                childManager.task.getListOfTasks().get(index).addToTaskHistory();
+                childManager.task.updateNextChildToDoTask(index, childManager.getChildList());
+                saveResult();
+                refresh();
+
+            } else {
+                Toast.makeText(this,"There is no child yet, please add a child", Toast.LENGTH_SHORT).show();
+            }
             dialog.dismiss();
         });
+
+    }
+
+    private void showTaskHistory(int index)
+    {
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        View v = LayoutInflater.from(this).inflate(R.layout.task_history_view, null);
+        RecyclerView taskHistory = v.findViewById(R.id.task_history_list);
+        taskHistory.setLayoutManager(mLayoutManager);
+        DividerItemDecoration decoration = new DividerItemDecoration(taskHistory.getContext(), mLayoutManager.getOrientation());
+        decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
+        taskHistory.addItemDecoration(decoration);
+        TaskHistoryMenuAdapter historyMenuAdapter = new TaskHistoryMenuAdapter(this,childManager.task.getListOfTasks().get(index), childManager.getChildList());
+        taskHistory.setAdapter(historyMenuAdapter);
+
+        AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
+                .setTitle(R.string.history)
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss());
+
+        Dialog dialog = build.create();
+        dialog.show();
     }
 
     private void setUpSwipe() {

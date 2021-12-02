@@ -92,6 +92,9 @@
     <string name="addChildTitle">Adding New Child</string>
     <string name="addChildTextButton">Add Child</string>
     <string name="num_of_breath_set">Number of Breath: %d</string>
+    <string name="history">History</string>
+
+
     <string name="intial_message_breath">Press begin to start the cycle...</string>
     <string name="begin_button_text">Begin</string>
     <string name="goodjob_button_text">Goodjob</string>
