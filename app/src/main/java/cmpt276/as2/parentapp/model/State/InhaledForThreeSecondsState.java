@@ -8,7 +8,7 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
-public class InhaledForThreeSecondsState extends State{
+public class InhaledForThreeSecondsState extends State {
 
     public InhaledForThreeSecondsState(BreathActivity context) {
         super(context);

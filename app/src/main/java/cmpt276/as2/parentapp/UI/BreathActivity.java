@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,6 +38,7 @@ public class BreathActivity extends AppCompatActivity {
     private TextView helpMessage;
 
     private State currentState;
+    private MediaPlayer calmSounds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +68,10 @@ public class BreathActivity extends AppCompatActivity {
          */
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
     }
-    public void disableBreathsMenu(){
-        showNumOfBreath.setOnClickListener(view -> {});
+
+    public void disableBreathsMenu() {
+        showNumOfBreath.setOnClickListener(view -> {
+        });
     }
 
     private void showOptionMenu() {
@@ -126,7 +130,7 @@ public class BreathActivity extends AppCompatActivity {
              * Default ...
              */
             numOfBreathSet = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
-            numOfBreathLeft =TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
+            numOfBreathLeft = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
         }
     }
 
@@ -152,15 +156,42 @@ public class BreathActivity extends AppCompatActivity {
         currentState.helpTextHandler(this);
         currentState.onClickHandler(this);
     }
-    public void setText(String btnText, String helpText){
+
+    public void setText(String btnText, String helpText) {
         mainBtn.setText(btnText);
         helpMessage.setText(helpText);
     }
-    public void updateDecreaseBreathsText(){
+
+    public void updateDecreaseBreathsText() {
         numOfBreathLeft = numOfBreathLeft - 1;
         showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathLeft));
     }
+
     public int getNumOfBreathLeft() {
         return numOfBreathLeft;
+    }
+
+    public void startInhaleBreatheSound() {
+        calmSounds = MediaPlayer.create(this, R.raw.calm_forest_birds);
+        calmSounds.start();
+    }
+
+    public void startExhaleBreatheSound() {
+        calmSounds = MediaPlayer.create(this, R.raw.beach_sound);
+        calmSounds.start();
+    }
+
+    public void stopBreatheSounds() {
+        if (calmSounds != null) {
+            calmSounds.stop();
+            calmSounds.release();
+            calmSounds = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopBreatheSounds();
     }
 }

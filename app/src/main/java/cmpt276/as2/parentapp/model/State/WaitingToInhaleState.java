@@ -12,14 +12,18 @@ import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
 public class WaitingToInhaleState extends State {
+    private String btnText;
+    private String helpMsg;
 
     public WaitingToInhaleState(BreathActivity context) {
         super(context);
+        btnText = context.getString(R.string.in_button_text);
+        helpMsg = context.getString(R.string.hold_button_text);
     }
 
     @Override
     public void helpTextHandler(BreathActivity context) {
-        context.setText("In", "Hold button and breathe in");
+        context.setText(btnText, helpMsg);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -31,30 +35,34 @@ public class WaitingToInhaleState extends State {
         Runnable run = new Runnable() {
             @Override
             public void run() {
-                context.setText("In", "Release button and breathe out");
+                helpMsg = context.getString(R.string.release_button_text);
+                context.setText(btnText, helpMsg);
             }
         };
         mainBtn.setOnTouchListener(new View.OnTouchListener() {
             long timeMilliStart;
             long timeMilliEnd;
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    //context.startBreatheInSound();
+                    context.startInhaleBreatheSound();
+                    helpMsg = context.getString(R.string.inhaling_text);
+                    context.setText(btnText, helpMsg);
                     int tenSeconds = 10000;
                     timeMilliStart = System.currentTimeMillis();
                     mainBtn.setPressed(true);
-                    handler.postDelayed(run,tenSeconds);
+                    handler.postDelayed(run, tenSeconds);
                     return true;
-                }
-                else if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    //context.stopSounds();
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    context.stopBreatheSounds();
                     int threeSeconds = 3000;
+                    helpMsg = context.getString(R.string.hold_button_text);
+                    context.setText(btnText, helpMsg);
                     timeMilliEnd = System.currentTimeMillis();
                     long totalTime = timeMilliEnd - timeMilliStart;
-                    Toast.makeText(context, " "+totalTime, Toast.LENGTH_SHORT).show();
                     handler.removeCallbacks(run);
-                    if(totalTime >= threeSeconds) {
+                    if (totalTime >= threeSeconds) {
                         context.setState(new InhaledForThreeSecondsState(context));
                     }
                     return false;

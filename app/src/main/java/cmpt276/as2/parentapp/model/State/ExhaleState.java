@@ -9,21 +9,27 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
-public class ExhaleState extends State{
+public class ExhaleState extends State {
+    private String helpMsg;
+    private String btnText;
 
     public ExhaleState(BreathActivity context) {
         super(context);
+        helpMsg = context.getString(R.string.exhaling_text);
+        btnText = context.getString(R.string.out_button_text);
     }
 
     @Override
     public void helpTextHandler(BreathActivity context) {
-        context.setText("Out", "Start Exhaling");
+        context.setText(btnText, helpMsg);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onClickHandler(BreathActivity context) {
         timingHandler(context);
+        context.stopBreatheSounds();
+        context.startExhaleBreatheSound();
         Button btn = context.findViewById(R.id.breath_main_btn);
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -42,6 +48,6 @@ public class ExhaleState extends State{
                 context.setState(new ExhaleThreeSecondsState(context));
             }
         };
-        handler.postDelayed(run,3000);
+        handler.postDelayed(run, 3000);
     }
 }

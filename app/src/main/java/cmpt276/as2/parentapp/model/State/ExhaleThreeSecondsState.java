@@ -11,12 +11,16 @@ import android.widget.TextView;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
-public class ExhaleThreeSecondsState extends State{
+public class ExhaleThreeSecondsState extends State {
     private Handler handler = new Handler();
     private Runnable run;
+    private String helpMsg;
+    private String btnText;
 
     public ExhaleThreeSecondsState(BreathActivity context) {
         super(context);
+        helpMsg = context.getString(R.string.exhale_or_press_button_text);
+        btnText = context.getString(R.string.in_button_text);
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -25,8 +29,9 @@ public class ExhaleThreeSecondsState extends State{
         context.updateDecreaseBreathsText();
         timingHandler(context);
         Button btn = context.findViewById(R.id.breath_main_btn);
-        if(context.getNumOfBreathLeft() <= 0) {
-            btn.setText("Goodjob");
+        if (context.getNumOfBreathLeft() == 0) {
+            btnText = context.getString(R.string.goodjob_button_text);
+            btn.setText(btnText);
         }
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -46,8 +51,7 @@ public class ExhaleThreeSecondsState extends State{
 
     @Override
     public void helpTextHandler(BreathActivity context) {
-        context.setText("In", "Continue to breathe out or press button");
-        Log.i("TAG",""+context.getNumOfBreathLeft());
+        context.setText(btnText, helpMsg);
     }
 
     @Override

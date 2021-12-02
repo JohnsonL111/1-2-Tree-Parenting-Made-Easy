@@ -18,6 +18,7 @@ public class DoneExhaleState extends State {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onClickHandler(BreathActivity context) {
+        context.stopBreatheSounds();
         Button inBtn = context.findViewById(R.id.breath_main_btn);
         inBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -25,7 +26,6 @@ public class DoneExhaleState extends State {
                 return false;
             }
         });
-        Toast.makeText(context, context.getNumOfBreathLeft()+"", Toast.LENGTH_SHORT).show();
         if(context.getNumOfBreathLeft() > 0) {
             context.setState(new WaitingToInhaleState(context));
         }

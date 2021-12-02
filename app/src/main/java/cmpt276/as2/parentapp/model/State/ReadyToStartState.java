@@ -16,7 +16,9 @@ public class ReadyToStartState extends State {
 
     @Override
     public void helpTextHandler(BreathActivity context) {
-        context.setText("Begin", "Ready To Start");
+        String buttonText = context.getString(R.string.begin_button_text);
+        String helpMsgText = context.getString(R.string.intial_message_breath);
+        context.setText(buttonText, helpMsgText);
     }
 
     @SuppressLint("ClickableViewAccessibility")
