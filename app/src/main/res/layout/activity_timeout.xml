@@ -8,38 +8,29 @@
     tools:context=".UI.TimeoutActivity">
 
 
-
-
-    <ImageSwitcher
-        android:id="@+id/background"
-        android:layout_width="409dp"
-        android:layout_height="731dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <Button
         android:id="@+id/StartStopButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="Button"
-        app:layout_constraintBottom_toBottomOf="@+id/OptionButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/OptionButton"
-        app:layout_constraintTop_toTopOf="@+id/OptionButton" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animationLayout" />
 
     <Button
         android:id="@+id/ResetButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="RESET"
-        app:layout_constraintBottom_toBottomOf="@+id/OptionButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/OptionButton"
-        app:layout_constraintTop_toTopOf="@+id/OptionButton"
+        app:layout_constraintTop_toBottomOf="@+id/animationLayout"
         app:layout_constraintVertical_weight="0.3" />
 
     <TextView
@@ -56,20 +47,21 @@
         android:id="@+id/OptionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="110dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
         android:text="OPTION"
-        app:layout_constraintBottom_toBottomOf="@+id/background"
-        app:layout_constraintEnd_toEndOf="@+id/animationLayout"
-        app:layout_constraintStart_toStartOf="@+id/animationLayout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ResetButton"
+        app:layout_constraintStart_toEndOf="@+id/StartStopButton"
+        app:layout_constraintTop_toBottomOf="@+id/animationLayout"
         app:layout_constraintVertical_weight="0.3" />
 
     <TableLayout
         android:id="@+id/animationLayout"
         android:layout_width="290dp"
         android:layout_height="283dp"
-        android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/background"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/timeoutText"
         app:layout_constraintVertical_weight="0.3">
 
@@ -89,5 +81,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </TableLayout>
+
+    <Button
+        android:id="@+id/slowDownBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="slower"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/speedUpBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/StartStopButton" />
+
+    <Button
+        android:id="@+id/speedUpBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="faster"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/slowDownBtn"
+        app:layout_constraintTop_toBottomOf="@+id/ResetButton" />
+
+    <TextView
+        android:id="@+id/interval"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/OptionButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animationLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

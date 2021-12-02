@@ -40,6 +40,7 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final String TIME_LEFT = "time left";
     private static final String INTENT_FILTER = "countdown";
     private static final String TIMER_IS_RUNNING = "timer is running";
+    private static final String INTERVAL = "interval";
     private static final String START = "START";
     private static final String STOP = "STOP";
     public static MediaPlayer beach_sound;
@@ -48,20 +49,32 @@ public class TimeoutActivity extends AppCompatActivity {
     Button timerButton;
     Button resetButton;
     Button optionButton;
+    Button speedUpButton;
+    Button slowDownButton;
     TextView timeoutText;
+    TextView intervalText;
+
     TableLayout animationLayout;
-    ImageSwitcher background;
+
+
     boolean timerIsRunning;
     int initialTime;
     int timeLeft;
-    int currentBackground;
     int counter = 0;
+    int interval;
+    int maxSpeed;
+    int minSpeed;
+    int currentInterval=3;
 
-    int backgroundList[];
+    int intervalList[];
+
+
+
 
     public static Intent makeIntent(Context context) {
         Intent intent = new Intent(context, TimeoutActivity.class);
         return intent;
+
     }
 
     @Override
@@ -75,13 +88,21 @@ public class TimeoutActivity extends AppCompatActivity {
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
+        intervalList=getResources().getIntArray(R.array.interval);
+        maxSpeed=getResources().getInteger(R.integer.maxSpeed);
+        minSpeed=getResources().getInteger(R.integer.minSpeed);
+
 
         timerButton = findViewById(R.id.StartStopButton);
         resetButton = findViewById(R.id.ResetButton);
         optionButton = findViewById(R.id.OptionButton);
+        optionButton = findViewById(R.id.OptionButton);
+        speedUpButton = findViewById(R.id.speedUpBtn);
+        slowDownButton = findViewById(R.id.slowDownBtn);
 
         timeoutText = findViewById(R.id.timeoutText);
         timeoutText.setTextSize(40);
+        intervalText = findViewById(R.id.interval);
         updateButton();
 
 
@@ -89,21 +110,23 @@ public class TimeoutActivity extends AppCompatActivity {
         timerAnimation.setImageResource(R.drawable.round);
         timerAnimation.setAlpha(0.5F);
 
-        background = (ImageSwitcher) findViewById(R.id.background);
-        background = findViewById(R.id.background);
-        background.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView myView = new ImageView(getApplicationContext());
-                myView.setScaleType(ImageView.ScaleType.FIT_XY);
-                return myView;
-            }
-        });
 
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
 
-        currentBackground = -1;
+        speedUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                speedUpTimer();
+            }
+        });
+
+        slowDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                slowDownTimer();
+            }
+        });
 
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -201,6 +224,48 @@ public class TimeoutActivity extends AppCompatActivity {
         stopService(new Intent(this, TimerService.class));
     }
 
+    private void speedUpTimer(){
+        if(interval==maxSpeed){
+            //toast
+        }
+        else{
+            currentInterval--;
+            interval=intervalList[currentInterval];
+            int speed=(1000/interval)*100;
+            intervalText.setText(speed+"%");
+            stopService(new Intent(this, TimerService.class));
+            Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
+            timerIntent.putExtra(TIME_LEFT, timeLeft);
+            timerIntent.putExtra(INTERVAL, interval);
+            startService(timerIntent);
+        }
+
+    }
+
+    private void slowDownTimer(){
+        if(interval==minSpeed){
+            //toast
+        }
+        else{
+            currentInterval++;
+            interval=intervalList[currentInterval];
+            int speed=(100000/interval);
+            intervalText.setText(speed+"%");
+            stopService(new Intent(this, TimerService.class));
+            Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
+            timerIntent.putExtra(TIME_LEFT, timeLeft);
+            timerIntent.putExtra(INTERVAL, interval);
+            startService(timerIntent);
+            intervalText.setText(interval+"");
+
+        }
+
+    }
+
+
+
+
+
     private void setUpMusic() {
         beach_sound = MediaPlayer.create(TimeoutActivity.this, R.raw.beach_sound);
     }
@@ -210,6 +275,7 @@ public class TimeoutActivity extends AppCompatActivity {
         updateButton();
         Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
         timerIntent.putExtra(TIME_LEFT, timeLeft);
+//        timerIntent.putExtra(INTERVAL, interval);
         startService(timerIntent);
     }
 
@@ -217,9 +283,20 @@ public class TimeoutActivity extends AppCompatActivity {
         if (!timerIsRunning) {
             timerButton.setText(START);
             optionButton.setAlpha(1);
+            optionButton.setClickable(true);
+            slowDownButton.setAlpha(0);
+            slowDownButton.setClickable(false);
+            speedUpButton.setAlpha(0);
+            speedUpButton.setClickable(false);
         } else {
             timerButton.setText(STOP);
             optionButton.setAlpha(0);
+            optionButton.setClickable(false);
+            slowDownButton.setAlpha(1);
+            slowDownButton.setClickable(true);
+            speedUpButton.setAlpha(1);
+            speedUpButton.setClickable(true);
+
         }
     }
 
@@ -293,8 +370,8 @@ public class TimeoutActivity extends AppCompatActivity {
             updateButton();
             updateTimer(timeLeft);
         } else {
-
-            timeLeft = prefs.getInt(TIME_LEFT, initialTime);
+            initialTime = getDuration();
+            timeLeft = initialTime;
             updateAnimation(timeLeft);
             updateTimer(timeLeft);
             updateButton();

@@ -92,8 +92,17 @@
     <string name="addChildTitle">Adding New Child</string>
     <string name="addChildTextButton">Add Child</string>
     <string name="num_of_breath_set">Number of Breath: %d</string>
-    <string name="intial_message_breath">Press the button to start the cycle...</string>
     <string name="history">History</string>
 
 
+    <string name="intial_message_breath">Press begin to start the cycle...</string>
+    <string name="begin_button_text">Begin</string>
+    <string name="goodjob_button_text">Goodjob</string>
+    <string name="out_button_text">Out</string>
+    <string name="release_button_text">Release the button and exhale</string>
+    <string name="inhaling_text">Inhale</string>
+    <string name="exhaling_text">Exhale</string>
+    <string name="hold_button_text">Hold the button and inhale</string>
+    <string name="in_button_text">In</string>
+    <string name="exhale_or_press_button_text">Continue to exhale or press the button</string>
 </resources>
