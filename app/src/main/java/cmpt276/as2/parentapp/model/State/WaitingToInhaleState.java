@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,18 +55,34 @@ public class WaitingToInhaleState extends State {
                     timeMilliStart = System.currentTimeMillis();
                     mainBtn.setPressed(true);
                     handler.postDelayed(run, tenSeconds);
+
+                    Animation shrinkButton = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.button_shrink); //reference the animator
+                    shrinkButton.setDuration(10000);
+                    mainBtn.startAnimation(shrinkButton);
+
                     return true;
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     context.stopBreatheSounds();
                     int threeSeconds = 3000;
+                    int tenSeconds = 10000;
                     helpMsg = context.getString(R.string.hold_button_text);
                     context.setText(btnText, helpMsg);
                     timeMilliEnd = System.currentTimeMillis();
                     long totalTime = timeMilliEnd - timeMilliStart;
                     handler.removeCallbacks(run);
+                    mainBtn.clearAnimation();
+                    if (totalTime >= tenSeconds) {
+
+                        mainBtn.clearAnimation();
+                    }
                     if (totalTime >= threeSeconds) {
+                        btnText = "Out";
+                        context.setText(btnText, helpMsg);
+                        mainBtn.clearAnimation();
                         context.setState(new InhaledForThreeSecondsState(context));
                     }
+
+
                     return false;
                 }
                 return false;

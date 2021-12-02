@@ -1,9 +1,12 @@
 package cmpt276.as2.parentapp.model.State;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
 import cmpt276.as2.parentapp.R;
@@ -15,6 +18,11 @@ public class ExhaleState extends State {
 
     public ExhaleState(BreathActivity context) {
         super(context);
+        Button mainBtn = context.findViewById(R.id.breath_main_btn);
+        mainBtn.setBackgroundResource(R.drawable.round_blue_btn);
+        Animation shrinkButton = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.button_grow); //reference the animator
+        shrinkButton.setDuration(10000);
+        mainBtn.startAnimation(shrinkButton);
         helpMsg = context.getString(R.string.exhaling_text);
         btnText = context.getString(R.string.out_button_text);
     }
@@ -37,6 +45,7 @@ public class ExhaleState extends State {
                 return false;
             }
         });
+
     }
 
     @Override
