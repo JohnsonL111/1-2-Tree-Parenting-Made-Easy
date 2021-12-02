@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -58,6 +59,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
     boolean timerIsRunning;
+    int speed;
     int initialTime;
     int timeLeft;
     int counter = 0;
@@ -66,7 +68,8 @@ public class TimeoutActivity extends AppCompatActivity {
     int minSpeed;
     int currentInterval=3;
 
-    int intervalList[];
+    int[] intervalList;
+    String[] speedList;
 
 
 
@@ -88,9 +91,13 @@ public class TimeoutActivity extends AppCompatActivity {
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
-        intervalList=getResources().getIntArray(R.array.interval);
-        maxSpeed=getResources().getInteger(R.integer.maxSpeed);
-        minSpeed=getResources().getInteger(R.integer.minSpeed);
+        intervalList=new int[] {4000,2000,1333,1000,500,333,250};
+        speedList=new String[]{"25%", "50%", "75%", "100%", "200%", "300%", "400%"};
+
+        interval=1000;
+        currentInterval=3;
+        maxSpeed=250;
+        minSpeed=4000;
 
 
         timerButton = findViewById(R.id.StartStopButton);
@@ -104,6 +111,7 @@ public class TimeoutActivity extends AppCompatActivity {
         timeoutText.setTextSize(40);
         intervalText = findViewById(R.id.interval);
         updateButton();
+        intervalText.setText(speedList[currentInterval]);
 
 
         timerAnimation = new ImageView(this);
@@ -194,6 +202,9 @@ public class TimeoutActivity extends AppCompatActivity {
                     if (beach_sound.isPlaying()) {
                         beach_sound.pause();
                     }
+                    interval=1000;
+                    currentInterval=3;
+                    intervalText.setText(speedList[currentInterval]);
                     SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     timerIsRunning = false;
@@ -204,12 +215,13 @@ public class TimeoutActivity extends AppCompatActivity {
                     initialTime = getDuration();
                     timeLeft = initialTime;
                     updateTimer(timeLeft);
-                    editor.apply();
                 }
             }
         };
         registerReceiver(broadcastReceiver, intentFilter);
     }
+
+
 
     private void updateAnimation(int newTimeLeft) {
         float angle = newTimeLeft * 360 / initialTime;
@@ -218,6 +230,7 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
     private void stopTimer() {
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         timerIsRunning = false;
         updateButton();
         beach_sound.pause();
@@ -229,10 +242,9 @@ public class TimeoutActivity extends AppCompatActivity {
             //toast
         }
         else{
-            currentInterval--;
+            currentInterval++;
             interval=intervalList[currentInterval];
-            int speed=(1000/interval)*100;
-            intervalText.setText(speed+"%");
+            intervalText.setText(speedList[currentInterval]);
             stopService(new Intent(this, TimerService.class));
             Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
             timerIntent.putExtra(TIME_LEFT, timeLeft);
@@ -247,20 +259,19 @@ public class TimeoutActivity extends AppCompatActivity {
             //toast
         }
         else{
-            currentInterval++;
+            currentInterval--;
             interval=intervalList[currentInterval];
-            int speed=(100000/interval);
-            intervalText.setText(speed+"%");
+            intervalText.setText(speedList[currentInterval]);
             stopService(new Intent(this, TimerService.class));
             Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
             timerIntent.putExtra(TIME_LEFT, timeLeft);
             timerIntent.putExtra(INTERVAL, interval);
             startService(timerIntent);
-            intervalText.setText(interval+"");
 
         }
 
     }
+
 
 
 
@@ -271,6 +282,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         beach_sound.start();
         updateButton();
         Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
