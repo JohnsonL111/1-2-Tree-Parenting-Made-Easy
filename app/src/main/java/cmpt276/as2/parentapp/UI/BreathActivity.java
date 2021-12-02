@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.model.BreathMenuAdapter;
+import cmpt276.as2.parentapp.model.State.ReadyToStartState;
+import cmpt276.as2.parentapp.model.State.State;
 
 public class BreathActivity extends AppCompatActivity {
 
@@ -33,6 +37,9 @@ public class BreathActivity extends AppCompatActivity {
     private Button mainBtn;
     private TextView helpMessage;
 
+    private State currentState;
+    private MediaPlayer calmSounds;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,13 +48,16 @@ public class BreathActivity extends AppCompatActivity {
         setUpButton();
         getNumOfBreath();
         setUpOption();
+
+        setState(new ReadyToStartState(this));
     }
 
     private void setUpButton() {
         mainBtn = findViewById(R.id.breath_main_btn);
+        mainBtn.setText(R.string.begin_button_text);
     }
 
-    private void setUpOption() {
+    public void setUpOption() {
         showNumOfBreath = findViewById(R.id.breath_num_of_breath);
         showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathSet));
         helpMessage = findViewById(R.id.breath_help_message);
@@ -57,6 +67,11 @@ public class BreathActivity extends AppCompatActivity {
          * Currently always show up the menu, change to only show up the menu when not in cycle later.
          */
         showNumOfBreath.setOnClickListener(view -> showOptionMenu());
+    }
+
+    public void disableBreathsMenu() {
+        showNumOfBreath.setOnClickListener(view -> {
+        });
     }
 
     private void showOptionMenu() {
@@ -109,11 +124,13 @@ public class BreathActivity extends AppCompatActivity {
              * Default ...
              */
             numOfBreathSet = 3;
+            numOfBreathLeft = 3;
         } else {
             /**
              * Default ...
              */
             numOfBreathSet = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
+            numOfBreathLeft = TIME_INTERVAL[prefs.getInt(NUM_OF_BREATH, 3)];
         }
     }
 
@@ -132,5 +149,49 @@ public class BreathActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void setState(State state) {
+        currentState = state;
+        currentState.helpTextHandler(this);
+        currentState.onClickHandler(this);
+    }
+
+    public void setText(String btnText, String helpText) {
+        mainBtn.setText(btnText);
+        helpMessage.setText(helpText);
+    }
+
+    public void updateDecreaseBreathsText() {
+        numOfBreathLeft = numOfBreathLeft - 1;
+        showNumOfBreath.setText(getString(R.string.num_of_breath_set, numOfBreathLeft));
+    }
+
+    public int getNumOfBreathLeft() {
+        return numOfBreathLeft;
+    }
+
+    public void startInhaleBreatheSound() {
+        calmSounds = MediaPlayer.create(this, R.raw.calm_forest_birds);
+        calmSounds.start();
+    }
+
+    public void startExhaleBreatheSound() {
+        calmSounds = MediaPlayer.create(this, R.raw.beach_sound);
+        calmSounds.start();
+    }
+
+    public void stopBreatheSounds() {
+        if (calmSounds != null) {
+            calmSounds.stop();
+            calmSounds.release();
+            calmSounds = null;
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopBreatheSounds();
     }
 }
