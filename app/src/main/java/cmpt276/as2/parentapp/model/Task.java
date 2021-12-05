@@ -70,7 +70,7 @@ public class Task {
     }
 
     public void editChildName(String oldName, String newName) {
-        if(childName.equals(oldName)){
+        if (childName.equals(oldName)) {
             childName = newName;
         }
     }

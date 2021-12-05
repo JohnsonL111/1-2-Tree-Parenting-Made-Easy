@@ -41,8 +41,8 @@ public class TaskManager {
         }
     }
 
-    public void editChildName(String old, String newName){
-        for(Task task: listOfTasks){
+    public void editChildName(String old, String newName) {
+        for (Task task : listOfTasks) {
             task.editChildName(old, newName);
         }
     }

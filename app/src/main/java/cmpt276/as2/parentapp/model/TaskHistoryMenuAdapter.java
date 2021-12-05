@@ -41,8 +41,8 @@ public class TaskHistoryMenuAdapter extends RecyclerView.Adapter<TaskHistoryMenu
     public void onBindViewHolder(@NonNull TaskHistoryViewHolder holder, int position) {
 
         holder.timeStamp.setText(task.getDateHistoryList().get(holder.getAdapterPosition()));
-        if(task.getChildrenHistoryList().get(holder.getAdapterPosition()).isEmpty()) {
-            holder.childName.setText("DELETED");
+        if (task.getChildrenHistoryList().get(holder.getAdapterPosition()).isEmpty()) {
+            holder.childName.setText(R.string.delete_child_name);
             holder.childPhoto.setImageResource(R.drawable.default_photo_nobody);
 
         } else {
@@ -50,8 +50,8 @@ public class TaskHistoryMenuAdapter extends RecyclerView.Adapter<TaskHistoryMenu
             holder.childName.setText(task.getChildrenHistoryList().get(holder.getAdapterPosition()));
             String nameStr = task.getChildrenHistoryList().get(holder.getAdapterPosition());
 
-            for(int i = 0; i < childList.size();i ++) {
-                if(childList.get(i).getName().equals(nameStr)) {
+            for (int i = 0; i < childList.size(); i++) {
+                if (childList.get(i).getName().equals(nameStr)) {
                     String photo = childList.get(i).getIcon();
                     holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(photo));
                     break;
@@ -62,7 +62,7 @@ public class TaskHistoryMenuAdapter extends RecyclerView.Adapter<TaskHistoryMenu
 
     @Override
     public int getItemCount() {
-        if(task != null) {
+        if (task != null) {
             return task.getDateHistoryList().size();
         } else {
             return 0;

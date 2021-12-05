@@ -50,9 +50,9 @@ public class ChildManager {
         // Get the index of the child to remove
         int numChildren = childList.size();
 
-        for(int i = 0; i < task.getListOfTasks().size(); i++) {
-            if(task.getListOfTasks().get(i).getChildName().equals(name)){
-                if(childList.size() > 1){
+        for (int i = 0; i < task.getListOfTasks().size(); i++) {
+            if (task.getListOfTasks().get(i).getChildName().equals(name)) {
+                if (childList.size() > 1) {
                     task.getListOfTasks().get(i).updateNextChildToDoTask(childList);
                 } else {
                     task.getListOfTasks().get(i).updateNextChildToDoTask(new ArrayList<>());
@@ -89,7 +89,7 @@ public class ChildManager {
     }
 
     public void updateTaskChildNames(String currChildName, String newChildName) {
-        task.editChildName(currChildName,newChildName);
+        task.editChildName(currChildName, newChildName);
         task.updateChildNameForNewTask(currChildName, newChildName);
         coinFlip.editChildName(currChildName, newChildName);
     }

@@ -76,7 +76,7 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
 
         } else {
             holder.childPhoto.setImageResource(R.drawable.default_photo_nobody);
-            holder.nameOfChild.setText("No Child yet");
+            holder.nameOfChild.setText(R.string.no_child_warning);
         }
 
         holder.nameOfChild.setOnClickListener(listenerViewDetail);
