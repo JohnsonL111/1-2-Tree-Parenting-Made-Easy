@@ -12,6 +12,7 @@ public class InhaledForThreeSecondsState extends State {
 
     public InhaledForThreeSecondsState(BreathActivity context) {
         super(context);
+        context.checkBtnSize();
     }
 
     @SuppressLint("ClickableViewAccessibility")

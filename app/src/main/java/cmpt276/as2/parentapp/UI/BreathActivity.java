@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -29,6 +30,7 @@ public class BreathActivity extends AppCompatActivity {
     public static String BREATH_TAG = "Deep Breath Setting";
     public static String NUM_OF_BREATH = "Number of breath set";
     private static int[] TIME_INTERVAL = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    public int orgBtnSize;
 
     private TextView showNumOfBreath;
     private int numOfBreathSet;
@@ -54,6 +56,10 @@ public class BreathActivity extends AppCompatActivity {
     private void setUpButton() {
         mainBtn = findViewById(R.id.breath_main_btn);
         mainBtn.setText(R.string.begin_button_text);
+
+        ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
+        orgBtnSize = params.width;
+        System.out.println(orgBtnSize);
     }
 
     public void setUpOption() {
@@ -195,5 +201,21 @@ public class BreathActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopBreatheSounds();
+    }
+
+    public void checkBtnSize()
+    {
+        ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
+        if(params.width > orgBtnSize * 1.5 | params.width < orgBtnSize*0.5) {
+            resizeBtn();
+        }
+    }
+
+    private void resizeBtn()
+    {
+        ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
+        params.width = orgBtnSize;
+        params.height = orgBtnSize;
+        mainBtn.setLayoutParams(params);
     }
 }

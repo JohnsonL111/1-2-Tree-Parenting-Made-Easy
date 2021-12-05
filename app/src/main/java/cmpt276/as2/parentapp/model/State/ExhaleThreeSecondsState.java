@@ -1,10 +1,12 @@
 package cmpt276.as2.parentapp.model.State;
 
 import android.annotation.SuppressLint;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -18,13 +20,28 @@ public class ExhaleThreeSecondsState extends State {
     private Runnable run;
     private String helpMsg;
     private String btnText;
+    private CountDownTimer tenSecondTimer;
 
     public ExhaleThreeSecondsState(BreathActivity context) {
         super(context);
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
-        mainBtn.setBackgroundResource(R.drawable.round_btn);
         helpMsg = context.getString(R.string.exhale_or_press_button_text);
         btnText = context.getString(R.string.in_button_text);
+
+        tenSecondTimer = new CountDownTimer(7000,100) {
+            @Override
+            public void onTick(long l) {
+                ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
+                params.width += 2;
+                params.height += 2;
+                mainBtn.setLayoutParams(params);
+            }
+
+            @Override
+            public void onFinish() {
+                context.stopBreatheSounds();
+            }
+        }.start();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -40,13 +57,14 @@ public class ExhaleThreeSecondsState extends State {
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                btn.clearAnimation();
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_UP:
                         handler.removeCallbacks(run);
-                        context.setState(new DoneExhaleState(context));
+                        tenSecondTimer.cancel();
                         btn.setPressed(true);
                         btn.setPressed(false);
+                        context.setState(new DoneExhaleState(context));
+
                         return true;
                 }
                 return false;

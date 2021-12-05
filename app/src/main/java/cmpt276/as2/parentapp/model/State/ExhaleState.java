@@ -2,9 +2,11 @@ package cmpt276.as2.parentapp.model.State;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -20,11 +22,24 @@ public class ExhaleState extends State {
         super(context);
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
         mainBtn.setBackgroundResource(R.drawable.round_blue_btn);
-        Animation shrinkButton = AnimationUtils.loadAnimation(context.getApplicationContext(), R.anim.button_grow); //reference the animator
-        shrinkButton.setDuration(10000);
-        mainBtn.startAnimation(shrinkButton);
+
         helpMsg = context.getString(R.string.exhaling_text);
         btnText = context.getString(R.string.out_button_text);
+
+        new CountDownTimer(3000,100) {
+            @Override
+            public void onTick(long l) {
+                ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
+                params.width += 2;
+                params.height += 2;
+                mainBtn.setLayoutParams(params);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
     }
 
     @Override
