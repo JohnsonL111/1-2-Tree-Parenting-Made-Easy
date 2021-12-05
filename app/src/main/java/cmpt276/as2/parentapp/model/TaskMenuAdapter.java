@@ -79,8 +79,6 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
             holder.nameOfChild.setText("No Child yet");
         }
 
-
-        holder.nameOfChild.setText(taskList.get(position).getChildName());
         holder.nameOfChild.setOnClickListener(listenerViewDetail);
     }
 
