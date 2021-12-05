@@ -65,11 +65,9 @@ public class TimeoutActivity extends AppCompatActivity {
     int interval;
     int maxSpeed;
     int minSpeed;
-    int currentInterval=3;
+    int currentInterval = 3;
 
     int intervalList[];
-
-
 
 
     public static Intent makeIntent(Context context) {
@@ -89,9 +87,9 @@ public class TimeoutActivity extends AppCompatActivity {
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
-        intervalList=getResources().getIntArray(R.array.interval);
-        maxSpeed=getResources().getInteger(R.integer.maxSpeed);
-        minSpeed=getResources().getInteger(R.integer.minSpeed);
+        intervalList = getResources().getIntArray(R.array.interval);
+        maxSpeed = getResources().getInteger(R.integer.maxSpeed);
+        minSpeed = getResources().getInteger(R.integer.minSpeed);
 
 
         timerButton = findViewById(R.id.StartStopButton);
@@ -113,8 +111,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
-
-
 
 
         timerButton.setOnClickListener(new View.OnClickListener() {
@@ -213,16 +209,15 @@ public class TimeoutActivity extends AppCompatActivity {
         stopService(new Intent(this, TimerService.class));
     }
 
-    private void speedUpTimer(){
-        if(interval==maxSpeed){
+    private void speedUpTimer() {
+        if (interval == maxSpeed) {
             //toast
-        }
-        else{
+        } else {
             currentInterval--;
-            interval=intervalList[currentInterval];
-            int speed=(100000/interval);
-            intervalText.setText(speed+"%");
-            if(timerIsRunning){
+            interval = intervalList[currentInterval];
+            int speed = (100000 / interval);
+            intervalText.setText(speed + "%");
+            if (timerIsRunning) {
                 stopService(new Intent(this, TimerService.class));
                 Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
                 timerIntent.putExtra(TIME_LEFT, timeLeft);
@@ -233,16 +228,15 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
-    private void slowDownTimer(){
-        if(interval==minSpeed){
+    private void slowDownTimer() {
+        if (interval == minSpeed) {
             //toast
-        }
-        else{
+        } else {
             currentInterval++;
-            interval=intervalList[currentInterval];
-            int speed=(100000/interval);
-            intervalText.setText(speed+"%");
-            if(timerIsRunning){
+            interval = intervalList[currentInterval];
+            int speed = (100000 / interval);
+            intervalText.setText(speed + "%");
+            if (timerIsRunning) {
                 stopService(new Intent(this, TimerService.class));
                 Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
                 timerIntent.putExtra(TIME_LEFT, timeLeft);
@@ -253,9 +247,6 @@ public class TimeoutActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
     private void setUpMusic() {
@@ -349,6 +340,7 @@ public class TimeoutActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     protected void onStop() {
         super.onStop();
