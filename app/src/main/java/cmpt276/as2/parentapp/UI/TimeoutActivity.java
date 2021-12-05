@@ -12,8 +12,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -50,8 +52,6 @@ public class TimeoutActivity extends AppCompatActivity {
     Button timerButton;
     Button resetButton;
     Button optionButton;
-    Button speedUpButton;
-    Button slowDownButton;
     TextView timeoutText;
     TextView intervalText;
 
@@ -59,19 +59,15 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
     boolean timerIsRunning;
-    int speed;
     int initialTime;
     int timeLeft;
     int counter = 0;
     int interval;
     int maxSpeed;
     int minSpeed;
-    int currentInterval=3;
+    int currentInterval = 3;
 
-    int[] intervalList;
-    String[] speedList;
-
-
+    int intervalList[];
 
 
     public static Intent makeIntent(Context context) {
@@ -91,27 +87,21 @@ public class TimeoutActivity extends AppCompatActivity {
         initialTime = getDuration();
         timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
-        intervalList=new int[] {4000,2000,1333,1000,500,333,250};
-        speedList=new String[]{"25%", "50%", "75%", "100%", "200%", "300%", "400%"};
-
-        interval=1000;
-        currentInterval=3;
-        maxSpeed=250;
-        minSpeed=4000;
+        intervalList = getResources().getIntArray(R.array.interval);
+        maxSpeed = getResources().getInteger(R.integer.maxSpeed);
+        minSpeed = getResources().getInteger(R.integer.minSpeed);
 
 
         timerButton = findViewById(R.id.StartStopButton);
         resetButton = findViewById(R.id.ResetButton);
         optionButton = findViewById(R.id.OptionButton);
         optionButton = findViewById(R.id.OptionButton);
-        speedUpButton = findViewById(R.id.speedUpBtn);
-        slowDownButton = findViewById(R.id.slowDownBtn);
+
 
         timeoutText = findViewById(R.id.timeoutText);
         timeoutText.setTextSize(40);
         intervalText = findViewById(R.id.interval);
         updateButton();
-        intervalText.setText(speedList[currentInterval]);
 
 
         timerAnimation = new ImageView(this);
@@ -122,19 +112,6 @@ public class TimeoutActivity extends AppCompatActivity {
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
 
-        speedUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                speedUpTimer();
-            }
-        });
-
-        slowDownButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                slowDownTimer();
-            }
-        });
 
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -202,9 +179,6 @@ public class TimeoutActivity extends AppCompatActivity {
                     if (beach_sound.isPlaying()) {
                         beach_sound.pause();
                     }
-                    interval=1000;
-                    currentInterval=3;
-                    intervalText.setText(speedList[currentInterval]);
                     SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
                     timerIsRunning = false;
@@ -215,13 +189,12 @@ public class TimeoutActivity extends AppCompatActivity {
                     initialTime = getDuration();
                     timeLeft = initialTime;
                     updateTimer(timeLeft);
+                    editor.apply();
                 }
             }
         };
         registerReceiver(broadcastReceiver, intentFilter);
     }
-
-
 
     private void updateAnimation(int newTimeLeft) {
         float angle = newTimeLeft * 360 / initialTime;
@@ -230,51 +203,50 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
     private void stopTimer() {
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         timerIsRunning = false;
         updateButton();
         beach_sound.pause();
         stopService(new Intent(this, TimerService.class));
     }
 
-    private void speedUpTimer(){
-        if(interval==maxSpeed){
+    private void speedUpTimer() {
+        if (interval == maxSpeed) {
             //toast
-        }
-        else{
-            currentInterval++;
-            interval=intervalList[currentInterval];
-            intervalText.setText(speedList[currentInterval]);
-            stopService(new Intent(this, TimerService.class));
-            Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
-            timerIntent.putExtra(TIME_LEFT, timeLeft);
-            timerIntent.putExtra(INTERVAL, interval);
-            startService(timerIntent);
-        }
-
-    }
-
-    private void slowDownTimer(){
-        if(interval==minSpeed){
-            //toast
-        }
-        else{
+        } else {
             currentInterval--;
-            interval=intervalList[currentInterval];
-            intervalText.setText(speedList[currentInterval]);
-            stopService(new Intent(this, TimerService.class));
-            Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
-            timerIntent.putExtra(TIME_LEFT, timeLeft);
-            timerIntent.putExtra(INTERVAL, interval);
-            startService(timerIntent);
-
+            interval = intervalList[currentInterval];
+            int speed = (100000 / interval);
+            intervalText.setText(speed + "%");
+            if (timerIsRunning) {
+                stopService(new Intent(this, TimerService.class));
+                Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
+                timerIntent.putExtra(TIME_LEFT, timeLeft);
+                timerIntent.putExtra(INTERVAL, interval);
+                startService(timerIntent);
+            }
         }
 
     }
 
+    private void slowDownTimer() {
+        if (interval == minSpeed) {
+            //toast
+        } else {
+            currentInterval++;
+            interval = intervalList[currentInterval];
+            int speed = (100000 / interval);
+            intervalText.setText(speed + "%");
+            if (timerIsRunning) {
+                stopService(new Intent(this, TimerService.class));
+                Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
+                timerIntent.putExtra(TIME_LEFT, timeLeft);
+                timerIntent.putExtra(INTERVAL, interval);
+                startService(timerIntent);
+            }
 
+        }
 
-
+    }
 
 
     private void setUpMusic() {
@@ -282,12 +254,11 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         beach_sound.start();
         updateButton();
         Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
         timerIntent.putExtra(TIME_LEFT, timeLeft);
-//        timerIntent.putExtra(INTERVAL, interval);
+        timerIntent.putExtra(INTERVAL, interval);
         startService(timerIntent);
     }
 
@@ -296,18 +267,12 @@ public class TimeoutActivity extends AppCompatActivity {
             timerButton.setText(START);
             optionButton.setAlpha(1);
             optionButton.setClickable(true);
-            slowDownButton.setAlpha(0);
-            slowDownButton.setClickable(false);
-            speedUpButton.setAlpha(0);
-            speedUpButton.setClickable(false);
+
         } else {
             timerButton.setText(STOP);
             optionButton.setAlpha(0);
             optionButton.setClickable(false);
-            slowDownButton.setAlpha(1);
-            slowDownButton.setClickable(true);
-            speedUpButton.setAlpha(1);
-            speedUpButton.setClickable(true);
+
 
         }
     }
@@ -356,6 +321,25 @@ public class TimeoutActivity extends AppCompatActivity {
         return TimeoutOptionActivity.getDuration(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timer, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.speedUp:
+                speedUpTimer();
+                return true;
+            case R.id.slowDown:
+                slowDownTimer();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onStop() {

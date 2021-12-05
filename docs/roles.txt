@@ -4,10 +4,16 @@ Iteration 1:
 Repo Manager: Johnson L (jkl53)
 Product Owner: Andrew F (afa41)
 Team Member: Daniel Z (yza608)
-Scrum Master: Jonathon (jpa143)
+Scrum Master: Jonathan P (jpa143)
 
 Iteration 2:
-Repo Manager: Jonathon (jpa143)
+Repo Manager: Jonathan P (jpa143)
+Product Owner: Daniel Z (yza608)
+Team Member: Johnson L (jkl53)
+Scrum Master: Andrew F (afa41)
+
+Iteration 3:
+Repo Manager: Jonathan P (jpa143)
 Product Owner: Daniel Z (yza608)
 Team Member: Johnson L (jkl53)
 Scrum Master: Andrew F (afa41)

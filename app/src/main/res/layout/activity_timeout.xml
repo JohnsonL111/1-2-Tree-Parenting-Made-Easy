@@ -82,26 +82,6 @@
             android:layout_height="match_parent" />
     </TableLayout>
 
-    <Button
-        android:id="@+id/slowDownBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="slower"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/speedUpBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/StartStopButton" />
-
-    <Button
-        android:id="@+id/speedUpBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="faster"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/slowDownBtn"
-        app:layout_constraintTop_toBottomOf="@+id/ResetButton" />
-
     <TextView
         android:id="@+id/interval"
         android:layout_width="wrap_content"
