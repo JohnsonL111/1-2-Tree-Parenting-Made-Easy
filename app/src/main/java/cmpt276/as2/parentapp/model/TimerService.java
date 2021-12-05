@@ -16,12 +16,13 @@ import cmpt276.as2.parentapp.R;
 public class TimerService extends Service {
 
 
-    private static final String TIME_LEFT ="time left" ;
+    private static final String TIME_LEFT = "time left";
     private static final String INTENT_FILTER = "countdown";
     private static final String INTERVAL = "interval";
-     CountDownTimer timer;
-     Intent broadcastIntent;
-//    int currentTime;
+    CountDownTimer timer;
+    Intent broadcastIntent;
+
+    //    int currentTime;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -35,7 +36,7 @@ public class TimerService extends Service {
         broadcastIntent.setAction(INTENT_FILTER);
         final int timeLeft = intent.getIntExtra(TIME_LEFT, 0);
         final int interval = intent.getIntExtra(INTERVAL, 1000);
-        if(timer!=null){
+        if (timer != null) {
             timer.cancel();
         }
         timer = new CountDownTimer(timeLeft * interval, interval) {
@@ -43,9 +44,10 @@ public class TimerService extends Service {
             public void onTick(long secondsLeft) {
 //                currentTime=(int)secondsLeft;
 
-                setBroadcast((int)secondsLeft/interval);
+                setBroadcast((int) secondsLeft / interval);
 
             }
+
             @Override
             public void onFinish() {
             }
@@ -54,13 +56,10 @@ public class TimerService extends Service {
         return START_NOT_STICKY;
     }
 
-    public void setBroadcast(int secondsLeft){
+    public void setBroadcast(int secondsLeft) {
         broadcastIntent.putExtra(TIME_LEFT, (secondsLeft));
         sendBroadcast(broadcastIntent);
     }
-
-
-
 
 
     @Override

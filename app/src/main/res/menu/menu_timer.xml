@@ -1,0 +1,18 @@
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="cmpt276.as2.parentapp.TimeoutActivity">
+
+    <item
+        android:id="@+id/slowDown"
+        android:icon="@android:drawable/ic_media_rew"
+        android:title="slowDown"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/speedUp"
+        android:icon="@android:drawable/ic_media_ff"
+        android:title="speedUp"
+        app:showAsAction="ifRoom" />
+
+</menu>

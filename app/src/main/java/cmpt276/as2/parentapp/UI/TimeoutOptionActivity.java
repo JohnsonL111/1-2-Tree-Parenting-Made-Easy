@@ -27,29 +27,33 @@ public class TimeoutOptionActivity extends AppCompatActivity {
     EditText customSecond;
 
 
-    public static Intent makeIntent(Context context){
+    public static Intent makeIntent(Context context) {
         return new Intent(context, TimeoutOptionActivity.class);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout_option);
         setUpRadioButton();
     }
-    private void setUpRadioButton(){
+
+    private void setUpRadioButton() {
         int[] durationList = getResources().getIntArray(R.array.duration);
 
 
-        RadioGroup durationRadioGroup= findViewById(R.id.timerOptionRadioGroup);
+        RadioGroup durationRadioGroup = findViewById(R.id.timerOptionRadioGroup);
         RadioButton customButton = new RadioButton(this);
 
-        for(int i = 0; i< durationList.length; i++){
-            final int duration=durationList[i];
+        for (int i = 0; i < durationList.length; i++) {
+            final int duration = durationList[i];
             RadioButton button = new RadioButton(this);
 
             //Set up radio buttons
-            button.setText(getString(R.string.durationOption,duration));
-            button.setOnClickListener(view -> { saveDurationSetting(duration*60); });
+            button.setText(getString(R.string.durationOption, duration));
+            button.setOnClickListener(view -> {
+                saveDurationSetting(duration * 60);
+            });
             durationRadioGroup.addView(button);
 
 
@@ -57,7 +61,9 @@ public class TimeoutOptionActivity extends AppCompatActivity {
         customMinute = findViewById(R.id.CustomMinute);
         //Set up radio buttons
         customButton.setText(CUSTOM_DURATION);
-        customButton.setOnClickListener(view -> { SaveCustomDuration(); });
+        customButton.setOnClickListener(view -> {
+            SaveCustomDuration();
+        });
         durationRadioGroup.addView(customButton);
         customMinute.addTextChangedListener(new TextWatcher() {
             @Override
@@ -80,33 +86,30 @@ public class TimeoutOptionActivity extends AppCompatActivity {
     }
 
 
-
     private void SaveCustomDuration() {
         SharedPreferences prefs = this.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
         customMinute = findViewById(R.id.CustomMinute);
-        String  minuteString=customMinute.getText().toString();
-        int minute=0;
-        if (!minuteString.equals("")){
+        String minuteString = customMinute.getText().toString();
+        int minute = 0;
+        if (!minuteString.equals("")) {
             minute = Integer.parseInt(minuteString);
         }
-        int duration=minute*60;
+        int duration = minute * 60;
         SharedPreferences.Editor editor = prefs.edit();
-        if(duration==0){
+        if (duration == 0) {
 
-        }
-        else{
+        } else {
             editor.putInt(DURATION_CHOICE, duration);
             editor.apply();
         }
 
 
-
     }
 
 
-    static public int getDuration(Context context){
+    static public int getDuration(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(DURATION_SETTING, MODE_PRIVATE);
-        return prefs.getInt(DURATION_CHOICE,300);
+        return prefs.getInt(DURATION_CHOICE, 300);
     }
 
     private void saveDurationSetting(int duration) {
