@@ -69,6 +69,12 @@ public class Task {
         }
     }
 
+    public void editChildName(String oldName, String newName) {
+        if(childName.equals(oldName)){
+            childName = newName;
+        }
+    }
+
     public List<String> getChildrenHistoryList() {
         return childrenHistoryList;
     }

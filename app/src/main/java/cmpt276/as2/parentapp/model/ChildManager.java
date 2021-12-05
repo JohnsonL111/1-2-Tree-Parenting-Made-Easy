@@ -89,6 +89,7 @@ public class ChildManager {
     }
 
     public void updateTaskChildNames(String currChildName, String newChildName) {
+        task.editChildName(currChildName,newChildName);
         task.updateChildNameForNewTask(currChildName, newChildName);
         coinFlip.editChildName(currChildName, newChildName);
     }
