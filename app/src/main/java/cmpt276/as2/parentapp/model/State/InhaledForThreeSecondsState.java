@@ -8,6 +8,9 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * Third state in the breath process. Brief transition into exhale state.
+ */
 public class InhaledForThreeSecondsState extends State {
 
     public InhaledForThreeSecondsState(BreathActivity context) {
