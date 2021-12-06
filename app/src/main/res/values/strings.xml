@@ -105,4 +105,7 @@
     <string name="hold_button_text">Hold the button and inhale</string>
     <string name="in_button_text">In</string>
     <string name="exhale_or_press_button_text">Continue to exhale or press the button</string>
+    <string name="no_child_warning">No Child yet</string>
+    <string name="no_child_done_btn">There is no child yet, please add a child</string>
+    <string name="delete_child_name">DELETED</string>
 </resources>

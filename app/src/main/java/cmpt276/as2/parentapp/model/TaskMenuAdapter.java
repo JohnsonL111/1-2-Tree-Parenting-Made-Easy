@@ -64,22 +64,21 @@ public class TaskMenuAdapter extends RecyclerView.Adapter<TaskMenuAdapter.TaskVi
         });
 
         if (childList.size() > 0) {
-            Child child = childList.get(0);
-
             for (int i = 0; i < childList.size(); i++) {
-                child = childList.get(i);
+                Child child = childList.get(i);
                 if (child.getName().equals(taskList.get(position).getChildName())) {
+                    holder.nameOfChild.setText(child.getName());
+                    holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
                     break;
                 }
             }
             holder.childPhoto.setOnClickListener(listenerViewDetail);
-            holder.childPhoto.setImageBitmap(EditChildActivity.decodeBase64(child.getIcon()));
+
         } else {
             holder.childPhoto.setImageResource(R.drawable.default_photo_nobody);
+            holder.nameOfChild.setText(R.string.no_child_warning);
         }
 
-
-        holder.nameOfChild.setText(taskList.get(position).getChildName());
         holder.nameOfChild.setOnClickListener(listenerViewDetail);
     }
 

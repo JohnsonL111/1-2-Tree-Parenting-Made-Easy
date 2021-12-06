@@ -41,6 +41,12 @@ public class TaskManager {
         }
     }
 
+    public void editChildName(String old, String newName) {
+        for (Task task : listOfTasks) {
+            task.editChildName(old, newName);
+        }
+    }
+
     //updates current task child name to the next child name
     public void updateNextChildToDoTask(int taskNumber, List<Child> childList) {
         Task task = listOfTasks.get(taskNumber);

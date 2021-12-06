@@ -123,7 +123,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
                 .setTitle(R.string.task_detail)
                 .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.cancel())
-                .setNeutralButton(getString(R.string.history), (dialogInterface, i) ->  showTaskHistory(index));
+                .setNeutralButton(getString(R.string.history), (dialogInterface, i) -> showTaskHistory(index));
 
         Dialog dialog = build.create();
         dialog.show();
@@ -131,22 +131,21 @@ public class TaskManagerActivity extends AppCompatActivity {
         doneBtn.setText(R.string.done);
         doneBtn.setOnClickListener(view ->
         {
-            if(!childManager.getChildList().isEmpty()) {
+            if (!childManager.getChildList().isEmpty()) {
                 childManager.task.getListOfTasks().get(index).addToTaskHistory();
                 childManager.task.updateNextChildToDoTask(index, childManager.getChildList());
                 saveResult();
                 refresh();
 
             } else {
-                Toast.makeText(this,"There is no child yet, please add a child", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.no_child_done_btn), Toast.LENGTH_SHORT).show();
             }
             dialog.dismiss();
         });
 
     }
 
-    private void showTaskHistory(int index)
-    {
+    private void showTaskHistory(int index) {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         View v = LayoutInflater.from(this).inflate(R.layout.task_history_view, null);
         RecyclerView taskHistory = v.findViewById(R.id.task_history_list);
@@ -154,7 +153,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         DividerItemDecoration decoration = new DividerItemDecoration(taskHistory.getContext(), mLayoutManager.getOrientation());
         decoration.setDrawable(ResourcesCompat.getDrawable(getResources(), R.drawable.recyclerview_divider, null));
         taskHistory.addItemDecoration(decoration);
-        TaskHistoryMenuAdapter historyMenuAdapter = new TaskHistoryMenuAdapter(this,childManager.task.getListOfTasks().get(index), childManager.getChildList());
+        TaskHistoryMenuAdapter historyMenuAdapter = new TaskHistoryMenuAdapter(this, childManager.task.getListOfTasks().get(index), childManager.getChildList());
         taskHistory.setAdapter(historyMenuAdapter);
 
         AlertDialog.Builder build = new AlertDialog.Builder(this).setView(v)
