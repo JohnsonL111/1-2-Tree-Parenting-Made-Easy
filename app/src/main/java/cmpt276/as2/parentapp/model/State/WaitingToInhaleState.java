@@ -12,6 +12,10 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * Second state in the breath process. Controls and responds to possible inhale outcomes (e.g., button animation).
+ * Transitions to InhaledForThreeSecondsState.
+ */
 public class WaitingToInhaleState extends State {
     private BreathActivity context;
     private String btnText;

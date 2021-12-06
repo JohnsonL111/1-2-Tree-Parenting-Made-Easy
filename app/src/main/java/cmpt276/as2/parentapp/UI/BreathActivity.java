@@ -25,6 +25,9 @@ import cmpt276.as2.parentapp.model.BreathMenuAdapter;
 import cmpt276.as2.parentapp.model.State.ReadyToStartState;
 import cmpt276.as2.parentapp.model.State.State;
 
+/**
+ * Controls functionality and background of the Breath Activity.
+ */
 public class BreathActivity extends AppCompatActivity {
 
     public static String BREATH_TAG = "Deep Breath Setting";

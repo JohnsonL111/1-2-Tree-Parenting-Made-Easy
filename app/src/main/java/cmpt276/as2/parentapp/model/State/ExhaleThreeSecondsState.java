@@ -15,6 +15,10 @@ import android.widget.TextView;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * Fifth state in the breath process. Controls and responds to possible exhale outcomes (e.g., button animations)
+ * Transitions into
+ */
 public class ExhaleThreeSecondsState extends State {
     private Handler handler = new Handler();
     private Runnable run;

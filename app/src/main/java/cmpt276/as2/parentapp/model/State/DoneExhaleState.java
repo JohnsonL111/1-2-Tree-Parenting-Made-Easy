@@ -9,6 +9,9 @@ import android.widget.Toast;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * Sixth and last state. Deals mostly with textview changes and logistics.
+ */
 public class DoneExhaleState extends State {
 
     public DoneExhaleState(BreathActivity context) {

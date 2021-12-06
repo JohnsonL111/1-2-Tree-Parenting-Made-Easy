@@ -8,6 +8,9 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * First state in the breath process. Sets up cycle and transitions into WaitingToInhale state.
+ */
 public class ReadyToStartState extends State {
 
     public ReadyToStartState(BreathActivity context) {

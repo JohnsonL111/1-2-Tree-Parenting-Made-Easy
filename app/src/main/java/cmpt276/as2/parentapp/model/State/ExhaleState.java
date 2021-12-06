@@ -14,6 +14,9 @@ import android.widget.Button;
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
 
+/**
+ * Fourth state in the breath process. Auto transitions into ExhaleThreeSecondsState.
+ */
 public class ExhaleState extends State {
     private String helpMsg;
     private String btnText;
