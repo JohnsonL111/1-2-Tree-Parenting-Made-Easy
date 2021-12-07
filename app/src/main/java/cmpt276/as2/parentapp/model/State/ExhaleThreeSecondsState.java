@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import cmpt276.as2.parentapp.R;
@@ -29,6 +30,7 @@ public class ExhaleThreeSecondsState extends State {
     public ExhaleThreeSecondsState(BreathActivity context) {
         super(context);
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
+        ImageView circle = context.findViewById(R.id.breath_circle);
         helpMsg = context.getString(R.string.exhale_or_press_button_text);
         btnText = context.getString(R.string.in_button_text);
 
@@ -39,6 +41,11 @@ public class ExhaleThreeSecondsState extends State {
                 params.width += 2;
                 params.height += 2;
                 mainBtn.setLayoutParams(params);
+
+                ViewGroup.LayoutParams paramC = circle.getLayoutParams();
+                paramC.width += 1;
+                paramC.height += 1;
+                circle.setLayoutParams(paramC);
             }
 
             @Override
@@ -54,9 +61,11 @@ public class ExhaleThreeSecondsState extends State {
         context.updateDecreaseBreathsText();
         timingHandler(context);
         Button btn = context.findViewById(R.id.breath_main_btn);
+        ImageView circle = context.findViewById(R.id.breath_circle);
         if (context.getNumOfBreathLeft() == 0) {
             btnText = context.getString(R.string.goodjob_button_text);
             btn.setText(btnText);
+            circle.setVisibility(View.INVISIBLE);
         }
         btn.setOnTouchListener(new View.OnTouchListener() {
             @Override
