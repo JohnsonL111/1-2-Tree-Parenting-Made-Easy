@@ -35,14 +35,12 @@ public class BreathActivity extends AppCompatActivity {
     public static String NUM_OF_BREATH = "Number of breath set";
     private static int[] TIME_INTERVAL = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     public int orgBtnSize;
-    public int orgBtnSizeC;
 
     private TextView showNumOfBreath;
     private int numOfBreathSet;
     private int numOfBreathLeft;
     private Button mainBtn;
     private TextView helpMessage;
-    private ImageView circle;
 
     private State currentState;
     private MediaPlayer calmSounds;
@@ -64,14 +62,9 @@ public class BreathActivity extends AppCompatActivity {
         mainBtn = findViewById(R.id.breath_main_btn);
         mainBtn.setText(R.string.begin_button_text);
 
-        circle = findViewById(R.id.breath_circle);
-        circle.setVisibility(View.INVISIBLE);
-
         ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
         orgBtnSize = params.width;
 
-        ViewGroup.LayoutParams paramC = circle.getLayoutParams();
-        orgBtnSizeC = paramC.width;
     }
 
     public void setUpOption() {
@@ -220,17 +213,8 @@ public class BreathActivity extends AppCompatActivity {
         ViewGroup.LayoutParams params = mainBtn.getLayoutParams();
         if(params.width > orgBtnSize * 1.5 | params.width < orgBtnSize*0.5) {
             resizeBtn();
-            resizeCircle();
         }
     }
-
-    private void resizeCircle() {
-        ViewGroup.LayoutParams paramC = circle.getLayoutParams();
-        paramC.width = orgBtnSizeC;
-        paramC.height = orgBtnSizeC;
-        mainBtn.setLayoutParams(paramC);
-    }
-
     private void resizeBtn()
     {
         ViewGroup.LayoutParams params = mainBtn.getLayoutParams();

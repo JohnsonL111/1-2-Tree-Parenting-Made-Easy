@@ -29,10 +29,7 @@ public class WaitingToInhaleState extends State {
         btnText = context.getString(R.string.in_button_text);
         helpMsg = context.getString(R.string.hold_button_text);
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
-        ImageView circle = context.findViewById(R.id.breath_circle);
         mainBtn.setBackgroundResource(R.drawable.round_btn);
-        circle.setVisibility(View.VISIBLE);
-        circle.setImageResource(R.drawable.breath_circle);
         context.checkBtnSize();
     }
 
@@ -46,7 +43,6 @@ public class WaitingToInhaleState extends State {
     public void onClickHandler(BreathActivity context) {
         context.disableBreathsMenu();
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
-        ImageView circle = context.findViewById(R.id.breath_circle);
         Handler handler = new Handler();
         Runnable run = new Runnable() {
             @Override
@@ -68,7 +64,6 @@ public class WaitingToInhaleState extends State {
 
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    circle.setVisibility(View.VISIBLE);
                     context.startInhaleBreatheSound();
                     helpMsg = context.getString(R.string.inhaling_text);
                     context.setText(btnText, helpMsg);
@@ -97,12 +92,6 @@ public class WaitingToInhaleState extends State {
                             params.height -= 2;
                             countTick++;
                             mainBtn.setLayoutParams(params);
-
-                            ViewGroup.LayoutParams paramC = circle.getLayoutParams();
-                            paramC.width -= 1;
-                            paramC.height -= 1;
-                            countTick++;
-                            circle.setLayoutParams(paramC);
 
                         }
 
@@ -140,12 +129,6 @@ public class WaitingToInhaleState extends State {
                         params.width += countTick * 2;
                         params.height += countTick * 2;
                         mainBtn.setLayoutParams(params);
-
-                        ViewGroup.LayoutParams paramC = circle.getLayoutParams();
-                        paramC.width += countTick;
-                        paramC.height += countTick;
-                        circle.setLayoutParams(paramC);
-
                         countTick = 0;
                     }
 
