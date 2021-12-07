@@ -44,7 +44,7 @@ public class TimerService extends Service {
             public void onTick(long secondsLeft) {
 //                currentTime=(int)secondsLeft;
 
-                setBroadcast((int) secondsLeft / interval);
+                setBroadcast((int) secondsLeft / interval, interval);
 
             }
 
@@ -56,8 +56,9 @@ public class TimerService extends Service {
         return START_NOT_STICKY;
     }
 
-    public void setBroadcast(int secondsLeft) {
+    public void setBroadcast(int secondsLeft, int interval) {
         broadcastIntent.putExtra(TIME_LEFT, (secondsLeft));
+        broadcastIntent.putExtra(INTERVAL, interval);
         sendBroadcast(broadcastIntent);
     }
 

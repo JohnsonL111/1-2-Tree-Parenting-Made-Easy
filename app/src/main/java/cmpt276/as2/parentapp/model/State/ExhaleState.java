@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import cmpt276.as2.parentapp.R;
 import cmpt276.as2.parentapp.UI.BreathActivity;
@@ -25,6 +26,7 @@ public class ExhaleState extends State {
         super(context);
         Button mainBtn = context.findViewById(R.id.breath_main_btn);
         mainBtn.setBackgroundResource(R.drawable.round_blue_btn);
+        ImageView circle = context.findViewById(R.id.breath_circle);
 
         helpMsg = context.getString(R.string.exhaling_text);
         btnText = context.getString(R.string.out_button_text);
@@ -36,6 +38,11 @@ public class ExhaleState extends State {
                 params.width += 2;
                 params.height += 2;
                 mainBtn.setLayoutParams(params);
+
+                ViewGroup.LayoutParams paramC = circle.getLayoutParams();
+                paramC.width += 1;
+                paramC.height += 1;
+                circle.setLayoutParams(paramC);
             }
 
             @Override

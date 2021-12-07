@@ -13,6 +13,7 @@ import cmpt276.as2.parentapp.UI.EditChildActivity;
 import cmpt276.as2.parentapp.UI.HelpMenuActivity;
 import cmpt276.as2.parentapp.UI.TaskManagerActivity;
 import cmpt276.as2.parentapp.UI.TimeoutActivity;
+import cmpt276.as2.parentapp.model.ClearService;
 
 /**
  * Entry to application with the menu UI.
@@ -67,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             Intent i = BreathActivity.makeIntent(MainActivity.this);
             startActivity(i);
         });
+
+        startService(new Intent(getBaseContext(), ClearService.class));
     }
 
     public static Intent makeIntent(Context context)

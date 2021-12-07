@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,8 +43,9 @@ public class TimeoutActivity extends AppCompatActivity {
     private static final String TIMER_SITUATION = "timer situation";
     private static final String TIME_LEFT = "time left";
     private static final String INTENT_FILTER = "countdown";
-    private static final String TIMER_IS_RUNNING = "timer is running";
+    public static final String TIMER_IS_RUNNING = "timer is running";
     private static final String INTERVAL = "interval";
+    private static final String INITIAL_TIME = "initial time";
     private static final String START = "START";
     private static final String STOP = "STOP";
     public static MediaPlayer beach_sound;
@@ -84,8 +86,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
         setUpMusic();
 
-        initialTime = getDuration();
-        timeLeft = initialTime;
         setContentView(R.layout.activity_timeout);
         intervalList = getResources().getIntArray(R.array.interval);
         maxSpeed = getResources().getInteger(R.integer.maxSpeed);
@@ -111,7 +111,6 @@ public class TimeoutActivity extends AppCompatActivity {
 
         animationLayout = findViewById(R.id.animationLayout);
         animationLayout.addView(timerAnimation);
-
 
         timerButton.setOnClickListener(new View.OnClickListener() {
 
@@ -142,6 +141,8 @@ public class TimeoutActivity extends AppCompatActivity {
                 updateButton();
                 updateAnimation(timeLeft);
 
+                resetInterval();
+                saveTimeLeft();
             }
         });
 
@@ -159,41 +160,65 @@ public class TimeoutActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 int newTimeLeft = intent.getIntExtra(TIME_LEFT, -1);
+
+                int interval = intent.getIntExtra(INTERVAL, 1000);
+                int speed = (100000 / interval);
+                intervalText.setText(speed + "%");
+
                 if (newTimeLeft != -1) {
                     timerIsRunning = true;
                     updateButton();
                     timeLeft = newTimeLeft;
-                    SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt(TIME_LEFT, timeLeft);
-                    editor.putBoolean(TIMER_IS_RUNNING, true);
                     initialTime = getDuration();
+
                     updateTimer(newTimeLeft);
                     updateAnimation(newTimeLeft);
                     counter++;
-                    editor.apply();
+
                 }
                 if (newTimeLeft == 0) {
                     stopService(new Intent(TimeoutActivity.this, TimerService.class));
                     sendTimerNotification();
-                    if (beach_sound.isPlaying()) {
-                        beach_sound.pause();
-                    }
-                    SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
+                    beach_sound.pause();
                     timerIsRunning = false;
-                    editor.putBoolean(TIMER_IS_RUNNING, false);
-                    editor.putInt(TIME_LEFT, initialTime);
-                    editor.apply();
+
                     updateButton();
                     initialTime = getDuration();
                     timeLeft = initialTime;
                     updateTimer(timeLeft);
-                    editor.apply();
+
+                    resetInterval();
                 }
+                saveTimeLeft();
             }
         };
         registerReceiver(broadcastReceiver, intentFilter);
+
+        interval = intervalList[currentInterval];
+        int speed = (100000 / interval);
+        intervalText.setText(speed + "%");
+
+    }
+
+    private void saveTimeLeft()
+    {
+        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(TIME_LEFT, timeLeft);
+        editor.apply();
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(TimeoutActivity.this);
+        SharedPreferences.Editor editorPub = pref.edit();
+        editorPub.putBoolean(TimeoutActivity.TIMER_IS_RUNNING, timerIsRunning);
+        editorPub.apply();
+    }
+
+    private void resetInterval() {
+        currentInterval = 3;
+        interval = intervalList[currentInterval];
+        saveInterval();
+        int speed = (100000 / interval);
+        intervalText.setText(speed + "%");
     }
 
     private void updateAnimation(int newTimeLeft) {
@@ -207,6 +232,8 @@ public class TimeoutActivity extends AppCompatActivity {
         updateButton();
         beach_sound.pause();
         stopService(new Intent(this, TimerService.class));
+
+        saveTimeLeft();
     }
 
     private void speedUpTimer() {
@@ -215,6 +242,7 @@ public class TimeoutActivity extends AppCompatActivity {
         } else {
             currentInterval--;
             interval = intervalList[currentInterval];
+            saveInterval();
             int speed = (100000 / interval);
             intervalText.setText(speed + "%");
             if (timerIsRunning) {
@@ -225,7 +253,6 @@ public class TimeoutActivity extends AppCompatActivity {
                 startService(timerIntent);
             }
         }
-
     }
 
     private void slowDownTimer() {
@@ -234,6 +261,7 @@ public class TimeoutActivity extends AppCompatActivity {
         } else {
             currentInterval++;
             interval = intervalList[currentInterval];
+            saveInterval();
             int speed = (100000 / interval);
             intervalText.setText(speed + "%");
             if (timerIsRunning) {
@@ -243,9 +271,15 @@ public class TimeoutActivity extends AppCompatActivity {
                 timerIntent.putExtra(INTERVAL, interval);
                 startService(timerIntent);
             }
-
         }
+    }
 
+    private void saveInterval()
+    {
+        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt(INTERVAL, interval);
+        editor.apply();
     }
 
 
@@ -254,6 +288,7 @@ public class TimeoutActivity extends AppCompatActivity {
     }
 
     private void startTimer() {
+        setUpMusic();
         beach_sound.start();
         updateButton();
         Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
@@ -272,7 +307,6 @@ public class TimeoutActivity extends AppCompatActivity {
             timerButton.setText(STOP);
             optionButton.setAlpha(0);
             optionButton.setClickable(false);
-
 
         }
     }
@@ -347,10 +381,14 @@ public class TimeoutActivity extends AppCompatActivity {
         beach_sound.pause();
         SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(TIMER_IS_RUNNING, timerIsRunning);
         editor.putInt(TIME_LEFT, timeLeft);
-
+        editor.putInt(INITIAL_TIME, initialTime);
         editor.apply();
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(TimeoutActivity.this);
+        SharedPreferences.Editor editorPub = pref.edit();
+        editorPub.putBoolean(TimeoutActivity.TIMER_IS_RUNNING, timerIsRunning);
+        editorPub.apply();
 
     }
 
@@ -358,28 +396,43 @@ public class TimeoutActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUpMusic();
-        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
-        timerIsRunning = prefs.getBoolean(TIMER_IS_RUNNING, false);
-        initialTime = getDuration();
-        if (timerIsRunning) {
-            beach_sound.start();
-            updateButton();
-            updateTimer(timeLeft);
-        } else {
-            initialTime = getDuration();
-            timeLeft = initialTime;
-            updateAnimation(timeLeft);
-            updateTimer(timeLeft);
-            updateButton();
-        }
-        if (getDuration() != initialTime) {
-            initialTime = getDuration();
-            timeLeft = getDuration();
-            updateTimer(timeLeft);
-            updateAnimation(timeLeft);
-
-        }
+        getSave();
     }
 
+    private void getSave(){
+        SharedPreferences prefs = getSharedPreferences(TIMER_SITUATION, MODE_PRIVATE);
+        timeLeft = prefs.getInt(TIME_LEFT, getDuration());
 
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(TimeoutActivity.this);
+        timerIsRunning = pref.getBoolean(TIMER_IS_RUNNING, false);
+
+        int orgInitialTime = getDuration();
+        initialTime = prefs.getInt(INITIAL_TIME, getDuration());
+
+        if(orgInitialTime != initialTime){
+            initialTime = getDuration();
+            timeLeft = initialTime;
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(INITIAL_TIME, initialTime);
+            editor.putInt(TIME_LEFT, timeLeft);
+            editor.apply();
+            updateAnimation(initialTime);
+            updateTimer(initialTime);
+            resetInterval();
+        } else {
+            if (timerIsRunning) {
+                interval = prefs.getInt(INTERVAL, intervalList[currentInterval]);
+                beach_sound.start();
+                stopService(new Intent(this, TimerService.class));
+                Intent timerIntent = new Intent(TimeoutActivity.this, TimerService.class);
+                timerIntent.putExtra(TIME_LEFT, timeLeft);
+                timerIntent.putExtra(INTERVAL, interval);
+                startService(timerIntent);
+            }
+            updateButton();
+            updateAnimation(timeLeft);
+            updateTimer(timeLeft);
+        }
+    }
 }
+
