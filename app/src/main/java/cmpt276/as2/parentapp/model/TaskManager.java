@@ -26,9 +26,7 @@ public class TaskManager {
     }
 
     public void editTaskTitle(String newTaskName, int taskNumber) {
-        String childName = listOfTasks.get(taskNumber).getChildName();
-        Task editedTask = new Task(newTaskName, childName);
-        listOfTasks.set(taskNumber, editedTask);
+        listOfTasks.get(taskNumber).setTaskTitle(newTaskName);
     }
 
     public List<Task> getListOfTasks() {

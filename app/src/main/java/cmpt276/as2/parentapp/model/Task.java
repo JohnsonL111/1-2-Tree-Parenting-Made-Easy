@@ -33,6 +33,10 @@ public class Task {
         return taskTitle;
     }
 
+    public void setTaskTitle(String newTile){
+        this.taskTitle = newTile;
+    }
+
     private int getChildPositionInList(List<Child> childList) {
         int childPosition = -1;
         int childListSize = childList.size();
